@@ -13,6 +13,9 @@ CloudKit is somewhat like an api, and we have some features we might integrate a
 
 We will have our roommates test the app and tell us how easy it was to make an account, how intuitive is the UI, and have them rate it from one to 10. We will also ask them if they had any specific aspects of the UI they would want to be changed to make it more intuitive.
 
+## Trello Board
+https://trello.com/b/xOBGAbyp/maszina-board
+
 # Sprint Planning 2
 
 ## Project Description
@@ -25,9 +28,6 @@ https://www.figma.com/file/yob2jpxYQR4JvoPlybnWfp/MasZina?type=design&node-id=0-
 ### Meeting Notes
 
 In our meeting we discussed our possible options for the backend and settled on CloudKit after doing research and compiling our ideas. We planned the architecture for our app and decided that we would have a private database for sensitive information and another database for storing public information about the user. Aariz set up the github repository and we all whiteboard the views for the app. After that we designed the individual views on figma and general flow of the app. We plan on having the the views done by next week. 
-
-### Trello Board
-https://trello.com/b/xOBGAbyp/maszina-board
 
 
 ### Individual tasks:
