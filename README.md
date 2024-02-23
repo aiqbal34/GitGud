@@ -12,4 +12,4 @@ CloudKit is somewhat like an api, and we have some features we might integrate a
 
 ## Testing
 
-We would measure where we will have our roomates test the app and tell us how easy was it to make an accout, how intuitive is the UI and, have them rate it from one to 10.
+We will have our roomates test the app and tell us how easy it was to make an account, how intuitive is the UI, and have them rate it from one to 10.
