@@ -28,7 +28,7 @@ In our meeting we discussed our possible options for the backend and settled on 
 
 ### Trello Board
 
-https://trello.com/b/xOBGAbyp/maszina-board
+[https://trello.com/b/xOBGAbyp/maszina-board](https://trello.com/invite/b/xOBGAbyp/ATTI8c92ab80cc3c537e7a0cf4c4fdea24ae6FBAA0C9/maszina-board)
 
 ### Individual tasks:
 
