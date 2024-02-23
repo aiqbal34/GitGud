@@ -27,8 +27,8 @@ https://www.figma.com/file/yob2jpxYQR4JvoPlybnWfp/MasZina?type=design&node-id=0-
 In our meeting we discussed our possible options for the backend and settled on CloudKit after doing research and compiling our ideas. We planned the architecture for our app and decided that we would have a private database for sensitive information and another database for storing public information about the user. Aariz set up the github repository and we all whiteboard the views for the app. After that we designed the individual views on figma and general flow of the app. We plan on having the the views done by next week. 
 
 ### Trello Board
+https://trello.com/b/xOBGAbyp/maszina-board
 
-[https://trello.com/b/xOBGAbyp/maszina-board](https://trello.com/invite/b/xOBGAbyp/ATTI8c92ab80cc3c537e7a0cf4c4fdea24ae6FBAA0C9/maszina-board)
 
 ### Individual tasks:
 
