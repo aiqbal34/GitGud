@@ -1,7 +1,7 @@
 # MileStone 1 Notes
 
 ## Design
-*insert design here
+https://www.figma.com/file/yob2jpxYQR4JvoPlybnWfp/MasZina?type=design&node-id=0-1&mode=design&t=TgnGmMCK0L4CDCyf-0
 
 ## Third party libraries
 We plan to use apple CloudKit to stay native since it is pretty much integrated with swiftui and takes a burden away from authentication.
