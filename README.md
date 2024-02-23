@@ -15,7 +15,54 @@ CloudKit is somewhat like an api, and we have some features we might integrate a
 
 We will have our roommates test the app and tell us how easy it was to make an account, how intuitive is the UI, and have them rate it from one to 10. We will also ask them if they had any specific aspects of the UI they would want to be changed to make it more intuitive.
 
-## Meeting Notes
+## Sprint Planning
 
-In our meeting we discussed our possible options for the backend and settled on CloudKit after doing research and compiling our ideas. We planned the architecture for our app and decided that we would have a private database for sensitive information and another database for storing public information about the user. Aariz set up the github repository and we all whiteboard the views for the app. After that we designed the individual views on figma and general flow of the app. We also started on implementing the designs for some of the views. We haven’t had any issues so far. 
+## Project Description
+Our app revolutionizes team formation for computer science projects. With customizable profiles and a swipe-based interface akin to dating apps, users effortlessly find like-minded teammates based on tech expertise. Whether it's for hackathons or startup ventures, our app simplifies collaboration, providing a streamlined platform for tech professionals to connect and innovate.
+
+
+### Meeting Notes
+
+In our meeting we discussed our possible options for the backend and settled on CloudKit after doing research and compiling our ideas. We planned the architecture for our app and decided that we would have a private database for sensitive information and another database for storing public information about the user. Aariz set up the github repository and we all whiteboard the views for the app. After that we designed the individual views on figma and general flow of the app. We plan on having the the views done by next week. 
+
+### Trello Board
+
+https://trello.com/b/xOBGAbyp/maszina-board
+
+### Individual tasks:
+
+### Aariz Iqbal:
+Done:
+- Set up GitHub Repo
+- Researched options for backend and settled on CloudKit
+- Created Figma UI Views for app
+To Do:
+- Implement registration process for user
+- Create backend and database
+Blocks:
+None
+
+### Isa Bukhari
+Done:
+- Researched options for backend and settled on CloudKit
+- Created Figma UI Views for app
+- Updated trello board
+- Recorded meeting notes
+To Do:
+- Implement Settings Page UI
+Blocks:
+- None
+
+### Sajid Hussein
+Done:
+- Researched options for backend and settled on CloudKit
+- Created Figma UI Views for app
+- Whiteboarded database architecture for app
+To Do:
+- Implement home view UI flow
+Blocks:
+- None
+
+
+
 
