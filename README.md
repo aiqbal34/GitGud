@@ -13,7 +13,7 @@ CloudKit is somewhat like an api, and we have some features we might integrate a
 
 We will have our roommates test the app and tell us how easy it was to make an account, how intuitive is the UI, and have them rate it from one to 10. We will also ask them if they had any specific aspects of the UI they would want to be changed to make it more intuitive.
 
-## Sprint Planning
+# Sprint Planning 2
 
 ## Project Description
 Our app revolutionizes team formation for computer science projects. With customizable profiles and a swipe-based interface akin to dating apps, users effortlessly find like-minded teammates based on tech expertise. Whether it's for hackathons or startup ventures, our app simplifies collaboration, providing a streamlined platform for tech professionals to connect and innovate.
