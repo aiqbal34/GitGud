@@ -15,6 +15,7 @@
 		ACECE5A12B8734DF00CB40A7 /* GitGudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5A02B8734DF00CB40A7 /* GitGudTests.swift */; };
 		ACECE5AB2B8734DF00CB40A7 /* GitGudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5AA2B8734DF00CB40A7 /* GitGudUITests.swift */; };
 		ACECE5AD2B8734DF00CB40A7 /* GitGudUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5AC2B8734DF00CB40A7 /* GitGudUITestsLaunchTests.swift */; };
+		ACECE5C02B8AB83C00CB40A7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		ACECE5A62B8734DF00CB40A7 /* GitGudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitGudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACECE5AA2B8734DF00CB40A7 /* GitGudUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudUITests.swift; sourceTree = "<group>"; };
 		ACECE5AC2B8734DF00CB40A7 /* GitGudUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			children = (
 				ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */,
 				ACECE58D2B8734DE00CB40A7 /* ContentView.swift */,
+				ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */,
 				ACECE58F2B8734DE00CB40A7 /* Item.swift */,
 				ACECE5912B8734DF00CB40A7 /* Assets.xcassets */,
 				ACECE5962B8734DF00CB40A7 /* GitGud.entitlements */,
@@ -266,6 +269,7 @@
 			files = (
 				ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */,
 				ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */,
+				ACECE5C02B8AB83C00CB40A7 /* LoginView.swift in Sources */,
 				ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
