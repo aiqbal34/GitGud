@@ -25,7 +25,7 @@ struct GitGudApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationBar()
         }
         .modelContainer(sharedModelContainer)
     }
