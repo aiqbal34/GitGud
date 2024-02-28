@@ -14,6 +14,7 @@ struct TeamBuilderView: View {
     @State private var projectName: String = ""
     @State private var projectType: String = ""
     @State private var projectDescription: String = ""
+    @State private var teamSize: Int = 1
 
     @State private var pickMembersView: Bool = false
     
@@ -75,10 +76,14 @@ struct TeamBuilderView: View {
                         .padding([.top, .horizontal])
                     
                     Menu{
-                        Button("Web app", action: { projectType = "Web app" })
+                        Button("1", action: { teamSize = 1 })
+                        Button("2", action: { teamSize = 2 })
+                        Button("3", action: { teamSize = 3 })
+                        Button("4", action: { teamSize = 4 })
+                        Button("5", action: { teamSize = 5 })
                     } label: {
                         HStack{
-                            Text(projectType)
+                            Text(("\(teamSize)"))
                             Spacer()
                             Image(systemName:"chevron.down")
                         }
@@ -111,7 +116,8 @@ struct TeamBuilderView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.top)
                     .navigationDestination(isPresented: $pickMembersView){
-                        FindMembersView()
+                        FindMembersView(viewModel:
+                                        TeamMembersViewModel(numberOfMembers: teamSize))
                     }
                 
                 
