@@ -13,41 +13,70 @@ struct LoginView: View {
     @State var password = ""
     @FocusState var isKeyBoard: Bool
     
+    @State var move_Register = false
+    
     var body: some View {
-        ZStack {
-            Color(.background)
-                .ignoresSafeArea()
-            VStack {
-                Text("Sign in")
-                    .font(.system(size: 24))
+        NavigationStack {
+            ZStack {
+                Color(.background)
+                    .ignoresSafeArea()
+                VStack {
+                    Text("Sign in")
+                        .font(.system(size: 24))
+                        .foregroundColor(.text)
+                        .fontDesign(.monospaced)
+                        .padding(.bottom)
+                        .fontWeight(.bold)
+                    HStack {
+                        TextField("Username", text: $userName)
+                            .frame(width: 200)
+                            .foregroundColor(.text)
+                            .fontDesign(.monospaced)
+                            .focused($isKeyBoard)
+                    }
+                    Rectangle()
+                        .frame(width: 200, height: 2)
+                        .foregroundColor(.text)
+                        .padding(.bottom)
+                    HStack {
+                        TextField("Password", text: $password)
+                            .frame(width: 200)
+                            .foregroundColor(.text)
+                            .fontDesign(.monospaced)
+                            .focused($isKeyBoard)
+                    }
+                    Rectangle()
+                        .frame(width: 200, height: 2)
+                        .foregroundColor(.text)
+                        .padding(.bottom, 40)
+                    Button("Login") {
+                        
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
                     .foregroundColor(.text)
                     .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
                     .padding(.bottom)
-                HStack {
-                    TextField("Username", text: $userName)
-                        .frame(width: 200)
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .focused($isKeyBoard)
-                }
-                Rectangle()
-                    .frame(width: 200, height: 2)
+                    
+                    Button("Create Account") {
+                        move_Register = true
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
                     .foregroundColor(.text)
-                    .padding(.bottom)
-                HStack {
-                    TextField("Password", text: $password)
-                        .frame(width: 200)
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .focused($isKeyBoard)
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
                 }
-                Rectangle()
-                    .frame(width: 200, height: 2)
-                    .foregroundColor(.text)
+                
+                .navigationDestination(isPresented: $move_Register){
+                    RegisterView()
+                }
+            }.onTapGesture {
+                isKeyBoard = false
             }
-
-        }.onTapGesture {
-            isKeyBoard = false
         }
     }
 }
