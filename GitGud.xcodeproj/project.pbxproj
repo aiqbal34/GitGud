@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4E8C4EFE2B8ACCCF0049F2B3 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */; };
+		4E8C4F022B8AD58C0049F2B3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */; };
 		ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */; };
 		ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */; };
 		ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatchingView.swift; sourceTree = "<group>"; };
 		ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		ACECE5882B8734DE00CB40A7 /* GitGud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitGud.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +113,7 @@
 				ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */,
 				ACECE58D2B8734DE00CB40A7 /* ContentView.swift */,
 				ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */,
+				4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */,
 				ACECE58F2B8734DE00CB40A7 /* Item.swift */,
 				4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */,
 				ACECE5912B8734DF00CB40A7 /* Assets.xcassets */,
@@ -277,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E8C4F022B8AD58C0049F2B3 /* SettingsView.swift in Sources */,
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
 				ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */,
 				ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */,
