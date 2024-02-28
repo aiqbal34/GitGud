@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A95192B8D20AF00689A11 /* FindMembersView.swift */; };
-		AB5A951E2B8F04B100689A11 /* SkillSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A951D2B8F04B100689A11 /* SkillSearch.swift */; };
+		AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */; };
 		ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */; };
 		ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */; };
 		ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */; };
@@ -41,7 +41,7 @@
 
 /* Begin PBXFileReference section */
 		AB5A95192B8D20AF00689A11 /* FindMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMembersView.swift; sourceTree = "<group>"; };
-		AB5A951D2B8F04B100689A11 /* SkillSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearch.swift; sourceTree = "<group>"; };
+		AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearchView.swift; sourceTree = "<group>"; };
 		ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatchingView.swift; sourceTree = "<group>"; };
 		ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
@@ -109,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */,
+				AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */,
 				ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */,
 				AB5A95192B8D20AF00689A11 /* FindMembersView.swift */,
 				ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */,
@@ -119,7 +120,6 @@
 				ACECE5962B8734DF00CB40A7 /* GitGud.entitlements */,
 				ACECE5972B8734DF00CB40A7 /* Info.plist */,
 				ACECE5932B8734DF00CB40A7 /* Preview Content */,
-				AB5A951D2B8F04B100689A11 /* SkillSearch.swift */,
 			);
 			path = GitGud;
 			sourceTree = "<group>";
@@ -279,8 +279,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */,
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
-				AB5A951E2B8F04B100689A11 /* SkillSearch.swift in Sources */,
 				ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */,
 				ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */,
 				ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */,

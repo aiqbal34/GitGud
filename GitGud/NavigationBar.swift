@@ -11,7 +11,7 @@ struct NavigationBar: View {
     @State private var selectedTab = "Find Matches"
     init() {
         let appearance = UITabBarAppearance()
-        appearance.backgroundColor = UIColor(named: "SecondaryBackground") // Use your color here
+        appearance.backgroundColor = UIColor(named: "SecondaryBackground") 
 
         // Use this appearance when the tab bar is in any state
         UITabBar.appearance().standardAppearance = appearance
