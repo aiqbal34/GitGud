@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A95192B8D20AF00689A11 /* FindMembersView.swift */; };
 		AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */; };
+		4E8C4EFE2B8ACCCF0049F2B3 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */; };
 		ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */; };
 		ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */; };
 		ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */; };
@@ -20,6 +21,11 @@
 		ACECE5A12B8734DF00CB40A7 /* GitGudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5A02B8734DF00CB40A7 /* GitGudTests.swift */; };
 		ACECE5AB2B8734DF00CB40A7 /* GitGudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5AA2B8734DF00CB40A7 /* GitGudUITests.swift */; };
 		ACECE5AD2B8734DF00CB40A7 /* GitGudUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5AC2B8734DF00CB40A7 /* GitGudUITestsLaunchTests.swift */; };
+		ACECE5C02B8AB83C00CB40A7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */; };
+		ACECE5C62B8AD53C00CB40A7 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5C52B8AD53C00CB40A7 /* RegisterView.swift */; };
+		ACECE5C82B8D3D5800CB40A7 /* PhoneInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5C72B8D3D5800CB40A7 /* PhoneInputView.swift */; };
+		ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5C92B8D3E4100CB40A7 /* NameMajorView.swift */; };
+		ACECE5CC2B8D8F6A00CB40A7 /* TechStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +48,7 @@
 /* Begin PBXFileReference section */
 		AB5A95192B8D20AF00689A11 /* FindMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMembersView.swift; sourceTree = "<group>"; };
 		AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearchView.swift; sourceTree = "<group>"; };
+		4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatchingView.swift; sourceTree = "<group>"; };
 		ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
@@ -58,6 +65,11 @@
 		ACECE5A62B8734DF00CB40A7 /* GitGudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitGudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACECE5AA2B8734DF00CB40A7 /* GitGudUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudUITests.swift; sourceTree = "<group>"; };
 		ACECE5AC2B8734DF00CB40A7 /* GitGudUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		ACECE5C52B8AD53C00CB40A7 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		ACECE5C72B8D3D5800CB40A7 /* PhoneInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneInputView.swift; sourceTree = "<group>"; };
+		ACECE5C92B8D3E4100CB40A7 /* NameMajorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameMajorView.swift; sourceTree = "<group>"; };
+		ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +127,13 @@
 				ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */,
 				ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */,
 				ACECE58D2B8734DE00CB40A7 /* ContentView.swift */,
+				ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */,
+				ACECE5C52B8AD53C00CB40A7 /* RegisterView.swift */,
+				ACECE5C72B8D3D5800CB40A7 /* PhoneInputView.swift */,
+				ACECE5C92B8D3E4100CB40A7 /* NameMajorView.swift */,
+				ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */,
 				ACECE58F2B8734DE00CB40A7 /* Item.swift */,
+				4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */,
 				ACECE5912B8734DF00CB40A7 /* Assets.xcassets */,
 				ACECE5962B8734DF00CB40A7 /* GitGud.entitlements */,
 				ACECE5972B8734DF00CB40A7 /* Info.plist */,
@@ -254,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACECE5952B8734DF00CB40A7 /* Preview Assets.xcassets in Resources */,
+				4E8C4EFE2B8ACCCF0049F2B3 /* SplashScreen.storyboard in Resources */,
 				ACECE5922B8734DF00CB40A7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,8 +301,13 @@
 				AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */,
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
 				ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */,
+				ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */,
 				ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */,
+				ACECE5C62B8AD53C00CB40A7 /* RegisterView.swift in Sources */,
+				ACECE5CC2B8D8F6A00CB40A7 /* TechStackView.swift in Sources */,
+				ACECE5C82B8D3D5800CB40A7 /* PhoneInputView.swift in Sources */,
 				ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */,
+				ACECE5C02B8AB83C00CB40A7 /* LoginView.swift in Sources */,
 				ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */,
 				ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */,
 				AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */,
@@ -457,6 +481,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -488,6 +513,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = SplashScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

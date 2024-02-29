@@ -25,7 +25,7 @@ struct GitGudApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationBar()
+            LoginView()
         }
         .modelContainer(sharedModelContainer)
     }
