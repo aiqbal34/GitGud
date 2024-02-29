@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 import Firebase
@@ -14,6 +13,7 @@ import Firebase
 struct UserData: Decodable{
     let name: String
     let phone: Int
+    let id: String
 }
 
 
@@ -35,7 +35,7 @@ func fetchData() async throws -> UserData {
     }
 }
 
-
+//this function allows the user to signin
 func userSignIn(email: String, password: String) async throws -> User? {
   do {
     let result = try await Auth.auth().signIn(withEmail: email, password: password)
@@ -49,11 +49,20 @@ func userSignIn(email: String, password: String) async throws -> User? {
   }
 }
 
-func create_Account(email: String, password: String) {
-    Auth.auth().createUser(withEmail: email, password: password) { Result, error in
-        if error != nil {
-            print(error?.localizedDescription)
-        }
-        print(Result)
+//this function allows the user to create an account
+func create_Account(email: String, password: String) async {
+    do {
+        let result = try await Auth.auth().createUser(withEmail: email, password: password)
+        print(result)
+    }catch {
+        print("Error creating Account: \(error)")
     }
+    
 }
+//class UserModel: ObservableObject {
+//    let name: String
+//    let phone: Int
+//    let userID: String
+//    let major: String
+//    let 
+//}
