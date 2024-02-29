@@ -3,6 +3,8 @@ import SwiftUI
 struct SettingsView: View {
     @State private var selectedTags: Set<String> = []
     @State private var searchText: String = ""
+    @State var experience = ""
+    var experienceLevels = ["low", "medium", "high"]
     let tags = ["Swift", "Java", "Python", "C++", "Rust"]
     @State var userName = ""
     @State var password = ""
@@ -13,12 +15,28 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
+                
                 Section(header: Text("Account Information")){
                     TextField("Username", text: $userName)
                     TextField("Password", text: $password)
                     TextField("Email", text: $email)
                     TextField("University", text: $university)
                     TextField("Major", text: $major)
+                }
+                .listRowBackground(Color.secondaryBackground)
+                .foregroundColor(Color.text)
+                
+                Section(header: Text("Experience Level")){
+                    Picker("Select Major", selection: $experience) {
+                        ForEach(experienceLevels, id: \.self) { item in
+                            Text(item)
+                                .foregroundColor(.blue) // Change the text color
+                                .font(.headline) // Set the font style
+                                .padding() // Add some padding around each text
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle()) // Apply MenuPickerStyle
+                    .padding() // Add padding around the picker
                 }
                 .listRowBackground(Color.secondaryBackground)
                 .foregroundColor(Color.text)
