@@ -9,11 +9,14 @@ import SwiftUI
 
 struct LoginView: View {
     
+    
+    
     @State var userName = ""
     @State var password = ""
     @FocusState var isKeyBoard: Bool
-    
+    @State var isLoggedin = false
     @State var move_Register = false
+    @State var move_Home = false
     
     var body: some View {
         NavigationStack {
@@ -39,7 +42,7 @@ struct LoginView: View {
                         .foregroundColor(.text)
                         .padding(.bottom)
                     HStack {
-                        TextField("Password", text: $password)
+                        SecureField("Password", text: $password)
                             .frame(width: 200)
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
@@ -50,6 +53,17 @@ struct LoginView: View {
                         .foregroundColor(.text)
                         .padding(.bottom, 40)
                     Button("Login") {
+                        // this function allows the user to login is in the api file
+                        
+                        Task {
+                            do {
+                                try await userSignIn(email: userName, password: password)
+                                move_Home = true
+                            } catch let error as Error {
+                                print(error.localizedDescription)
+                            }
+                            
+                        }
                         
                     }
                     .frame(width: 200, height: 50)
@@ -62,6 +76,7 @@ struct LoginView: View {
                     
                     Button("Create Account") {
                         move_Register = true
+                        
                     }
                     .frame(width: 200, height: 50)
                     .background(Color.secondaryBackground)
@@ -74,12 +89,17 @@ struct LoginView: View {
                 .navigationDestination(isPresented: $move_Register){
                     RegisterView()
                 }
+                .navigationDestination(isPresented: $move_Home) {
+                    LoadingView()
+                }
             }.onTapGesture {
                 isKeyBoard = false
             }
+            
         }
     }
 }
+
 
 #Preview {
     LoginView()
