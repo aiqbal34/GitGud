@@ -27,6 +27,7 @@
 		ACECE5D02B8FF0CA00CB40A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5CF2B8FF0CA00CB40A7 /* GoogleService-Info.plist */; };
 		ACECE5D42B8FF99100CB40A7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = ACECE5D32B8FF99100CB40A7 /* FirebaseAuth */; };
 		ACECE5D62B8FFE1500CB40A7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = ACECE5D52B8FFE1500CB40A7 /* FirebaseFirestore */; };
+		ACECE5D82B900B2500CB40A7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5D72B900B2500CB40A7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechStackView.swift; sourceTree = "<group>"; };
 		ACECE5CD2B8FEC2200CB40A7 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		ACECE5CF2B8FF0CA00CB40A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ACECE5D72B900B2500CB40A7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				ACECE5C92B8D3E4100CB40A7 /* NameMajorView.swift */,
 				ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */,
 				ACECE58F2B8734DE00CB40A7 /* Item.swift */,
+				ACECE5D72B900B2500CB40A7 /* LoadingView.swift */,
 				ACECE5CF2B8FF0CA00CB40A7 /* GoogleService-Info.plist */,
 				4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */,
 				ACECE5912B8734DF00CB40A7 /* Assets.xcassets */,
@@ -320,6 +323,7 @@
 				ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */,
 				ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */,
 				ACECE5C62B8AD53C00CB40A7 /* RegisterView.swift in Sources */,
+				ACECE5D82B900B2500CB40A7 /* LoadingView.swift in Sources */,
 				ACECE5CE2B8FEC2200CB40A7 /* Api.swift in Sources */,
 				ACECE5CC2B8D8F6A00CB40A7 /* TechStackView.swift in Sources */,
 				ACECE5C82B8D3D5800CB40A7 /* PhoneInputView.swift in Sources */,
