@@ -27,36 +27,34 @@ struct RegisterView: View {
                     .fontDesign(.monospaced)
                     .padding(.bottom)
                     .fontWeight(.bold)
-                HStack {
-                    TextField("Username", text: $userName)
-                        .frame(width: 200)
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .focused($isKeyBoard)
-                }
+                
+                TextField("Username", text: $userName)
+                    .frame(width: 200)
+                    .foregroundColor(.text)
+                    .fontDesign(.monospaced)
+                    .focused($isKeyBoard)
+                
                 Rectangle()
                     .frame(width: 200, height: 2)
                     .foregroundColor(.text)
-                    .padding(.bottom)
-                HStack {
-                    SecureField("Password", text: $password)
-                        .frame(width: 200)
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .focused($isKeyBoard)
-                }
+                    .padding(.bottom, 25)
+                
+                SecureField("Password", text: $password)
+                    .frame(width: 200)
+                    .foregroundColor(.text)
+                    .focused($isKeyBoard)
+                
                 Rectangle()
                     .frame(width: 200, height: 2)
                     .foregroundColor(.text)
-                    .padding(.bottom)
-                HStack {
-                    SecureField("ReEnter Password", text: $reEnterpPssword)
-                        .frame(width: 200)
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .focused($isKeyBoard)
-                    
-                }
+                    .padding(.bottom, 25)
+                
+                SecureField("ReEnter Password", text: $reEnterpPssword)
+                    .frame(width: 200)
+                    .foregroundColor(.text)
+                    .focused($isKeyBoard)
+                
+                
                 Rectangle()
                     .frame(width: 200, height: 2)
                     .foregroundColor(.text)
@@ -74,8 +72,8 @@ struct RegisterView: View {
                     .foregroundColor(.text)
                     .fontWeight(.bold)
                     
-            }
-
+                }
+                
             }
             
         }.onTapGesture {
