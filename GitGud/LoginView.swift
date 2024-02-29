@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginView: View {
     
+    
+    
     @State var userName = ""
     @State var password = ""
     @FocusState var isKeyBoard: Bool
@@ -50,7 +52,13 @@ struct LoginView: View {
                         .foregroundColor(.text)
                         .padding(.bottom, 40)
                     Button("Login") {
-                        
+                        Task {
+                            do {
+                                try await userSignIn(email: userName, password: password)
+                            } catch let error as Error {
+                                print(error)
+                            }
+                        }
                     }
                     .frame(width: 200, height: 50)
                     .background(Color.secondaryBackground)
@@ -62,6 +70,7 @@ struct LoginView: View {
                     
                     Button("Create Account") {
                         move_Register = true
+                        create_Account(email: userName, password: password)
                     }
                     .frame(width: 200, height: 50)
                     .background(Color.secondaryBackground)
@@ -77,9 +86,20 @@ struct LoginView: View {
             }.onTapGesture {
                 isKeyBoard = false
             }
+            .onAppear {
+                Task {
+                    do {
+                        let response = try await fetchData()
+                        print(response)
+                    } catch let urlerror as URLError {
+                        print(urlerror)
+                    }
+                }
+            }
         }
     }
 }
+
 
 #Preview {
     LoginView()
