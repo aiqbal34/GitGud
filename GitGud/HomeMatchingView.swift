@@ -14,16 +14,23 @@ struct HomeMatchingView: View {
                 VStack{
                     
                     HStack {
+                        Spacer()
+                        
                         Circle()
                             .frame(width: 100, height: 100)
                             .foregroundColor(.white)
                             .padding(.top, 60)
                         
+                        Spacer()
+                            
+                        
                         Text("John Doe")
-                            .font(.title)
+                            .font(.system(size: 45))
                             .foregroundColor(Color.white)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.top, 60)
+                        
+                        Spacer()
     
                     }
                     
@@ -31,10 +38,10 @@ struct HomeMatchingView: View {
                         Text("Inser information here")
                             .foregroundColor(Color.text)
                     }
-                    .frame(width: 300,height: 450) // Set a fixed height for the ScrollView
-                    .border(Color.gray, width: 1) // Optional border to visualize the ScrollView frame
+                    .frame(width: 300,height: 450)
                     .background(Color.secondaryBackground)
-                    .padding()
+                    .clipShape(RoundedRectangle(cornerRadius: 10)) // Clip the view with rounded corners
+
                     
                     HStack{
                         Button("Match") {
@@ -43,6 +50,7 @@ struct HomeMatchingView: View {
                         .foregroundColor(Color.text)
                         .frame(width: 130, height: 64)
                         .background(Color.secondaryBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 10)) // Clip the view with rounded corners
                         .padding(.horizontal)
                         
                         Button("Next") {
@@ -51,9 +59,12 @@ struct HomeMatchingView: View {
                         .foregroundColor(Color.text)
                         .frame(width: 130, height: 64)
                         .background(Color.secondaryBackground)
-                        .padding(.horizontal)
+                        .clipShape(RoundedRectangle(cornerRadius: 10)) // Clip the view with rounded corners
+                        .padding()
                         
                     }
+                    
+                    //NavigationBar()
                     
                     Spacer()
                 }
@@ -71,5 +82,4 @@ struct HomeMatchingView: View {
 
 #Preview {
     HomeMatchingView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
