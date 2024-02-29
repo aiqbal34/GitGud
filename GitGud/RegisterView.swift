@@ -21,7 +21,7 @@ struct RegisterView: View {
                 .ignoresSafeArea()
             VStack {
                 Spacer()
-                Text("Sign Up")
+                Text("Create Account")
                     .font(.system(size: 24))
                     .foregroundColor(.text)
                     .fontDesign(.monospaced)
@@ -63,8 +63,10 @@ struct RegisterView: View {
                 HStack {
                     Spacer()
                     Button("Next") {
-                        if password == reEnterpPssword {
-                            create_Account(email: userName, password: password)
+                        Task {
+                            if password == reEnterpPssword {
+                                await create_Account(email: userName, password: password)
+                            }
                         }
                     }
                     .padding(.trailing, 35)
