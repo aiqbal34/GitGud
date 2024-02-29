@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A95192B8D20AF00689A11 /* FindMembersView.swift */; };
+		AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */; };
 		4E8C4EFE2B8ACCCF0049F2B3 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */; };
 		4E8C4F022B8AD58C0049F2B3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */; };
 		4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */; };
 		ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */; };
 		ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */; };
+		ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */; };
 		ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */; };
 		ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58D2B8734DE00CB40A7 /* ContentView.swift */; };
 		ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58F2B8734DE00CB40A7 /* Item.swift */; };
@@ -45,11 +48,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB5A95192B8D20AF00689A11 /* FindMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMembersView.swift; sourceTree = "<group>"; };
+		AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearchView.swift; sourceTree = "<group>"; };
 		4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
 		ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatchingView.swift; sourceTree = "<group>"; };
 		ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
 		ACECE5882B8734DE00CB40A7 /* GitGud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitGud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudApp.swift; sourceTree = "<group>"; };
 		ACECE58D2B8734DE00CB40A7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,7 +124,10 @@
 		ACECE58A2B8734DE00CB40A7 /* GitGud */ = {
 			isa = PBXGroup;
 			children = (
+				ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */,
+				AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */,
 				ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */,
+				AB5A95192B8D20AF00689A11 /* FindMembersView.swift */,
 				ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */,
 				ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */,
 				ACECE58D2B8734DE00CB40A7 /* ContentView.swift */,
@@ -296,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E8C4F022B8AD58C0049F2B3 /* SettingsView.swift in Sources */,
+				AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */,
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
 				ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */,
 				ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */,
@@ -307,6 +317,8 @@
 				4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */,
 				ACECE5C02B8AB83C00CB40A7 /* LoginView.swift in Sources */,
 				ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */,
+				ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */,
+				AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
