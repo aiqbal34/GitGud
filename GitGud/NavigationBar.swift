@@ -31,12 +31,11 @@ struct NavigationBar: View {
                     }
                     .tag("Find Matches")
 
-                Text("Connections View")
+                TeamBuilderView()
                     .tabItem {
-                        Label("Connections", systemImage: "person.2")
-
+                        Label("Team Builder", systemImage: "cube.fill")
                     }
-                    .tag("Connections")                
+                    .tag("Team Builder")
                 
                 Text("Profile View")
                     .tabItem {

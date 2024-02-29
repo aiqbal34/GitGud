@@ -17,6 +17,7 @@ enum ExpierenceLevel: String, CaseIterable, Identifiable {
 struct FindMembersView: View {
     @ObservedObject var viewModel: TeamMembersViewModel
     @State private var isFindMembers: Bool = false
+
     
     var body: some View {
         NavigationStack{
@@ -39,16 +40,22 @@ struct FindMembersView: View {
                         }
                         .listRowBackground(Color.secondaryBackground)
                     }
-                    Button("Find Members", action: { isFindMembers = true })
-                        .frame(width: 260, height: 60)
-                        .background(Color.secondaryBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    //.navigationDestination(isPresented: $pickMembersView){
-                    //    FindMembersView()
-                    //}
-                    
+                    HStack{
+                        Spacer()
+                        Button("Find Members", action: { isFindMembers = true })
+                            .frame(width: 260, height: 60, alignment: .center)
+                            .background(Color.secondaryBackground)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .navigationDestination(isPresented: $isFindMembers){
+                                HomeMatchingView()
+                            }
+                        Spacer()
+                    }
+                    .listRowBackground(Color.background)
                     
                 }
+                
+                .scrollContentBackground(.hidden)
                 
                 
             }
@@ -61,7 +68,6 @@ struct TechStackEntryView: View {
     @Binding var member: Member
     @State private var showingSkillsSelection = false
 
-    // Assuming allSkills is defined globally or passed in some other way
     private let allSkills = [
         "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
         "Python", "Java", "C++", "PHP", "Ruby", "Go", "Node.js",
