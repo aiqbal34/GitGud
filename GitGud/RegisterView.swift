@@ -39,7 +39,7 @@ struct RegisterView: View {
                     .foregroundColor(.text)
                     .padding(.bottom)
                 HStack {
-                    TextField("Password", text: $password)
+                    SecureField("Password", text: $password)
                         .frame(width: 200)
                         .foregroundColor(.text)
                         .fontDesign(.monospaced)
@@ -50,11 +50,12 @@ struct RegisterView: View {
                     .foregroundColor(.text)
                     .padding(.bottom)
                 HStack {
-                    TextField("ReEnter Password", text: $reEnterpPssword)
+                    SecureField("ReEnter Password", text: $reEnterpPssword)
                         .frame(width: 200)
                         .foregroundColor(.text)
                         .fontDesign(.monospaced)
                         .focused($isKeyBoard)
+                    
                 }
                 Rectangle()
                     .frame(width: 200, height: 2)
@@ -64,7 +65,9 @@ struct RegisterView: View {
                 HStack {
                     Spacer()
                     Button("Next") {
-                        
+                        if password == reEnterpPssword {
+                            create_Account(email: userName, password: password)
+                        }
                     }
                     .padding(.trailing, 35)
                     .padding(.top, 25)
