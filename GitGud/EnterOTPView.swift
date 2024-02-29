@@ -120,3 +120,4 @@ struct EnterOTPView: View {
 #Preview {
     EnterOTPView(phoneNum: .constant(""))
 }
+
