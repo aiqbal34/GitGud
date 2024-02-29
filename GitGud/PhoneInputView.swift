@@ -25,6 +25,8 @@ struct PhoneInputView: View {
                     .fontWeight(.bold)
 
                 HStack {
+                    Text("🇺🇸 +1")
+                        //.padding(.leading, 100)
                     TextField("Enter Phone Number", text: $phoneNumber)
                         .frame(width: 200)
                         .foregroundColor(.text)
@@ -33,7 +35,7 @@ struct PhoneInputView: View {
                         .keyboardType(.numberPad)
                 }
                 Rectangle()
-                    .frame(width: 200, height: 2)
+                    .frame(width: 250, height: 2)
                     .foregroundColor(.text)
                     .padding(.bottom)
                 Spacer()
