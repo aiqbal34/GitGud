@@ -68,34 +68,34 @@ struct TechStackEntryView: View {
     @Binding var member: Member
     @State private var showingSkillsSelection = false
 
-    private let allSkills = [
-        "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
-        "Python", "Java", "C++", "PHP", "Ruby", "Go", "Node.js",
-        "Assembly Language", "Swift", "Kotlin", "C#", "Perl",
-        "R", "Scala", "TypeScript", "Dart", "Haskell",
-        "Bootstrap", "jQuery", "Express.js", "Django", "Spring",
-        "Laravel", "TensorFlow", "PyTorch", "Keras",
-        "Git", "Agile", "Waterfall", "Unit testing",
-        "Integration testing", "APIs", "Web Services", "SQL",
-        "NoSQL", "MySQL", "PostgreSQL", "MongoDB", "Oracle",
-        "SQLite", "Cassandra", "CouchDB",
-        "Docker", "Kubernetes", "Jenkins", "Ansible",
-        "Heroku", "DigitalOcean", "Linode",
-        "Software Design Patterns", "Formal Languages & Automata Theory",
-        "Compiler Design", "Operating Systems Design", "Computer Architecture",
-        "Distributed Systems", "Computer Graphics", "Human-Computer Interaction (HCI)",
-        "Natural Language Processing (NLP)", "Computer Vision", "Robotics",
-        "Software Engineering Principles",
-        "User Research", "Usability Testing", "Information Architecture",
-        "User Interface (UI) Design", "User Experience (UX) Writing", "Wireframing",
-        "Prototyping", "Interaction Design", "Visual Design", "Accessibility",
-        "UI/UX Design Tools (e.g., Figma, Adobe XD)", "User Empathy", "Usability Heuristics",
-        "User Persona Development", "Card Sorting", "A/B Testing", "User Flows",
-        "Design Thinking", "Iterative Design", "User Interface (UI) Patterns",
-        "Microinteractions", "Visual Communication", "Color Theory", "Typography"
+    private let allSkills: [String] = [
+            "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
+            "Python", "Java", "C++", "PHP", "Ruby", "Go", "Node.js",
+            "Assembly Language", "Swift", "Kotlin", "C#", "Perl",
+            "R", "Scala", "TypeScript", "Dart", "Haskell",
+            "Bootstrap", "jQuery", "Express.js", "Django", "Spring",
+            "Laravel", "TensorFlow", "PyTorch", "Keras",
+            "Git", "Agile", "Waterfall", "Unit testing",
+            "Integration testing", "APIs", "Web Services", "SQL",
+            "NoSQL", "MySQL", "PostgreSQL", "MongoDB", "Oracle",
+            "SQLite", "Cassandra", "CouchDB",
+            "Docker", "Kubernetes", "Jenkins", "Ansible",
+            "Heroku", "DigitalOcean", "Linode",
+            "Software Design Patterns", "Formal Languages & Automata Theory",
+            "Compiler Design", "Operating Systems Design", "Computer Architecture",
+            "Distributed Systems", "Computer Graphics", "Human-Computer Interaction (HCI)",
+            "Natural Language Processing (NLP)", "Computer Vision", "Robotics",
+            "Software Engineering Principles",
+            "User Research", "Usability Testing", "Information Architecture",
+            "User Interface (UI) Design", "User Experience (UX) Writing", "Wireframing",
+            "Prototyping", "Interaction Design", "Visual Design", "Accessibility",
+            "UI/UX Design Tools (e.g., Figma, Adobe XD)", "User Empathy", "Usability Heuristics",
+            "User Persona Development", "Card Sorting", "A/B Testing", "User Flows",
+            "Design Thinking", "Iterative Design", "User Interface (UI) Patterns",
+            "Microinteractions", "Visual Communication", "Color Theory", "Typography"
     ]
 
-
+    // This view now presents a SelectionView when adding skills.
     var body: some View {
         VStack {
 
@@ -103,10 +103,15 @@ struct TechStackEntryView: View {
                 showingSkillsSelection.toggle()
             }
             .sheet(isPresented: $showingSkillsSelection) {
-                SkillsSelectionView(selectedSkills: $member.techStack, allSkills: allSkills)
+                // Replace SkillsSelectionView with SelectionView for skill selection
+                SelectionView(selectedItems: $member.techStack, allItems: allSkills, itemLabel: { skill in
+                    Text(skill)
+                }, filterPredicate: { skill, searchText in
+                    skill.lowercased().contains(searchText.lowercased())
+                })
             }
 
-            // Display selected skills
+            // Display selected skills remains unchanged
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(member.techStack, id: \.self) { skill in
@@ -121,6 +126,7 @@ struct TechStackEntryView: View {
         }
     }
 }
+
 
 
 

@@ -1,41 +1,39 @@
-//
-//  SkillSearchView.swift
-//  GitGud
-//
-//  Created by Sajed Hussein on 2/27/24.
-//
-
 import Foundation
 import SwiftUI
 
-struct SkillsSelectionView: View {
-    @Binding var selectedSkills: [String] // Bind to the selected skills array
-    let allSkills: [String] // All available skills
+// Updated to be generic
+struct SelectionView<Item, ItemLabel>: View where Item: Hashable, ItemLabel: View {
+    @Binding var selectedItems: [Item] // Bind to the selected items array
+    let allItems: [Item] // All available items
+    let itemLabel: (Item) -> ItemLabel // Closure to provide a label for each item
+    let filterPredicate: (Item, String) -> Bool // Closure to filter items based on the search text
 
     @State private var searchText = ""
 
-    var filteredSkills: [String] {
+    var filteredItems: [Item] {
         if searchText.isEmpty {
-            return []
+            return allItems // Return all items if no search text
         } else {
-            return allSkills.filter { $0.localizedCaseInsensitiveContains(searchText) }
+            return allItems.filter { filterPredicate($0, searchText) }
         }
     }
 
     var body: some View {
         VStack {
-            TextField("Search Skills...", text: $searchText)
+            TextField("Search...", text: $searchText)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
 
             List {
-                ForEach(filteredSkills, id: \.self) { skill in
-                    Button(skill) {
-                        if !selectedSkills.contains(skill) {
-                            selectedSkills.append(skill)
+                ForEach(filteredItems, id: \.self) { item in
+                    Button(action: {
+                        if !selectedItems.contains(item) {
+                            selectedItems.append(item)
                         }
-                        searchText = "" // Clear search field
+                        searchText = "" // Clear search field after selection
+                    }) {
+                        itemLabel(item)
                     }
                     .padding(.vertical, 4)
                 }
@@ -43,10 +41,4 @@ struct SkillsSelectionView: View {
         }
     }
 }
-
-
-
-//#Preview {
-//    //SkillsSelectionView(selectedSkills: "hello", allSkills: ["metoo"])
-//}
 
