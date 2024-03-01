@@ -26,7 +26,7 @@ https://www.figma.com/file/yob2jpxYQR4JvoPlybnWfp/MasZina?type=design&node-id=0-
 
 
 ### Meeting Notes
-
+In our meeting we discussed an alternative option for our backend based on our needs, we settled on Firebase and AppEngine. We also further discussed the architecture for our app and white boarded how we plan on implementing the backend for querying data for displaying the users and teams. We also decided to specialize the purpose of our app and added the UI Views for a feature where the users can specify what they are looking for in team members and find a tailored team with a click of a button. We were able to get the backend working for the user to create an account and log in to the app, and either match with a user or press next and proceed to view other users. By next time we plan to have the team member find functionality working and also implement an algorithm that filters through members to find the best match.
 
 
 ### Individual tasks:
@@ -64,6 +64,7 @@ Done:
 - Implemented HomeView, TeamMemberView, FindMemebersView
 - Implemented a search functionality for arrays
 - Implemented the Navigation System
+
 To Do:
 - Implement the algorithm for the teambuilder filtering logic based on compatability 
 
