@@ -9,14 +9,14 @@ import SwiftUI
 
 struct TechStackView: View {
     
+    @EnvironmentObject var userModel: UserModel
+    @State var move_to_PhoneInputView = false
     @State var experience = ""
     var experienceLevels = ["low", "medium", "high"]
     
-    @State var techStack = ""
-    var techStackList = ["MERN", "React", "Svelte"]
-    
-    @State var idk = "idk"
-    var idklist = ["idk"]
+
+    @State var showSkillSheet = false
+    @State var chosenSkills: [String] = []
     
     var body: some View {
         NavigationStack {
@@ -52,26 +52,36 @@ struct TechStackView: View {
                     .cornerRadius(10)
                     .frame(height: 100)// Add corner radius
                     
+
                     
-                    Text("Select Tech Stack")
-                        .font(.system(size: 18))
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .padding(.bottom)
-                        .fontWeight(.bold)
-                    Picker("Select Major", selection: $techStack) {
-                        ForEach(techStackList, id: \.self) { item in
-                            Text(item)
-                                .foregroundColor(.blue)
-                                .font(.headline)
+                    Button("Choose Skills") {
+                        showSkillSheet.toggle()
+                    }.sheet(isPresented: $showSkillSheet, content: {
+                        SelectionView(selectedItems: $chosenSkills, allItems: allSkills, itemLabel: { skill in
+                            Text(skill)
+                        }, filterPredicate: { skill, searchText in
+                            skill.lowercased().contains(searchText.lowercased())
+                        })
+                    })
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
+                    .foregroundColor(.text)
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                    .padding(.bottom)
+                    
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
+                        ForEach(chosenSkills, id: \.self) { skill in
+                            Text(skill)
                                 .padding()
+                                .background(Color.secondaryBackground)
+                                .foregroundColor(.text)
+                                .fontDesign(.monospaced)
+                                .clipShape(Capsule())
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())
                     .padding()
-                    .background(Color.secondaryBackground)
-                    .cornerRadius(10)
-                    .frame(height: 150)
                     
                     
 
@@ -81,7 +91,11 @@ struct TechStackView: View {
                     HStack {
                         Spacer()
                         Button("Next") {
-                            //implement
+                            if chosenSkills != [] && experience != "" {
+                                userModel.experience = experience
+                                userModel.techStack = chosenSkills
+                                move_to_PhoneInputView = true
+                            }
                         }
                         .padding(.trailing, 35)
                         .padding(.top, 25)
@@ -91,6 +105,9 @@ struct TechStackView: View {
                     }
                 }
                 
+            }
+            .navigationDestination(isPresented: $move_to_PhoneInputView) {
+                PhoneInputView().environmentObject(userModel)
             }
         }
     }
