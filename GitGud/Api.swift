@@ -10,7 +10,7 @@ import FirebaseFirestore
 import FirebaseAuth
 import Firebase
 
-struct UserData: Decodable{
+struct UserData: Decodable {
     let name: String
     let phone: Int
     let id: String
@@ -36,11 +36,11 @@ func fetchData() async throws -> UserData {
 }
 
 //this function allows the user to signin
-func userSignIn(email: String, password: String) async throws -> User? {
+func userSignIn(email: String, password: String) async throws -> String? {
   do {
     let result = try await Auth.auth().signIn(withEmail: email, password: password)
       print(result.user.uid)
-    return result.user
+      return result.user.uid
   } catch {
       
     print("Error signing in: \(error)")
@@ -59,10 +59,47 @@ func create_Account(email: String, password: String) async {
     }
     
 }
-//class UserModel: ObservableObject {
-//    let name: String
-//    let phone: Int
-//    let userID: String
-//    let major: String
-//    let 
-//}
+
+
+
+
+class UserModel: ObservableObject {
+    var name: String
+    var phone: Int
+    var userID: String
+    var major: String
+    var university: String
+    var teams: Array<Member>
+    var experience: [String]
+    var requests: [Member]
+    var techStack: [String]
+    var profilePic: UIImage?
+    var email: String
+    // add requests   [Member]
+    // add tech stack [Strings]
+    // add profile pic
+    
+    
+
+    init() {
+        self.name = ""
+        self.phone = 0
+        self.userID = ""
+        self.major = ""
+        self.university = ""
+        self.teams = []
+        self.experience = []
+        self.requests = []
+        self.techStack = []
+        self.profilePic = nil
+        self.email = ""
+    }
+}
+
+/*
+ TextField("Username", text: $userName)
+ TextField("Password", text: $password)
+ TextField("Email", text: $email)
+ TextField("University", text: $university)
+ TextField("Major", text: $major)
+ */

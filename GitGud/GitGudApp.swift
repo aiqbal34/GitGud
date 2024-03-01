@@ -18,9 +18,12 @@ struct GitGudApp: App {
         FirebaseApp.configure()
     }
     
+    @StateObject var userModel = UserModel()
+    
     var body: some Scene {
         WindowGroup {
             LoginView()
+                .environmentObject(userModel)
         }
     }
 }

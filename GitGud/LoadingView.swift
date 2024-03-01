@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LoadingView: View {
+    
+    var result: String?
+    
     var body: some View {
         ZStack {
             Color(.background).ignoresSafeArea()
@@ -16,10 +19,12 @@ struct LoadingView: View {
                 .scaleEffect(1.5)
                 .foregroundColor(.text)
                 .monospaced()
+        }.onAppear {
+            print(result ?? "")
         }
     }
 }
 
-#Preview {
-    LoadingView()
-}
+//#Preview {
+//    LoadingView()
+//}

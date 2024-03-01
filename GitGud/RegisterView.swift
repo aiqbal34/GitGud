@@ -9,10 +9,15 @@ import SwiftUI
 
 struct RegisterView: View {
     
+    
+    @EnvironmentObject var userModel: UserModel
+    
     @State var email = ""
     @State var password = ""
     @State var reEnterpPssword = ""
     @FocusState var isKeyBoard: Bool
+    
+    @State var move_to_NameMajorView: Bool = false
     
     
     var body: some View {
@@ -70,6 +75,8 @@ struct RegisterView: View {
                                 if password == reEnterpPssword && email.count != 0 {
                                     await create_Account(email: email, password: password)
                                 }
+                                userModel.email = email
+                                move_to_NameMajorView = true
                             }
                         }
                         .padding(.trailing, 35)
@@ -83,10 +90,11 @@ struct RegisterView: View {
             }.onTapGesture {
                 isKeyBoard = false
             }
+            .navigationDestination(isPresented: $move_to_NameMajorView) {
+                NameMajorView()
+                    .environmentObject(userModel)
+            }
         }
     }
 }
 
-#Preview {
-    RegisterView()
-}
