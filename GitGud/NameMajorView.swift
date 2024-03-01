@@ -51,17 +51,6 @@ struct NameMajorView: View {
                 .padding()
                 
                 
-                HStack {
-                    TextField("Email", text: $email)
-                        .frame(width: 200)
-                        .foregroundColor(.text)
-                        .fontDesign(.monospaced)
-                        .focused($isKeyBoard)
-                }
-                Rectangle()
-                    .frame(width: 200, height: 2)
-                    .foregroundColor(.text)
-                    .padding(.bottom, 40)
                 Spacer()
                 HStack {
                     Spacer()

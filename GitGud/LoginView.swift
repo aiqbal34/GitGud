@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     
-    
+    @EnvironmentObject var userModel: UserModel
     
     @State var userName = ""
     @State var password = ""
@@ -17,6 +17,7 @@ struct LoginView: View {
     @State var isLoggedin = false
     @State var move_Register = false
     @State var move_Home = false
+    @State var result: String? = ""
     
     var body: some View {
         NavigationStack {
@@ -41,13 +42,14 @@ struct LoginView: View {
                         .frame(width: 200, height: 2)
                         .foregroundColor(.text)
                         .padding(.bottom)
-                    HStack {
+            
                         SecureField("Password", text: $password)
                             .frame(width: 200)
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
                             .focused($isKeyBoard)
-                    }
+                            .textContentType(.password)
+
                     Rectangle()
                         .frame(width: 200, height: 2)
                         .foregroundColor(.text)
@@ -57,7 +59,8 @@ struct LoginView: View {
                         
                         Task {
                             do {
-                                try await userSignIn(email: userName, password: password)
+                                 result = try await userSignIn(email: userName, password: password)
+                                
                                 move_Home = true
                             } catch let error as Error {
                                 print(error.localizedDescription)
@@ -88,9 +91,10 @@ struct LoginView: View {
                 
                 .navigationDestination(isPresented: $move_Register){
                     RegisterView()
+                        .environmentObject(userModel)
                 }
                 .navigationDestination(isPresented: $move_Home) {
-                    LoadingView()
+                    LoadingView(result: result)
                 }
             }.onTapGesture {
                 isKeyBoard = false
