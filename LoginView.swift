@@ -1,0 +1,106 @@
+//
+//  SwiftUIView.swift
+//  GitGud
+//
+//  Created by Aariz Iqbal on 2/24/24.
+//
+
+import SwiftUI
+
+struct LoginView: View {
+    
+    
+    
+    @State var userName = ""
+    @State var password = ""
+    @FocusState var isKeyBoard: Bool
+    @State var isLoggedin = false
+    @State var move_Register = false
+    @State var move_Home = false
+    
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color(.background)
+                    .ignoresSafeArea()
+                VStack {
+                    Text("Sign in")
+                        .font(.system(size: 24))
+                        .foregroundColor(.text)
+                        .fontDesign(.monospaced)
+                        .padding(.bottom)
+                        .fontWeight(.bold)
+                    HStack {
+                        TextField("Username", text: $userName)
+                            .frame(width: 200)
+                            .foregroundColor(.text)
+                            .fontDesign(.monospaced)
+                            .focused($isKeyBoard)
+                    }
+                    Rectangle()
+                        .frame(width: 200, height: 2)
+                        .foregroundColor(.text)
+                        .padding(.bottom)
+                    HStack {
+                        SecureField("Password", text: $password)
+                            .frame(width: 200)
+                            .foregroundColor(.text)
+                            .fontDesign(.monospaced)
+                            .focused($isKeyBoard)
+                    }
+                    Rectangle()
+                        .frame(width: 200, height: 2)
+                        .foregroundColor(.text)
+                        .padding(.bottom, 40)
+                    Button("Login") {
+                        // this function allows the user to login is in the api file
+                        
+                        Task {
+                            do {
+                                try await userSignIn(email: userName, password: password)
+                                move_Home = true
+                            } catch let error as Error {
+                                print(error.localizedDescription)
+                            }
+                            
+                        }
+                        
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
+                    .foregroundColor(.text)
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                    .padding(.bottom)
+                    
+                    Button("Create Account") {
+                        move_Register = true
+                        
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
+                    .foregroundColor(.text)
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                }
+                
+                .navigationDestination(isPresented: $move_Register){
+                    RegisterView()
+                }
+                .navigationDestination(isPresented: $move_Home) {
+                    LoadingView()
+                }
+            }.onTapGesture {
+                isKeyBoard = false
+            }
+            
+        }
+    }
+}
+
+
+#Preview {
+    LoginView()
+}
