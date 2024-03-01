@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E329E782B91BB760053A5AD /* ConnectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E329E772B91BB760053A5AD /* ConnectionsView.swift */; };
 		4E8C4EFE2B8ACCCF0049F2B3 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */; };
 		4E8C4F022B8AD58C0049F2B3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */; };
 		4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E329E772B91BB760053A5AD /* ConnectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsView.swift; sourceTree = "<group>"; };
 		4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		4E8C4F012B8AD58C0049F2B3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */,
 				AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */,
 				ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */,
+				4E329E772B91BB760053A5AD /* ConnectionsView.swift */,
 				AB5A95192B8D20AF00689A11 /* FindMembersView.swift */,
 				ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */,
 				ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */,
@@ -341,6 +344,7 @@
 			files = (
 				4E8C4F022B8AD58C0049F2B3 /* SettingsView.swift in Sources */,
 				AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */,
+				4E329E782B91BB760053A5AD /* ConnectionsView.swift in Sources */,
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
 				ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */,
 				ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */,
