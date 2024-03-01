@@ -75,7 +75,12 @@ struct RegisterView: View {
                         Button("Next") {
                             Task {
                                 if password == reEnterpPssword && email.count != 0 {
-                                    await create_Account(email: email, password: password)
+                                    do {
+                                        let result = try await create_Account(email: email, password: password)
+                                        userModel.userID = result ?? "" //error handle here
+                                    }catch {
+                                        print("Error as \(error)")
+                                    }
                                 }
                                 userModel.email = email
                                 move_to_NameMajorView = true

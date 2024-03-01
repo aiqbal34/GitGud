@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct LoadingView: View {
-    
+    @EnvironmentObject var userModel: UserModel
     var result: String?
+    
+    var getData: Bool
     
     var body: some View {
         ZStack {
@@ -20,7 +22,13 @@ struct LoadingView: View {
                 .foregroundColor(.text)
                 .monospaced()
         }.onAppear {
-            print(result ?? "")
+            Task {
+                if (getData) {
+                    // implement getData
+                } else {
+                    try await postData(userData: userModel, urlString: "createBasicAccount")
+                }
+            }
         }
     }
 }

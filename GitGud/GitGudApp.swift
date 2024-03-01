@@ -24,6 +24,7 @@ struct GitGudApp: App {
         WindowGroup {
             LoginView()
                 .environmentObject(userModel)
+           
         }
     }
 }
