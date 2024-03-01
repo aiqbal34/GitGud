@@ -1,4 +1,4 @@
-# MileStone 1 Notes
+# MileStone 2 Notes
 
 
 ## Third party libraries
@@ -16,7 +16,7 @@ We will have our roommates test the app and tell us how easy it was to make an a
 ## Trello Board
 https://trello.com/b/xOBGAbyp/maszina-board
 
-# Sprint Planning 2
+# Sprint Planning 3
 
 ## Project Description
 Our app revolutionizes team formation for computer science projects. With customizable profiles and a swipe-based interface akin to dating apps, users effortlessly find like-minded teammates based on tech expertise. Whether it's for hackathons or startup ventures, our app simplifies collaboration, providing a streamlined platform for tech professionals to connect and innovate.
@@ -34,38 +34,30 @@ In our meeting we discussed our possible options for the backend and settled on 
 
 ### Aariz Iqbal:
 Done:
-- Set up GitHub Repo
-- Researched options for backend and settled on CloudKit
-- Created Figma UI Views for app
-
-To Do:
 - Implement registration process for user
 - Create backend and database
+
+To Do:
+
 
 Blocks:
 None
 
 ### Isa Bukhari
 Done:
-- Researched options for backend and settled on CloudKit
-- Created Figma UI Views for app
-- Updated trello board
-- Recorded meeting notes
+- Implement Settings Page UI
 
 To Do:
-- Implement Settings Page UI
+
 
 Blocks:
 - None
 
 ### Sajid Hussein
 Done:
-- Researched options for backend and settled on CloudKit
-- Created Figma UI Views for app
-- Whiteboarded database architecture for app
-
-To Do:
 - Implement home view UI flow
+To Do:
+
 
 Blocks:
 - None
