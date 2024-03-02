@@ -47,7 +47,8 @@ struct FindMembersView: View {
                             .background(Color.secondaryBackground)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .navigationDestination(isPresented: $isFindMembers){
-                                HomeMatchingView()
+                                HomeMatchingView(userList: allPeople)
+                                    .environmentObject(UserModel())
                             }
                         Spacer()
                     }

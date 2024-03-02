@@ -4,6 +4,7 @@
 //
 //  Created by Aariz Iqbal on 2/28/24.
 //
+var allPeople: [UserModel] = []
 
 let allSkills: [String] = [
         "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
@@ -37,18 +38,13 @@ import FirebaseFirestore
 import FirebaseAuth
 import Firebase
 
-struct UserData: Decodable {
-    let name: String
-    let phone: Int
-    let id: String
-}
 
 
-func fetchData() async throws -> UserData {
+
+func fetchData() async throws -> [UserModel] {
     guard let url = URL(string: "http://127.0.0.1:5000") else {
         throw URLError(.badURL)
     }
-
     do {
         let (data, response) = try await URLSession.shared.data(from: url)
         
@@ -56,7 +52,8 @@ func fetchData() async throws -> UserData {
             throw URLError(.badServerResponse)
         }
         let decoder = JSONDecoder()
-        return try decoder.decode(UserData.self, from: data)
+        do {try print(decoder.decode([UserModel].self, from: data)) } catch { print("Failed") }
+        return try decoder.decode([UserModel].self, from: data) // Decode into an array of UserModel
     } catch {
         throw error
     }
@@ -116,15 +113,18 @@ func create_Account(email: String, password: String) async throws -> String? {
 
 
 
-class UserModel: ObservableObject, Encodable {
+class UserModel: ObservableObject, Codable {
     var name: String
     var phone: String
     var userID: String
     var major: String
     var university: String
-    var teams: Array<Member>
+    var teams: Array<UserModel>
     var experience: String
-    var requests: [Member]
+    var connections: Array<UserModel>
+    var teamConnections: Array<UserModel>
+    var requests: Array<UserModel>
+    var teamRequests: Array<UserModel>
     var techStack: [String]
     var email: String
     // add requests   [Member]
@@ -141,7 +141,10 @@ class UserModel: ObservableObject, Encodable {
         self.university = ""
         self.teams = []
         self.experience = ""
+        self.connections = []
+        self.teamConnections = []
         self.requests = []
+        self.teamRequests = []
         self.techStack = []
         self.email = ""
     }
