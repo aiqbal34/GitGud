@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
+    @EnvironmentObject var userModel: UserModel
+    
     @State private var selectedTags: Set<String> = []
     @State private var searchText: String = ""
     @State var experience = ""

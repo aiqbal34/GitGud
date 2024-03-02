@@ -8,24 +8,31 @@
 import SwiftUI
 
 struct NavigationBar: View {
+    
+   
+    
+    @EnvironmentObject var userModel: UserModel
+     var userList: [UserModel]
+    
     @State private var selectedTab = "Find Matches"
-    init() {
-        let appearance = UITabBarAppearance()
-        appearance.backgroundColor = UIColor(named: "SecondaryBackground") 
-
-        // Use this appearance when the tab bar is in any state
-        UITabBar.appearance().standardAppearance = appearance
-
-        // Use this appearance when the tab bar scroll edge appearance is in any state (for example, when the tab bar is scrolled off the screen on iPhone in landscape)
-        if #available(iOS 15.0, *) {
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
-    }
+//    init() {
+//        let appearance = UITabBarAppearance()
+//        appearance.backgroundColor = UIColor(named: "SecondaryBackground") 
+//
+//        // Use this appearance when the tab bar is in any state
+//        UITabBar.appearance().standardAppearance = appearance
+//
+//        // Use this appearance when the tab bar scroll edge appearance is in any state (for example, when the tab bar is scrolled off the screen on iPhone in landscape)
+//        if #available(iOS 15.0, *) {
+//            UITabBar.appearance().scrollEdgeAppearance = appearance
+//        }
+//    }
 
      
     var body: some View {
             TabView(selection: $selectedTab) {
-                HomeMatchingView()
+                HomeMatchingView(userList: userList)
+                    .environmentObject(userModel)
                     .tabItem {
                         Label("Find Matches", systemImage: "magnifyingglass")
                     }
@@ -37,7 +44,9 @@ struct NavigationBar: View {
                     }
                     .tag("Team Builder")
                 
-                Text("Profile View")
+                
+                SettingsView()
+                    .environmentObject(userModel)
                     .tabItem {
                         Label("Profile", systemImage: "person")
 
@@ -49,7 +58,7 @@ struct NavigationBar: View {
         }
 }
 
-#Preview {
-    NavigationBar()
-        .modelContainer(for: Item.self, inMemory: true)
-}
+//#Preview {
+//    NavigationBar()
+//        .modelContainer(for: Item.self, inMemory: true)
+//}
