@@ -83,6 +83,43 @@ func postData(userData: UserModel, urlString: String) async throws {
     }
 }
 
+func sendReqToAiModel(description: AiResponseString, urlString: String) async throws {
+    guard let url = URL(string: "http://127.0.0.1:5000/\(urlString)") else {
+        throw URLError(.badURL)
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    let encoder = JSONEncoder()
+    do {
+        request.httpBody = try encoder.encode(description)
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+
+        let decoder = JSONDecoder()
+        let decodedResponse = try decoder.decode(AiResponseString.self, from: data)
+        print(decodedResponse)
+    
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
+//Struct for sending the user input to the ai model
+struct AiResponseString: Codable {
+    var projectName: String
+    var response: String
+    var teamSize: Int
+    var projectType: String
+}
+
 
 //this function allows the user to signin
 func userSignIn(email: String, password: String) async throws -> String? {
