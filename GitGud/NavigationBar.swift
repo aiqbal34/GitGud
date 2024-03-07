@@ -55,6 +55,7 @@ struct NavigationBar: View {
             }
             .foregroundColor(Color.text)
             .accentColor(Color.text)
+            .navigationBarBackButtonHidden()
         }
 }
 
