@@ -11,7 +11,8 @@ struct LoadingView: View {
     @EnvironmentObject var userModel: UserModel
     
     @State var move_to_Home = false
-    @State var result: [UserModel] = []
+    @State var userList: [UserModel] = []
+    @State var currUserID: String
     
     var getData: Bool
     
@@ -28,19 +29,31 @@ struct LoadingView: View {
                 Task {
                     if (getData) {
                         //pull the currenct users information
-                        print("hello")
-                        result = try await fetchData()
-                        print(result)
+                        do {
+                            userList = try await fetchUsersForHomePage(currUser: currUserID)
+                            try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser",currUser: currUserID))
+                        } catch {
+                            print(error)
+                        }
+                        
+                        
                     } else {
-                        try await postData(userData: userModel, urlString: "createBasicAccount")
-                        result = try await fetchData()
+                        do {
+                            try await saveNewAccount(userData: userModel, urlString: "createBasicAccount")
+                            userList = try await fetchUsersForHomePage(currUser: currUserID)
+                            try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser", currUser: currUserID))
+                        }catch {
+                            print(error)
+                        }
                     }
-
+                    userModel.printModel()
                     move_to_Home = true
                 }
+                
             }
             .navigationDestination(isPresented: $move_to_Home) {
-                NavigationBar(userList: result)
+                
+                NavigationBar(userList: userList)
                     .environmentObject(userModel)
             }
         }

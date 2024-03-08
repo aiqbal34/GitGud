@@ -63,7 +63,7 @@ struct PhoneInputView: View {
                 isKeyBoard = false
             }
             .navigationDestination(isPresented: $move_to_loading_view) {
-                LoadingView(getData: false)
+                LoadingView(currUserID: userModel.userID, getData: false)
                     .environmentObject(userModel)
             }
         }

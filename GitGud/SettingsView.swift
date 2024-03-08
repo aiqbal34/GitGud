@@ -20,11 +20,11 @@ struct SettingsView: View {
             List {
                 
                 Section(header: Text("Account Information")){
-                    TextField("Username", text: $userName)
+                    TextField(userModel.name, text: $userName)
                     TextField("Password", text: $password)
-                    TextField("Email", text: $email)
-                    TextField("University", text: $university)
-                    TextField("Major", text: $major)
+                    TextField(userModel.email, text: $email)
+                    TextField(userModel.university, text: $university)
+                    TextField(userModel.major, text: $major)
                 }
                 .listRowBackground(Color.secondaryBackground)
                 .foregroundColor(Color.text)
@@ -66,7 +66,9 @@ struct SettingsView: View {
             .listStyle(InsetGroupedListStyle())
             .searchable(text: $searchText)
             .navigationTitle("Settings")
-        }
+        }.onAppear(
+            
+        )
     }
 }
 

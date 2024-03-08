@@ -52,6 +52,13 @@ struct NavigationBar: View {
 
                     }
                     .tag("Profile")
+                
+                ConnectionsView()
+                    .environmentObject(userModel)
+                    .tabItem {
+                        Label("Connections", systemImage: "network")
+                    }
+                    .tag("Connections")
             }
             .foregroundColor(Color.text)
             .accentColor(Color.text)

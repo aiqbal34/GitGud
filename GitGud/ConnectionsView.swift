@@ -14,13 +14,15 @@ struct ConnectionsView: View {
     @State var viewSelection = "Connections"
     var selectionOptions = ["Connections", "Requests"]
     
+    @EnvironmentObject var userModel: UserModel
+    
     var body: some View {
-        NavigationStack{
+       
             ZStack {
                 Color.background.edgesIgnoringSafeArea(.all)
                 VStack{
                     List {
-                        Picker("Select Major", selection: $viewSelection) {
+                        Picker("", selection: $viewSelection) {
                             ForEach(selectionOptions, id: \.self) { item in
                                 Text(item)
                                     .foregroundColor(.blue) // Change the text color
@@ -37,6 +39,7 @@ struct ConnectionsView: View {
                         }
                         if (viewSelection == "Requests") {
                             RequestsView()
+                                .environmentObject(userModel)
                         }
                         
                         
@@ -45,13 +48,13 @@ struct ConnectionsView: View {
                     .foregroundColor(Color.text)
                 }
             }
-        }
+        
     }
 }
 struct Connections: View {
     @State var connections = ["Sally", "Bob", "Rob", "John"]
     @State var teamConnections = ["StartUp1", "HackathonTeam", "BestBuddies"]
-    @State var moveToTeamDetailView = true
+    @State var moveToTeamDetailView = false
     @State var selectedTeam = ""
     var body: some View {
         
@@ -94,7 +97,7 @@ struct TeamDetailView: View {
 }
 
 struct RequestsView: View {
-    @State var requests = ["Sam", "Rick", "Richard", "Morty"]
+    @EnvironmentObject var userModel: UserModel
     @State var teamRequests = ["BestTeam", "TeamHackers", "Buddies"]
     
     //These two values are for the picker
@@ -103,8 +106,8 @@ struct RequestsView: View {
     var body: some View {
         
         Section(header: Text("Requests")){
-            ForEach(requests, id: \.self) { member in
-                Text(member)
+            ForEach(userModel.requests, id: \.self) { member in
+                Text("\(member.name) \n \(member.email)")
             }
             .listRowBackground(Color.secondaryBackground)
         }

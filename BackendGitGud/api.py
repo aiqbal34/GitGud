@@ -57,7 +57,6 @@ db = firestore.client()
 @app.route('/')
 def get_collection():
     # Reference to the "private" collection
-    print(os.environ.get("OPENAI_API_KEY"))
     private_ref = db.collection('private')
 
     # Retrieve documents from the collection
@@ -66,13 +65,15 @@ def get_collection():
     # Accumulate documents into a list
     collection_data = []
     for doc in docs:
-        collection_data.append(doc.to_dict())
+        docDict = doc.to_dict()
+        if docDict['userID'] != request.args.get('currUser'):
+            collection_data.append(docDict)
 
     # Return the list as a JSON response
     return jsonify(collection_data)
 
 @app.route('/createBasicAccount', methods=['POST'])
-def test_putting_function():
+def createBasicAccountinDB():
     
     body_data = request.data
     print(body_data)
@@ -85,11 +86,49 @@ def test_putting_function():
         'message': "Successful"
         })
 
+@app.route('/getCurrentUser')
+def getCurrentUser():
+    currUserID = request.args.get('currUser')
+    # Assuming 'currUser' is a field in the 'private' document
+    doc_ref = db.collection('private').document(currUserID)
+    doc_snapshot = doc_ref.get()
+    print(doc_snapshot.to_dict())
+    # Check if the document exists
+    if doc_snapshot.exists:
+        user_data = doc_snapshot.to_dict()
+        return jsonify(user_data)
+    else:
+        return jsonify({'error': 'User not found'}), 404
+
+#TODO
+@app.route('/match')
+def sendMatchToRequest():
+    currUserID =  request.args.get('currUser')
+    sentUserID =  request.args.get('sentUser')
+    
+    currRef = db.collection('private').document(currUserID)
+    currRefDict = currRef.get().to_dict()
+    
+    sentRef = db.collection('private').document(sentUserID)
+    sentRefDict = sentRef.get().to_dict()
+    
+    sentRefDict['requests'].append(currRefDict)
+    
+    sentRef.update(sentRefDict)
+    
+    
+    
+    return jsonify({
+        'message': 'Successful'
+    })
 
 
+
+
+# AI SECTION *************************************************
 
 def extract_data(Members) -> list[dict]:
-    
+    print(Member)
     memberList = []
     MemberList = Members.split("Member")
     MemberList.pop(0)
@@ -153,6 +192,7 @@ messages = [
     )
     
     generated_message = completion.choices[0].message.content
+    print(generated_message)
      
     print(extract_data(completion.choices[0].message.content))
     
@@ -164,4 +204,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-
+#[{'number': '1', 'skills': 
+# ['Experienced', 'Skills', 'JavaScript', 'React', 'Nodejs', 'APIs', 'Git\n\n'], 'experienceLevel': '1'}, 
+# {'number': '2', 'skills': ['Experienced', 'Skills', 'UIUX', 'Design', 'User', 'Research', 'Wireframing', 'Prototyping', 'User', 'Empathy\n\n'], 'experienceLevel': '2'}, 
+# {'number': '3', 'skills': ['Medium', 'Skills', 'Python', 'Django', 'SQL', 'Docker', 'Agile'], 'experienceLevel': '3'}]
