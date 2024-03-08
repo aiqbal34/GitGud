@@ -26,7 +26,7 @@ https://www.figma.com/file/yob2jpxYQR4JvoPlybnWfp/MasZina?type=design&node-id=0-
 
 
 ### Meeting Notes
-In our meeting we discussed an the flow of tream builder feature and how to handle different uses cases. 
+In our meeting we discussed an the flow of tream builder feature and how to handle different uses cases. we discussed the design and implementation of a team builder feature that leverages GPT for enhancing the process of finding team members and auto-filling skills. We outlined a user-centric approach beginning with project leaders providing a detailed project description. We decided how to handle the backend implemention for the feature.
 
 ### Individual tasks:
 
@@ -61,8 +61,9 @@ Blocks:
 Done:
 - Fixed UI bugs
 - Helped implement and create the connectinsview
+  
 To Do:
-- polsih the ui and fix bugs
+- polishh the ui and fix bugs
 - implement connectionView Functionality
 
 Blocks:
