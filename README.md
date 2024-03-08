@@ -16,7 +16,7 @@ We will have our roommates test the app and tell us how easy it was to make an a
 ## Trello Board
 https://trello.com/b/xOBGAbyp/maszina-board
 
-# Sprint Planning 3
+# Sprint Planning 4
 
 ## Project Description
 Our app revolutionizes team formation for computer science projects. With customizable profiles and a swipe-based interface akin to dating apps, users effortlessly find like-minded teammates based on tech expertise. Whether it's for hackathons or startup ventures, our app simplifies collaboration, providing the ideal platform to create your custom team that matches your needs and vision.
@@ -33,12 +33,12 @@ In our meeting we discussed an alternative option for our backend based on our n
 
 ### Aariz Iqbal:
 Done:
-- Created the backend and database 
-- Created authorization UI flow
-- Implemented the registration process
+- worked on the ai api and finished connecting all the views
+- added the matching feature
+- fixed bugs in the ui
 
 To Do:
-- Fetch and display user profiles from the database
+- fix more bugs in the ui and work on the filterstion feature when doing a make team
 
 
 Blocks:
