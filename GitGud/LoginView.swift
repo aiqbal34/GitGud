@@ -94,7 +94,7 @@ struct LoginView: View {
                         .environmentObject(userModel)
                 }
                 .navigationDestination(isPresented: $move_Home) {
-                    LoadingView(getData: true)
+                    LoadingView(currUserID: result ?? "", getData: true)
                 }
             }.onTapGesture {
                 isKeyBoard = false

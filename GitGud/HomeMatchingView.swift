@@ -111,7 +111,13 @@ struct HomeMatchingView: View {
                         
                         HStack{
                             Button("Match") {
-                                
+                                Task {
+                                    let sentUser = UserModel()
+                                    sentUser.hardCopy(user: userList[0])
+                                    try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
+                                    userList.removeFirst()
+                                    
+                                }
                             }
                             .foregroundColor(Color.text)
                             .frame(width: 130, height: 64)
