@@ -45,13 +45,14 @@ None
 
 ### Isa Bukhari
 Done:
-- Researched backend option to Firebase
-- Implemented Settings Page UI
-- Implemented EnterOTPView
+- Researched Actors and how to implement
+- Fixed UI bugs
+- Created connections view and tab for requests
 
 To Do:
-- Create a connection View
 - Polish Overall UI
+- Implement accept request functionality
+- Fix prompt for AI api request
 
 
 Blocks:
