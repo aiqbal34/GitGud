@@ -17,7 +17,12 @@ enum ExpierenceLevel: String, CaseIterable, Identifiable, Encodable {
 struct FindMembersView: View {
     @ObservedObject var viewModel: TeamMembersViewModel
     @State private var isFindMembers: Bool = false
-
+    @State var currentMember: [String?] = ["Find Member"]
+    @State private var filteredList: [UserModel] = []
+    
+    
+    // onappear change name if flag
+    
     
     var body: some View {
         NavigationStack{
@@ -28,53 +33,59 @@ struct FindMembersView: View {
                         Section(header: Text("Member \(index + 1)")
                             .foregroundColor(Color.text)
                             .font(.title3)) {
-                            
-                            Picker("Experience Level:", selection: $viewModel.members[index].experienceLevel) {
-                                ForEach(ExpierenceLevel.allCases, id: \.self) { level in
-                                    Text(level.rawValue).tag(level)
-                                    
+                                
+                                Picker("Experience Level:", selection: $viewModel.members[index].experienceLevel) {
+                                    ForEach(ExpierenceLevel.allCases, id: \.self) { level in
+                                        Text(level.rawValue).tag(level)
+                                        
+                                    }
                                 }
+                                
+                                TechStackEntryView(member: $viewModel.members[index])
+                                HStack{
+                                    Spacer()
+                                    Button("Find Member \(Image.init(systemName: "plus.magnifyingglass"))") {
+                                        let currentSkills = viewModel.members[index].techStack
+                                        let currentExperienceLevel = viewModel.members[index].experienceLevel.rawValue
+                                        
+    
+                                        Task {
+                                            do {
+                                                filteredList = try await fetchFilteredList(skills: currentSkills, experienceLevel: currentExperienceLevel)
+                                                isFindMembers = true
+                                            } catch {
+                                                print(error)
+                                            }
+                                        }
+                                    }
+                                    .navigationDestination(isPresented: $isFindMembers){
+                                        HomeMatchingView(userList: filteredList)
+                                            .environmentObject(UserModel())
+                                    }
+                                    Spacer()
+                                }
+                                
                             }
-                            
-                            TechStackEntryView(member: $viewModel.members[index])
-                        }
-                        .listRowBackground(Color.secondaryBackground)
+                            .listRowBackground(Color.secondaryBackground)
                     }
-                    HStack{
-                        Spacer()
-                        Button("Find Members", action: { isFindMembers = true })
-                            .frame(width: 260, height: 60, alignment: .center)
-                            .background(Color.secondaryBackground)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .navigationDestination(isPresented: $isFindMembers){
-                                HomeMatchingView(userList: allPeople)
-                                    .environmentObject(UserModel())
-                            }
-                        Spacer()
-                    }
-                    .listRowBackground(Color.background)
-                    
                 }
-                
                 .scrollContentBackground(.hidden)
-                
-                
             }
         }
     }
-        
+    
 }
 
 struct TechStackEntryView: View {
     @Binding var member: Member
     @State private var showingSkillsSelection = false
-
-
-
+    
+    
+    
     // This view now presents a SelectionView when adding skills.
     var body: some View {
         VStack {
-
+            
             Button("Add Skills") {
                 showingSkillsSelection.toggle()
             }
@@ -86,7 +97,7 @@ struct TechStackEntryView: View {
                     skill.lowercased().contains(searchText.lowercased())
                 })
             }
-
+            
             // Display selected skills remains unchanged
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {

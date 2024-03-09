@@ -23,7 +23,7 @@ struct NameMajorView: View {
     @State var showMajorSheet = false
     @State var showCollegeSheet = false
     
-    var Colleges = [
+    let Colleges = [
         "University of California, Berkeley",
         "University of California, Los Angeles",
         "University of California, San Diego",

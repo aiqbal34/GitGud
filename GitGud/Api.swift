@@ -63,6 +63,8 @@ func fetchUsersForHomePage(currUser: String) async throws -> [UserModel] {
     }
 }
 
+
+
 func fetchCurrentUsersInformation(urlString: String, currUser: String) async throws -> UserModel {
     guard let url = URL(string: "http://127.0.0.1:5000/\(urlString)?currUser=\(currUser)") else {
         throw URLError(.badURL)
@@ -84,6 +86,34 @@ func fetchCurrentUsersInformation(urlString: String, currUser: String) async thr
         throw error
     }
 }
+
+func fetchFilteredList(skills: [String], experienceLevel: String) async throws -> [UserModel] {
+    var components = URLComponents(string: "http://127.0.0.1:5000/findMember")
+    var queryItems = skills.map { URLQueryItem(name: "skills", value: $0) }
+    queryItems.append(URLQueryItem(name: "experienceLevel", value: experienceLevel))
+    
+    components?.queryItems = queryItems
+    
+    guard let url = components?.url else {
+        throw URLError(.badURL)
+    }
+    
+    let (data, response) = try await URLSession.shared.data(from: url)
+    
+    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        throw URLError(.badServerResponse)
+    }
+    
+    // Decode an array of UserModel from the response data
+    let userModels = try JSONDecoder().decode([UserModel].self, from: data)
+    
+    for element in userModels {
+        element.printModel()
+    }
+    return userModels
+}
+
+
 
 func sendMatch(currUser: String, sentUser: String) async throws {
     guard let url = URL(string: "http://127.0.0.1:5000/match?currUser=\(currUser)&sentUser=\(sentUser)") else {
