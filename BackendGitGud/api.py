@@ -204,26 +204,33 @@ def generate_team():
     decoded_body_data = json.loads(body_data.decode('utf-8'))
     completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
-messages = [
-    {
-        "role": "system",
-        "content": f"I want to build a project. Here are some details about it. I need {decoded_body_data['teamSize']} people working with me. The type of project is a {decoded_body_data['projectType']}. The name of the project is {decoded_body_data['projectName']}. Here is a brief description about what the project does: {decoded_body_data['response']}. What skills do the other members need? Here is a list of skills to choose from {', '.join(map(str, SKILLS))}"
-    },
-    {
-        "role": "user",
-        "content": f"I want you to choose the five most needed skills per member and list the possible experience level they need. If they can be a beginner and still work on it say so. Choose from beginner, medium, experienced. I want you to list it as Member1: Skills Needed: 1, 2, 3, 4, 5. Format your answer like, Member1: (Beginner, Medium, Experienced ), Skills"
-    }
-]
+    messages = [
+        {
+            "role": "system",
+            "content": f"I want to build a project. Here are some details about it. I need {decoded_body_data['teamSize']} people working with me. \
+                        The type of project is a {decoded_body_data['projectType']}. The name of the project is {decoded_body_data['projectName']}. \
+                        Here is a brief description about what the project does: {decoded_body_data['response']}. What skills do the other members need? \
+                        Here is a list of skills to choose from {', '.join(map(str, SKILLS))}"
+        },
+        {
+            "role": "user",
+            "content": f"I want you to choose the five most needed skills per member and list the possible experience level they need.\
+                        If they can be a beginner and still work on it say so. Choose from beginner, medium, experienced. \
+                        I want you to list it as Member1: Skills Needed: 1, 2, 3, 4, 5. \
+                        Format your answer like, Member1: (Beginner, Medium, Experienced ), Skills"
+        }
+    ]
     )
     
     generated_message = completion.choices[0].message.content
     print(generated_message)
+    data = extract_data(completion.choices[0].message.content)
      
-    print(extract_data(completion.choices[0].message.content))
+    print(data)
     
-    return jsonify({
-        'response' : generated_message
-    })
+    return jsonify(
+        data
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

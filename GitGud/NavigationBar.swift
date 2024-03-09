@@ -45,6 +45,14 @@ struct NavigationBar: View {
                     .tag("Team Builder")
                 
                 
+
+                ConnectionsView()
+                    .environmentObject(userModel)
+                    .tabItem {
+                        Label("Connections", systemImage: "network")
+                    }
+                    .tag("Connections")
+                
                 SettingsView()
                     .environmentObject(userModel)
                     .tabItem {
@@ -53,12 +61,6 @@ struct NavigationBar: View {
                     }
                     .tag("Profile")
                 
-                ConnectionsView()
-                    .environmentObject(userModel)
-                    .tabItem {
-                        Label("Connections", systemImage: "network")
-                    }
-                    .tag("Connections")
             }
             .foregroundColor(Color.text)
             .accentColor(Color.text)

@@ -12,11 +12,15 @@ import SwiftUI
 struct TeamBuilderView: View {
     
     @State private var projectName: String = ""
-    @State private var projectType: String = ""
     @State private var projectDescription: String = ""
     @State private var teamSize: Int = 1
     
-    @State private var pickMembersView: Bool = false
+    @State var chosenProjectType = "Choose Project Type"
+    @State var showProjectType = false
+    
+    @State var pickMembersView: Bool = false
+    
+    var projectTypeArray = ["Web App", "IOS App", "Andriod App"]
     
     var array: [String] = ["test 1", "test 2"] // Populate from back-end
     
@@ -50,20 +54,28 @@ struct TeamBuilderView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .horizontal])
                     
-                    Menu{
-                        Button("Web app", action: { projectType = "Web app" })
-                    } label: {
-                        HStack{
-                            Spacer()
-                            Text(projectType)
-                            Spacer()
-                            Image(systemName:"chevron.down")
-                        }
-                        .padding()
-                        .frame(width: 360, height: 50, alignment: .center)
-                        .background(Color.secondaryBackground)
-                        .cornerRadius(5)
-                    }
+                    Button(chosenProjectType) {
+                        showProjectType.toggle()
+                    }.sheet(isPresented: $showProjectType, content: {
+                        SelectionViewSingleItem(allItems: projectTypeArray, itemLabel: {
+                            projecttype in Text(projecttype).onTapGesture {
+                                showProjectType = false
+                                print(projecttype)
+                                chosenProjectType = projecttype
+                            }
+                        }, filterPredicate: { projecttype, searchText in
+                            projecttype.lowercased().contains(searchText.lowercased())
+                        })
+                    })
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
+                    .foregroundColor(.text)
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                  
+                    
+                    
                     
                     Text("Team Size:")
                         .foregroundStyle(Color.text)
@@ -111,19 +123,20 @@ struct TeamBuilderView: View {
                     
                     Button("Find Members"){
                         Task {
-                            let response = AiResponseString(projectName: projectName, response: projectDescription, teamSize: teamSize, projectType: projectType)
-                            try await sendReqToAiModel(description: response, urlString: "generateTeam")
-                            pickMembersView = true }
+                            do {
+                                let response = ProjectBuild(projectName: projectName, response: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
+                                try await sendReqToAiModel(description: response, urlString: "generateTeam")
+                                pickMembersView = true
+                            } catch {
+                                print(error)
+                            }
+                        }
                     }
                     .frame(width: 260, height: 60)
                     .background(Color.secondaryBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.top)
-                    .navigationDestination(isPresented: $pickMembersView){
-                        
-                        FindMembersView(viewModel:
-                                            TeamMembersViewModel(numberOfMembers: teamSize))
-                    }
+
                     
                     
                     Spacer()
@@ -133,6 +146,11 @@ struct TeamBuilderView: View {
                 .ignoresSafeArea(.all)
                 .background(Color.background)
                 
+                
+                .navigationDestination(isPresented: $pickMembersView){
+                    FindMembersView(viewModel:
+                                        TeamMembersViewModel(numberOfMembers: teamSize))
+                }
             }
         }
     }
