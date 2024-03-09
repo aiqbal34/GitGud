@@ -40,7 +40,7 @@ SKILLS = [
 load_dotenv()
 
 
-client = OpenAI()
+# client = OpenAI(api_key='your_api_key_here')
 
 app = Flask(__name__)
 
@@ -76,7 +76,7 @@ def get_collection():
 def createBasicAccountinDB():
     
     body_data = request.data
-    print(body_data)
+    #print(body_data)
     decoded_body_data = json.loads(body_data.decode('utf-8'))
     doc_ref = db.collection('private').document(decoded_body_data['userID'])
     doc_ref.set(decoded_body_data)
@@ -92,7 +92,7 @@ def getCurrentUser():
     # Assuming 'currUser' is a field in the 'private' document
     doc_ref = db.collection('private').document(currUserID)
     doc_snapshot = doc_ref.get()
-    print(doc_snapshot.to_dict())
+    doc_snapshot.to_dict()
     # Check if the document exists
     if doc_snapshot.exists:
         user_data = doc_snapshot.to_dict()
@@ -122,18 +122,43 @@ def sendMatchToRequest():
         'message': 'Successful'
     })
 
+@app.route('/findMember')
+def filterMembers():
+    skills = request.args.getlist('skills')
+    user_experienceLevel = request.args.get('experienceLevel')
+
+    candidates = []
+    users_ref = db.collection('private')
+    docs = users_ref.stream()
+    print(docs)
+
+    for doc in docs:
+        user = doc.to_dict()
+        user_skills = user.get('skills', [])
+        score = sum(skill in user_skills for skill in skills)
+        if 'experienceLevel' in user and user['experienceLevel'] == user_experienceLevel:
+            score += 3
+        candidates.append({'user': user, 'score': score})
+
+    compatible_candidates = sorted(candidates, key=lambda x: x['score'], reverse=True)
+    print("this is the list:", compatible_candidates)
+
+    return jsonify([candidate['user'] for candidate in compatible_candidates])
+
+
+
 
 
 
 # AI SECTION *************************************************
 
 def extract_data(Members) -> list[dict]:
-    print(Member)
+    #print(Member)
     memberList = []
     MemberList = Members.split("Member")
     MemberList.pop(0)
     for responseMember in MemberList:
-        print(responseMember)
+        #print(responseMember)
         memberList.append(Member(responseMember).to_dict())
         
     return memberList
@@ -175,7 +200,7 @@ class Member:
 def generate_team():
     
     body_data = request.data
-    print(body_data)
+    #print(body_data)
     decoded_body_data = json.loads(body_data.decode('utf-8'))
     completion = client.chat.completions.create(
     model="gpt-3.5-turbo",

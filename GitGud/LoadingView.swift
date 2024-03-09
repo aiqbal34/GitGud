@@ -36,7 +36,6 @@ struct LoadingView: View {
                             print(error)
                         }
                         
-                        
                     } else {
                         do {
                             try await saveNewAccount(userData: userModel, urlString: "createBasicAccount")

@@ -8,13 +8,7 @@
 import SwiftUI
 
 
-
-//struct temp{
-//    var skills: [String] = ["React", "Python","sex","porn","React","mobile","Assemaskomdkoamskodm"]
-//}
 struct HomeMatchingView: View {
-    
-    
     
     @EnvironmentObject var userModel: UserModel
     @State var userList: [UserModel]

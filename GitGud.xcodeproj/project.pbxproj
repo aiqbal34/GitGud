@@ -13,12 +13,12 @@
 		4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */; };
 		AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A95192B8D20AF00689A11 /* FindMembersView.swift */; };
 		AB5A95202B8F0A8B00689A11 /* SkillSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */; };
+		AB74E6F02B9BE0520042420E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB74E6EF2B9BE0520042420E /* GoogleService-Info.plist */; };
 		ABA1BB302B8AB75000BF7BB9 /* HomeMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */; };
 		ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */; };
 		ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */; };
 		AC0BDA972B907E9200109CC9 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */; };
 		AC0BDA992B907ED300109CC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA982B907ED300109CC9 /* SettingsView.swift */; };
-		AC0BDA9B2B998A6500109CC9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AC0BDA9A2B998A6500109CC9 /* GoogleService-Info.plist */; };
 		ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */; };
 		ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58D2B8734DE00CB40A7 /* ContentView.swift */; };
 		ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58F2B8734DE00CB40A7 /* Item.swift */; };
@@ -62,12 +62,12 @@
 		4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
 		AB5A95192B8D20AF00689A11 /* FindMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMembersView.swift; sourceTree = "<group>"; };
 		AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillSearchView.swift; sourceTree = "<group>"; };
+		AB74E6EF2B9BE0520042420E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMatchingView.swift; sourceTree = "<group>"; };
 		ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
 		AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
 		AC0BDA982B907ED300109CC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		AC0BDA9A2B998A6500109CC9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Library/Messages/Attachments/62/02/A82ACE19-C8AB-4424-AEEA-4668BB459A2C/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ACECE5882B8734DE00CB40A7 /* GitGud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitGud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudApp.swift; sourceTree = "<group>"; };
 		ACECE58D2B8734DE00CB40A7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -141,6 +141,7 @@
 		ACECE58A2B8734DE00CB40A7 /* GitGud */ = {
 			isa = PBXGroup;
 			children = (
+				AB74E6EF2B9BE0520042420E /* GoogleService-Info.plist */,
 				ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */,
 				AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */,
 				ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */,
@@ -161,7 +162,6 @@
 				ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */,
 				ACECE58F2B8734DE00CB40A7 /* Item.swift */,
 				ACECE5D72B900B2500CB40A7 /* LoadingView.swift */,
-				AC0BDA9A2B998A6500109CC9 /* GoogleService-Info.plist */,
 				4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */,
 				ACECE5912B8734DF00CB40A7 /* Assets.xcassets */,
 				ACECE5962B8734DF00CB40A7 /* GitGud.entitlements */,
@@ -315,7 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACECE5952B8734DF00CB40A7 /* Preview Assets.xcassets in Resources */,
-				AC0BDA9B2B998A6500109CC9 /* GoogleService-Info.plist in Resources */,
+				AB74E6F02B9BE0520042420E /* GoogleService-Info.plist in Resources */,
 				4E8C4EFE2B8ACCCF0049F2B3 /* SplashScreen.storyboard in Resources */,
 				ACECE5922B8734DF00CB40A7 /* Assets.xcassets in Resources */,
 			);
