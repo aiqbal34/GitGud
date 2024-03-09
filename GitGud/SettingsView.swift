@@ -14,6 +14,8 @@ struct SettingsView: View {
     @State var email = ""
     @State var university = ""
     @State var major = ""
+    @State var showSkillSheet = false
+    @State var chosenSkills: [String] = []
 
     var body: some View {
         NavigationStack {
@@ -21,7 +23,6 @@ struct SettingsView: View {
                 
                 Section(header: Text("Account Information")){
                     TextField(userModel.name, text: $userName)
-                    TextField("Password", text: $password)
                     TextField(userModel.email, text: $email)
                     TextField(userModel.university, text: $university)
                     TextField(userModel.major, text: $major)
@@ -41,34 +42,59 @@ struct SettingsView: View {
                     .pickerStyle(SegmentedPickerStyle()) // Apply MenuPickerStyle
                     .padding() // Add padding around the picker
                 }
-                .listRowBackground(Color.secondaryBackground)
-                .foregroundColor(Color.text)
-                
-                
-                Section(header: Text("Skill tags")){
-                    ForEach(tags, id: \.self) { tag in
-                        Toggle(tag, isOn: Binding(
-                            get: { self.selectedTags.contains(tag) },
-                            set: { isSelected in
-                                if isSelected {
-                                    self.selectedTags.insert(tag)
-                                } else {
-                                    self.selectedTags.remove(tag)
-                                }
-                            }
-                        ))
-                        
-                    }
+                .onAppear {
+                    experience = userModel.experience
                 }
                 .listRowBackground(Color.secondaryBackground)
                 .foregroundColor(Color.text)
+                
+                HStack {
+                    Spacer()
+                    Button("Choose Skills") {
+                        showSkillSheet.toggle()
+                    }.sheet(isPresented: $showSkillSheet, content: {
+                        SelectionView(selectedItems: $chosenSkills, allItems: allSkills, itemLabel: { skill in
+                            Text(skill)
+                        }, filterPredicate: { skill, searchText in
+                            skill.lowercased().contains(searchText.lowercased())
+                        })
+                    })
+                    .frame(width: 200, height: 50)
+                    .background(Color.secondaryBackground)
+                    .foregroundColor(.text)
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                    .padding(.bottom)
+                    Spacer()
+                }
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
+                    ForEach(chosenSkills, id: \.self) { skill in
+                        HStack {
+                            Text(skill)
+                                .padding()
+                                .background(Color.secondaryBackground)
+                                .foregroundColor(.text)
+                                .fontDesign(.monospaced)
+                                .clipShape(Capsule())
+                            
+                            Button(action: {
+                            }) {
+                                Image(systemName: "x.circle")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
+                }
+                .padding()
             }
             .listStyle(InsetGroupedListStyle())
             .searchable(text: $searchText)
             .navigationTitle("Settings")
-        }.onAppear(
-            
-        )
+            .onAppear {
+                chosenSkills = userModel.techStack
+            }
+        }
     }
 }
 

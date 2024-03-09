@@ -128,14 +128,22 @@ func saveNewAccount(userData: UserModel, urlString: String) async throws {
 
 //AI Model Part
 
-struct AiResponseString: Codable {
+//Struct for sending the user input to the ai model
+struct ProjectBuild: Codable {
     var projectName: String
     var response: String
     var teamSize: Int
     var projectType: String
 }
 
-func sendReqToAiModel(description: AiResponseString, urlString: String) async throws {
+struct AiResponse: Codable {
+    var number: String
+    var skills: [String]
+    var experienceLevel: String
+}
+
+//check why it is not decodable
+func sendReqToAiModel(description: ProjectBuild, urlString: String) async throws -> [AiResponse] {
     guard let url = URL(string: "http://127.0.0.1:5000/\(urlString)") else {
         throw URLError(.badURL)
     }
@@ -155,8 +163,9 @@ func sendReqToAiModel(description: AiResponseString, urlString: String) async th
         }
         
         let decoder = JSONDecoder()
-        let decodedResponse = try decoder.decode(AiResponseString.self, from: data)
+        let decodedResponse = try decoder.decode([AiResponse].self, from: data)
         print(decodedResponse)
+        return decodedResponse
         
     } catch {
         // Log or handle the error in a meaningful way
@@ -164,7 +173,7 @@ func sendReqToAiModel(description: AiResponseString, urlString: String) async th
         throw error
     }
 }
-//Struct for sending the user input to the ai model
+
 
 
 

@@ -38,7 +38,7 @@ struct TechStackView: View {
                         .fontDesign(.monospaced)
                         .padding(.top)
                         .fontWeight(.bold)
-                    Picker("Select Major", selection: $experience) {
+                    Picker("Select Experience", selection: $experience) {
                         ForEach(experienceLevels, id: \.self) { item in
                             Text(item)
                                 .foregroundColor(.blue) // Change the text color
