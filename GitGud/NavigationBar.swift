@@ -12,9 +12,9 @@ struct NavigationBar: View {
    
     
     @EnvironmentObject var userModel: UserModel
-     var userList: [UserModel]
-    
-    @State private var selectedTab = "Find Matches"
+    var userList: [UserModel]
+ 
+    @State var selectedTab: String
 //    init() {
 //        let appearance = UITabBarAppearance()
 //        appearance.backgroundColor = UIColor(named: "SecondaryBackground") 
@@ -39,6 +39,7 @@ struct NavigationBar: View {
                     .tag("Find Matches")
 
                 TeamBuilderView()
+                    .environmentObject(userModel)
                     .tabItem {
                         Label("Team Builder", systemImage: "cube.fill")
                     }

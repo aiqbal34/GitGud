@@ -19,6 +19,11 @@ struct FindMembersView: View {
     @State private var isFindMembers: Bool = false
     @State var currentMember: [String?] = ["Find Member"]
     @State private var filteredList: [UserModel] = []
+    @State var moveToTeamBuilderView = false
+    @State var userList: [UserModel] = []
+    @EnvironmentObject var userModel: UserModel
+    
+    //   @EnvironmentObject var userModel: UserModel
     
     
     // onappear change name if flag
@@ -48,7 +53,7 @@ struct FindMembersView: View {
                                         let currentSkills = viewModel.members[index].techStack
                                         let currentExperienceLevel = viewModel.members[index].experienceLevel.rawValue
                                         
-    
+                                        
                                         Task {
                                             do {
                                                 filteredList = try await fetchFilteredList(skills: currentSkills, experienceLevel: currentExperienceLevel)
@@ -58,10 +63,7 @@ struct FindMembersView: View {
                                             }
                                         }
                                     }
-                                    .navigationDestination(isPresented: $isFindMembers){
-                                        HomeMatchingView(userList: filteredList)
-                                            .environmentObject(UserModel())
-                                    }
+                                    
                                     Spacer()
                                 }
                                 
@@ -70,6 +72,33 @@ struct FindMembersView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
+            }
+            .navigationViewStyle(.stack)
+            .sheet(isPresented: $isFindMembers, content: {
+                NavigationStack {
+                    HomeMatchingView(userList: filteredList)
+                        .navigationBarItems(trailing: Button("Close") {
+                            isFindMembers = false
+                        })
+                        .environmentObject(userModel)
+                }
+            })
+            .navigationBarBackButtonHidden()
+            .navigationDestination(isPresented: $moveToTeamBuilderView, destination: {
+                NavigationBar(userList: userList, selectedTab: "Team Builder")
+                
+            })
+            
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button("Back") {
+                        Task {
+                            userList = try await fetchUsersForHomePage(currUser: userModel.userID)
+                            moveToTeamBuilderView = true
+                        }
+                        
+                    }
+                }
             }
         }
     }

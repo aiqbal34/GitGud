@@ -14,6 +14,8 @@ struct LoadingView: View {
     @State var userList: [UserModel] = []
     @State var currUserID: String
     
+
+
     var getData: Bool
     
     var body: some View {
@@ -40,6 +42,7 @@ struct LoadingView: View {
                         do {
                             try await saveNewAccount(userData: userModel, urlString: "createBasicAccount")
                             userList = try await fetchUsersForHomePage(currUser: currUserID)
+                         
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser", currUser: currUserID))
                         }catch {
                             print(error)
@@ -52,8 +55,9 @@ struct LoadingView: View {
             }
             .navigationDestination(isPresented: $move_to_Home) {
                 
-                NavigationBar(userList: userList)
+                NavigationBar(userList: userList, selectedTab: "Find Matches")
                     .environmentObject(userModel)
+                  
             }
         }
     }

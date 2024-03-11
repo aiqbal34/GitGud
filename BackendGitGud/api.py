@@ -40,7 +40,7 @@ SKILLS = [
 load_dotenv()
 
 
-# client = OpenAI(api_key='your_api_key_here')
+client = OpenAI()
 
 app = Flask(__name__)
 

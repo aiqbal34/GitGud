@@ -38,6 +38,73 @@ import FirebaseFirestore
 import FirebaseAuth
 import Firebase
 
+struct Team: Codable {
+    var people: [String]
+    var emails: [String]
+    var project: ProjectBuild
+    
+}
+
+class UserModel: ObservableObject, Codable, Equatable, Hashable {
+    static func == (lhs: UserModel, rhs: UserModel) -> Bool {
+        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(userID)
+    }
+    
+    var name: String
+    var phone: String
+    var userID: String
+    var major: String
+    var university: String
+    var teams: [UserModel]
+    var experience: String
+    var connections: [UserModel]
+    var requests: [UserModel]
+    var teamConnections: [Team]
+    var teamRequests: [Team]
+    var techStack: [String]
+    var email: String
+
+    init() {
+        self.name = ""
+        self.phone = ""
+        self.userID = ""
+        self.major = ""
+        self.university = ""
+        self.teams = []
+        self.experience = ""
+        self.connections = []
+        self.teamConnections = []
+        self.requests = []
+        self.teamRequests = []
+        self.techStack = []
+        self.email = ""
+    }
+
+    func hardCopy(user: UserModel) {
+        self.name = user.name
+        self.phone = user.phone
+        self.userID = user.userID
+        self.major = user.major
+        self.university = user.university
+        self.teams = user.teams
+        self.experience = user.experience
+        self.connections = user.connections
+        self.teamConnections = user.teamConnections
+        self.requests = user.requests
+        self.teamRequests = user.teamRequests
+        self.techStack = user.techStack
+        self.email = user.email
+    }
+
+    func printModel() {
+        print(self.name)
+        print(self.email)
+    }
+}
 
 //initial fecthing of data
 
@@ -161,7 +228,7 @@ func saveNewAccount(userData: UserModel, urlString: String) async throws {
 //Struct for sending the user input to the ai model
 struct ProjectBuild: Codable {
     var projectName: String
-    var response: String
+    var description: String
     var teamSize: Int
     var projectType: String
 }
@@ -236,66 +303,7 @@ func create_Account(email: String, password: String) async throws -> String? {
 
 
 
-class UserModel: ObservableObject, Codable, Equatable, Hashable {
-    static func == (lhs: UserModel, rhs: UserModel) -> Bool {
-        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
-    }
 
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(userID)
-    }
-    
-    var name: String
-    var phone: String
-    var userID: String
-    var major: String
-    var university: String
-    var teams: [UserModel]
-    var experience: String
-    var connections: [UserModel]
-    var teamConnections: [UserModel]
-    var requests: [UserModel]
-    var teamRequests: [UserModel]
-    var techStack: [String]
-    var email: String
-
-    init() {
-        self.name = ""
-        self.phone = ""
-        self.userID = ""
-        self.major = ""
-        self.university = ""
-        self.teams = []
-        self.experience = ""
-        self.connections = []
-        self.teamConnections = []
-        self.requests = []
-        self.teamRequests = []
-        self.techStack = []
-        self.email = ""
-    }
-
-    func hardCopy(user: UserModel) {
-        self.name = user.name
-        self.phone = user.phone
-        self.userID = user.userID
-        self.major = user.major
-        self.university = user.university
-        self.teams = user.teams
-        self.experience = user.experience
-        self.connections = user.connections
-        self.teamConnections = user.teamConnections
-        self.requests = user.requests
-        self.teamRequests = user.teamRequests
-        self.techStack = user.techStack
-        self.email = user.email
-    }
-
-    func printModel() {
-        print(self.name)
-        print(self.email)
-    }
-}
 
 /*
  TextField("Username", text: $userName)
