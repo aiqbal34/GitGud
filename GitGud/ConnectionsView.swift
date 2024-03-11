@@ -36,6 +36,7 @@ struct ConnectionsView: View {
                         
                         if (viewSelection == "Connections"){
                             Connections()
+                                .environmentObject(userModel)
                         }
                         if (viewSelection == "Requests") {
                             RequestsView()
@@ -56,14 +57,23 @@ struct Connections: View {
     @State var teamConnections = ["StartUp1", "HackathonTeam", "BestBuddies"]
     @State var moveToTeamDetailView = false
     @State var selectedTeam = ""
+    
+    @EnvironmentObject var userModel: UserModel
     var body: some View {
         
         
             Section(header: Text("Connections")){
-                ForEach(connections, id: \.self) { member in
-                    Text(member)
+                if userModel.connections.count > 0 {
+                    ForEach(userModel.connections, id: \.self) { member in
+                        VStack {
+                            Text("\(member.name)")
+                            Text("\(member.email)")
+                        }
+                    }
+                    .listRowBackground(Color.secondaryBackground)
+                } else {
+                    Text("No Connections")
                 }
-                .listRowBackground(Color.secondaryBackground)
             }
             
             Section(header: Text("Teams")){
@@ -106,12 +116,66 @@ struct RequestsView: View {
     var body: some View {
         
         Section(header: Text("Requests")){
-            ForEach(userModel.requests, id: \.self) { member in
-                Text("\(member.name) \n \(member.email)")
+            if userModel.requests.count > 0 {
+                ForEach(userModel.requests.indices, id: \.self) { index in
+                    let member = userModel.requests[index]
+                    
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("\(member.name)")
+                            Text("\(member.email)")
+                        }
+                        Spacer()
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                Task {
+                                    do {
+                                        try await accpetUser(currUser: userModel.userID, acceptUser: member.userID)
+                                        
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                                userModel.requests.remove(at: index)
+                                userModel.connections.append(member)
+                                
+                            }) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.green)
+                            }
+                            Button(action: {
+                                member.printModel()
+                                Task {
+                                    do {
+                                        try await rejectUser(currUser: userModel.userID, rejectedUser: member.userID)
+                                        // Remove the rejected user from the requests array
+                                        
+                                    } catch {
+                                        print(error)
+                                    }
+                                }
+                                for element in userModel.requests {
+                                    if element == member {
+                                        if let index = userModel.requests.firstIndex(of: element) {
+                                            userModel.requests.remove(at: index)
+                                        }
+                                    }
+                                }
+                            }) {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
+                    .padding(.vertical, 8)
+                    .listRowBackground(Color.secondaryBackground)
+                }
+                .listRowBackground(Color.secondaryBackground)
+            } else {
+                Text("No Requests")
             }
-            .listRowBackground(Color.secondaryBackground)
         }
-        
+        //TODO
         Section(header: Text("Teams Requests")){
             ForEach(teamRequests, id: \.self) { team in
                 Text(team)

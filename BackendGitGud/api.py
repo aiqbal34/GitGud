@@ -100,7 +100,6 @@ def getCurrentUser():
     else:
         return jsonify({'error': 'User not found'}), 404
 
-#TODO
 @app.route('/match')
 def sendMatchToRequest():
     currUserID =  request.args.get('currUser')
@@ -121,6 +120,57 @@ def sendMatchToRequest():
     return jsonify({
         'message': 'Successful'
     })
+    
+@app.route('/rejectRequest')
+def rejectRequest():
+    currUserID = request.args.get('currUser')
+    rejectUserID = request.args.get('rejectedUser')
+    currRef = db.collection('private').document(currUserID)
+    currRefDict = currRef.get().to_dict()
+    
+    requests = currRefDict['requests']
+    
+    removedRequest = [request for request in requests if request['userID'] != rejectUserID]
+    
+    currRefDict['requests'] = removedRequest
+    currRef.update(currRefDict)
+    
+    return jsonify({
+        'message': 'Successful'
+    })
+    
+@app.route('/acceptRequestAccepter')
+def acceptRequest():
+    currUserID = request.args.get('currUser')
+    acceptUserID = request.args.get('acceptUser')
+    print(currUserID)
+    print(acceptUserID)  
+    currRef = db.collection('private').document(currUserID)
+    currRefDict = currRef.get().to_dict()
+    acceptRef = db.collection('private').document(acceptUserID)
+    acceptRefDict = acceptRef.get().to_dict()
+    if currRefDict is None or acceptRefDict is None:
+        return jsonify({'error': 'User not found'}), 404
+    currRefRequests = currRefDict['requests']
+    currRefRequests = [currRefRequest for currRefRequest in currRefRequests if currRefRequest.get('userID') != acceptUserID]
+    currRefDict['requests'] = currRefRequests
+    currRefDict['connections'].append(acceptRefDict)
+    
+    currRef.set(currRefDict)
+    
+   
+    
+    currRefDict['requests'] = []
+    currRefDict['connections'] = []
+    acceptRefDict['connections'].append(currRefDict)
+    
+    acceptRef.set(acceptRefDict)
+    
+    
+    
+    return jsonify({'message': 'Successful'}), 200
+
+
 
 @app.route('/findMember')
 def filterMembers():
@@ -217,7 +267,7 @@ def generate_team():
             "content": f"I want you to choose the five most needed skills per member and list the possible experience level they need.\
                         If they can be a beginner and still work on it say so. Choose from beginner, medium, experienced. \
                         I want you to list it as Member1: Skills Needed: 1, 2, 3, 4, 5. \
-                        Format your answer like, Member1: (Beginner, Medium, Experienced ), Skills"
+                        Format your answer like, Member1: Beginner or Medium or Advanced , Skills: List Only Five skills"
         }
     ]
     )
