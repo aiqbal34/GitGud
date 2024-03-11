@@ -9,19 +9,18 @@ import Foundation
 import SwiftUI
 
 
-enum ExpierenceLevel: String, CaseIterable, Identifiable, Encodable {
-    case Beginner, Intermidate, Advanced
-    var id: Self { self }
-}
 
 struct FindMembersView: View {
-    @ObservedObject var viewModel: TeamMembersViewModel
     @State private var isFindMembers: Bool = false
     @State var currentMember: [String?] = ["Find Member"]
     @State private var filteredList: [UserModel] = []
     @State var moveToTeamBuilderView = false
     @State var userList: [UserModel] = []
     @EnvironmentObject var userModel: UserModel
+    
+    @State var aiResponse: [AiResponse]
+    var experienceLevels: [String] = ["Medium", "Experienced", "Beginner"]
+    
     
     //   @EnvironmentObject var userModel: UserModel
     
@@ -34,26 +33,26 @@ struct FindMembersView: View {
             ZStack {
                 Color.background.edgesIgnoringSafeArea(.all)
                 List {
-                    ForEach(0..<viewModel.members.count, id: \.self) { index in
-                        Section(header: Text("Member \(index + 1)")
+                    ForEach(aiResponse.indices, id: \.self) { index in
+                        // Access the element using the index
+                        let member = $aiResponse[index] // Using $ to access the binding
+
+                        // Your code inside the ForEach loop
+                        Section(header: Text("Member")
                             .foregroundColor(Color.text)
                             .font(.title3)) {
-                                
-                                Picker("Experience Level:", selection: $viewModel.members[index].experienceLevel) {
-                                    ForEach(ExpierenceLevel.allCases, id: \.self) { level in
-                                        Text(level.rawValue).tag(level)
-                                        
+                                Picker("Experience Level:", selection: $aiResponse[index].experienceLevel) {
+                                    ForEach(experienceLevels, id: \.self) { level in
+                                        Text(level)
                                     }
                                 }
-                                
-                                TechStackEntryView(member: $viewModel.members[index])
-                                HStack{
+                                TechStackEntryView(member: member) // Pass the binding
+                                HStack {
                                     Spacer()
-                                    Button("Find Member \(Image.init(systemName: "plus.magnifyingglass"))") {
-                                        let currentSkills = viewModel.members[index].techStack
-                                        let currentExperienceLevel = viewModel.members[index].experienceLevel.rawValue
-                                        
-                                        
+                                    Button(action: {
+                                        let currentSkills: [String] = member.wrappedValue.skills // Accessing the wrapped value
+                                        let currentExperienceLevel: String = member.wrappedValue.experienceLevel
+
                                         Task {
                                             do {
                                                 filteredList = try await fetchFilteredList(skills: currentSkills, experienceLevel: currentExperienceLevel)
@@ -62,13 +61,17 @@ struct FindMembersView: View {
                                                 print(error)
                                             }
                                         }
+                                    }) {
+                                        HStack {
+                                            Text("Find Member")
+                                            Image(systemName: "plus.magnifyingglass")
+                                        }
                                     }
-                                    
                                     Spacer()
                                 }
-                                
                             }
                             .listRowBackground(Color.secondaryBackground)
+                    
                     }
                 }
                 .scrollContentBackground(.hidden)
@@ -106,7 +109,7 @@ struct FindMembersView: View {
 }
 
 struct TechStackEntryView: View {
-    @Binding var member: Member
+    @Binding var member: AiResponse
     @State private var showingSkillsSelection = false
     
     
@@ -120,7 +123,7 @@ struct TechStackEntryView: View {
             }
             .sheet(isPresented: $showingSkillsSelection) {
                 // Replace SkillsSelectionView with SelectionView for skill selection
-                SelectionView(selectedItems: $member.techStack, allItems: allSkills, itemLabel: { skill in
+                SelectionView(selectedItems: $member.skills, allItems: allSkills, itemLabel: { skill in
                     Text(skill)
                 }, filterPredicate: { skill, searchText in
                     skill.lowercased().contains(searchText.lowercased())
@@ -130,12 +133,8 @@ struct TechStackEntryView: View {
             // Display selected skills remains unchanged
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(member.techStack, id: \.self) { skill in
-                        Text(skill)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .clipShape(Capsule())
+                    ForEach(member.skills, id: \.self) { skill in
+                        CustomBadge(label: skill)
                     }
                 }
             }
@@ -147,6 +146,24 @@ struct TechStackEntryView: View {
 
 
 
+struct CustomBadge: View {
+    @Environment(\.colorScheme) var colorScheme
+    
+    var label: String
+    var backgroundColor: Color?
+    var foregroundColor: Color?
+
+    var body: some View {
+        Text(label)
+            .font(.caption)
+            .fontWeight(.semibold)
+            .padding(.vertical, 4)
+            .padding(.horizontal, 8)
+            .background(Color.background)
+            .foregroundColor(foregroundColor ?? (colorScheme == .dark ? .text : .text))
+            .cornerRadius(30)
+    }
+}
 
 
 
@@ -154,7 +171,7 @@ struct TechStackEntryView: View {
 
 struct Member: Encodable {
     var techStack: [String] = []
-    var experienceLevel: ExpierenceLevel = .Beginner
+    
 }
 
 class TeamMembersViewModel: ObservableObject {
@@ -174,5 +191,5 @@ class TeamMembersViewModel: ObservableObject {
 
 
 #Preview {
-    FindMembersView(viewModel: TeamMembersViewModel(numberOfMembers: 2))
+    FindMembersView(aiResponse: [])
 }

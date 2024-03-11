@@ -13,7 +13,7 @@ SKILLS = [
         "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
         "Python", "Java", "C++", "PHP", "Ruby", "Go", "Node.js",
         "Assembly Language", "Swift", "Kotlin", "C#", "Perl",
-        "R", "Scala", "TypeScript", "Dart", "Haskell",
+         "Scala", "TypeScript", "Dart", "Haskell",
         "Bootstrap", "jQuery", "Express.js", "Django", "Spring",
         "Laravel", "TensorFlow", "PyTorch", "Keras",
         "Git", "Agile", "Waterfall", "Unit testing",
@@ -30,10 +30,10 @@ SKILLS = [
         "User Research", "Usability Testing", "Information Architecture",
         "User Interface (UI) Design", "User Experience (UX) Writing", "Wireframing",
         "Prototyping", "Interaction Design", "Visual Design", "Accessibility",
-        "UI/UX Design Tools (e.g., Figma, Adobe XD)", "User Empathy", "Usability Heuristics",
+        "UI/UX Design", "User Empathy", "Usability Heuristics",
         "User Persona Development", "Card Sorting", "A/B Testing", "User Flows",
         "Design Thinking", "Iterative Design", "User Interface (UI) Patterns",
-        "Microinteractions", "Visual Communication", "Color Theory", "Typography"
+        "Microinteractions", "Visual Communication", "Color Theory", "Typography", "SwiftUI", "XCode", "iOS Development"
 ]
 
 # Load environment variables from .env file
@@ -202,33 +202,30 @@ def filterMembers():
 
 # AI SECTION *************************************************
 
-def extract_data(Members) -> list[dict]:
-    #print(Member)
-    memberList = []
-    MemberList = Members.split("Member")
-    MemberList.pop(0)
-    for responseMember in MemberList:
-        #print(responseMember)
-        memberList.append(Member(responseMember).to_dict())
-        
-    return memberList
-
-
-        
 class Member:
     def __init__(self, string: str):
         self.number, self.skills, self.experienceLevel = self.extract_attributes(string)
 
     def extract_attributes(self, string: str):
-        
         number = string[0]
-        filteredString = "".join(char if char.isalnum() or char.isspace() else "" for char in string)
-        filteredString = filteredString.replace("Skills:", "")
-        stringarr = filteredString.split(" ")
-        experienceLevel = stringarr.pop(0)
-        skills = stringarr
-        for skill in skills:
-            skill.strip()
+        skills = []
+        experienceLevel = ""
+
+        string = string.replace("Skills: ", "")
+
+        levels = ["Beginner", "Medium", "Experienced"]
+
+        stringarr = string.split(",")
+        print(stringarr)
+
+        for word in stringarr:
+            # Check for the experience level
+            for level in levels:
+                if word.find(level) != -1:
+                    experienceLevel = level
+            # Check for skills
+            if word.strip() in SKILLS:
+                skills.append(word.strip())
 
         return number, skills, experienceLevel
 
@@ -239,7 +236,17 @@ class Member:
         member_dict['experienceLevel'] = self.experienceLevel
         return member_dict
 
-        
+def extract_data(Members) -> list[dict]:
+    memberList = []
+    MemberList = Members.split("Member")
+    MemberList.pop(0)
+    print(MemberList)
+    
+    for responseMember in MemberList:
+        memberList.append(Member(responseMember).to_dict())
+
+    return memberList
+
             
         
 
@@ -267,7 +274,7 @@ def generate_team():
             "content": f"I want you to choose the five most needed skills per member and list the possible experience level they need.\
                         If they can be a beginner and still work on it say so. Choose from beginner, medium, experienced. \
                         I want you to list it as Member1: Skills Needed: 1, 2, 3, 4, 5. \
-                        Format your answer like, Member1: Beginner or Medium or Advanced , Skills: List Only Five skills"
+                        Format your answer like, Member1: Beginner or Medium or experienced , Skills: List Only Five skills, make sure to only choose from {', '.join(map(str, SKILLS))}. Use commas as separators, do not give numbered list"
         }
     ]
     )

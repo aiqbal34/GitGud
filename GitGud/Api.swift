@@ -291,7 +291,7 @@ struct ProjectBuild: Codable {
     var projectType: String
 }
 
-struct AiResponse: Codable {
+struct AiResponse: Codable, Hashable {
     var number: String
     var skills: [String]
     var experienceLevel: String
