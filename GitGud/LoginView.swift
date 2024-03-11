@@ -96,6 +96,7 @@ struct LoginView: View {
                 .navigationDestination(isPresented: $move_Home) {
                     LoadingView(currUserID: result ?? "", getData: true)
                 }
+                .navigationBarBackButtonHidden()
             }.onTapGesture {
                 isKeyBoard = false
             }
