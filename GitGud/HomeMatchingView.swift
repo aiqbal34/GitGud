@@ -8,13 +8,14 @@
 import SwiftUI
 
 
+
 struct HomeMatchingView: View {
     
     @EnvironmentObject var userModel: UserModel
     @State var userList: [UserModel]
     
     @State private var getNext = false
-
+    
     var body: some View {
         NavigationStack{
             ZStack{
@@ -33,7 +34,7 @@ struct HomeMatchingView: View {
                             
                             Text(userList[0].name)
                                 .font(.system(size: 45))
-                                .foregroundColor(Color.white)
+                                .foregroundColor(Color.text)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.top, 60)
                             
@@ -41,7 +42,7 @@ struct HomeMatchingView: View {
                             
                         }
                         
-                        ScrollView{
+                        List{
                             HStack{
                                 Image(systemName: "graduationcap.fill")
                                     .font(.system(size: 24))
@@ -50,6 +51,7 @@ struct HomeMatchingView: View {
                                     .font(.system(size: 24))
                                 Spacer()
                             }
+                            .listRowBackground(Color.secondaryBackground)
                             .padding()
                             
                             HStack{
@@ -61,6 +63,7 @@ struct HomeMatchingView: View {
                                 Spacer()
                                 
                             }
+                            .listRowBackground(Color.secondaryBackground)
                             .padding()
                             HStack{
                                 Image(systemName: "eyeglasses")
@@ -71,6 +74,7 @@ struct HomeMatchingView: View {
                                 Spacer()
                                 
                             }
+                            .listRowBackground(Color.secondaryBackground)
                             .padding()
                             HStack{
                                 Image(systemName: "laptopcomputer")
@@ -80,27 +84,25 @@ struct HomeMatchingView: View {
                                     .foregroundColor(Color.text)
                                     .font(.system(size: 24))
                                 
-                                Spacer()
                                 
                             }
+                            .listRowBackground(Color.secondaryBackground)
                             .padding()
                             
-                            let gridItems = [GridItem(.adaptive(minimum: 100))]
-                            LazyVGrid(columns: gridItems, spacing: 10) {
-                                ForEach(userList[0].techStack , id: \.self) { skill in
-                                    Text(skill)
-                                        .padding()
-                                        .background(Color.blue)
-                                        .foregroundColor(.white)
-                                        .clipShape(Capsule())
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 8) {
+                                ForEach(userList[0].techStack, id: \.self) { skill in
+                                    SkillTagView(skill: skill)
                                 }
+                                
                             }
-                            .padding(.horizontal)
+                            .listRowBackground(Color.secondaryBackground)
+                            .padding()
                             
                         }
-                        .frame(width: 360,height: 450)
-                        .background(Color.secondaryBackground)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .scrollContentBackground(.hidden)
+                        .frame(width: 400, height: 460)
+                        
+                        
                         
                         
                         HStack{
@@ -114,7 +116,7 @@ struct HomeMatchingView: View {
                                 }
                             }
                             .foregroundColor(Color.text)
-                            .frame(width: 130, height: 64)
+                            .frame(width: 160, height: 64)
                             .background(Color.secondaryBackground)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding(.horizontal)
@@ -123,7 +125,7 @@ struct HomeMatchingView: View {
                                 userList.removeFirst()
                             }
                             .foregroundColor(Color.text)
-                            .frame(width: 130, height: 64)
+                            .frame(width: 160, height: 64)
                             .background(Color.secondaryBackground)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding()
@@ -145,6 +147,22 @@ struct HomeMatchingView: View {
             
         }
         
+    }
+}
+
+
+struct SkillTagView: View {
+    var skill: String
+    
+    var body: some View {
+        Text(skill)
+            .font(.system(size: 16))
+            .padding(.vertical, 8)
+            .padding(.horizontal, 20)
+            .background(Capsule().fill(Color.gray.opacity(0.2)))
+            .overlay(
+                Capsule().strokeBorder(Color.gray, lineWidth: 0.5)
+            )
     }
 }
 

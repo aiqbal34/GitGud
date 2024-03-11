@@ -74,7 +74,7 @@ struct TeamBuilderView: View {
                             projecttype.lowercased().contains(searchText.lowercased())
                         })
                     })
-                    .frame(width: 200, height: 50)
+                    .frame(width: 360, height: 50)
                     .background(Color.secondaryBackground)
                     .foregroundColor(.text)
                     .fontDesign(.monospaced)
