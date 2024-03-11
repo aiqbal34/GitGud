@@ -107,7 +107,7 @@ struct HomeMatchingView: View {
                             Button("Match") {
                                 Task {
                                     let sentUser = UserModel()
-                                    sentUser.hardCopy(user: userList[0])
+                                    sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
                                     try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
                                     userList.removeFirst()
                                     

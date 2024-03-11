@@ -8,7 +8,6 @@ struct SettingsView: View {
     @State private var searchText: String = ""
     @State var experience = ""
     var experienceLevels = ["low", "medium", "high"]
-    let tags = ["Swift", "Java", "Python", "C++", "Rust"]
     @State var userName = ""
     @State var password = ""
     @State var email = ""

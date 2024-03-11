@@ -11,6 +11,8 @@ import SwiftUI
 
 struct TeamBuilderView: View {
     
+
+    
     @State private var projectName: String = ""
     @State private var projectDescription: String = ""
     @State private var teamSize: Int = 1
@@ -18,11 +20,16 @@ struct TeamBuilderView: View {
     @State var chosenProjectType = "Choose Project Type"
     @State var showProjectType = false
     
-    @State var pickMembersView: Bool = false
+    @State var move_toAiLosingView: Bool = false
+    
+    @State var project: ProjectBuild = ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: "")
+    @EnvironmentObject var userModel: UserModel
+    
+    
     
     var projectTypeArray = ["Web App", "IOS App", "Andriod App"]
     
-    var array: [String] = ["test 1", "test 2"] // Populate from back-end
+    @State var isError = false
     
     var body: some View {
         NavigationStack{
@@ -120,15 +127,20 @@ struct TeamBuilderView: View {
                         .padding(4)
                         .cornerRadius(5)
                     
+                    if (isError) {
+                        Text("Please fill all the fields before moving on")
+                            .foregroundStyle(Color.red)
+                            .monospaced()
+                            .font(.custom("HelveticaNeue", size: 10))
+                    }
                     
                     Button("Find Members"){
                         Task {
-                            do {
-                                let response = ProjectBuild(projectName: projectName, response: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
-                                try await sendReqToAiModel(description: response, urlString: "generateTeam")
-                                pickMembersView = true
-                            } catch {
-                                print(error)
+                            if !projectName.isEmpty && !projectDescription.isEmpty && teamSize > 0 && chosenProjectType != "Choose Project Type" {
+                                project = ProjectBuild(projectName: projectName, description: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
+                                move_toAiLosingView = true
+                            } else {
+                               isError = true
                             }
                         }
                     }
@@ -147,9 +159,10 @@ struct TeamBuilderView: View {
                 .background(Color.background)
                 
                 
-                .navigationDestination(isPresented: $pickMembersView){
-                    FindMembersView(viewModel:
-                                        TeamMembersViewModel(numberOfMembers: teamSize))
+                .navigationDestination(isPresented: $move_toAiLosingView){
+                    AILoadingView(projectBuild: project)
+                        .environmentObject(userModel)
+                     
                 }
             }
         }

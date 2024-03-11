@@ -19,9 +19,10 @@
 		ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */; };
 		AC0BDA972B907E9200109CC9 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */; };
 		AC0BDA992B907ED300109CC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA982B907ED300109CC9 /* SettingsView.swift */; };
+		ACC1A3A12B9D2958000CF095 /* AILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */; };
+		ACC1A3A32B9D4D0A000CF095 /* PickMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3A22B9D4D0A000CF095 /* PickMemberView.swift */; };
 		ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */; };
 		ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58D2B8734DE00CB40A7 /* ContentView.swift */; };
-		ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58F2B8734DE00CB40A7 /* Item.swift */; };
 		ACECE5922B8734DF00CB40A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
 		ACECE5952B8734DF00CB40A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5942B8734DF00CB40A7 /* Preview Assets.xcassets */; };
 		ACECE5A12B8734DF00CB40A7 /* GitGudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE5A02B8734DF00CB40A7 /* GitGudTests.swift */; };
@@ -68,10 +69,11 @@
 		ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
 		AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
 		AC0BDA982B907ED300109CC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AILoadingView.swift; sourceTree = "<group>"; };
+		ACC1A3A22B9D4D0A000CF095 /* PickMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickMemberView.swift; sourceTree = "<group>"; };
 		ACECE5882B8734DE00CB40A7 /* GitGud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitGud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudApp.swift; sourceTree = "<group>"; };
 		ACECE58D2B8734DE00CB40A7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		ACECE58F2B8734DE00CB40A7 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		ACECE5912B8734DF00CB40A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACECE5942B8734DF00CB40A7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ACECE5962B8734DF00CB40A7 /* GitGud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GitGud.entitlements; sourceTree = "<group>"; };
@@ -143,11 +145,12 @@
 			children = (
 				AB74E6EF2B9BE0520042420E /* GoogleService-Info.plist */,
 				ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */,
-				AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */,
+				ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */,
 				ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */,
 				4E329E772B91BB760053A5AD /* ConnectionsView.swift */,
+				ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */,
+				ACC1A3A22B9D4D0A000CF095 /* PickMemberView.swift */,
 				AB5A95192B8D20AF00689A11 /* FindMembersView.swift */,
-				ABA1BB2F2B8AB75000BF7BB9 /* HomeMatchingView.swift */,
 				ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */,
 				ACECE58D2B8734DE00CB40A7 /* ContentView.swift */,
 				ACECE5BF2B8AB83C00CB40A7 /* LoginView.swift */,
@@ -160,8 +163,8 @@
 				4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */,
 				ACECE5C92B8D3E4100CB40A7 /* NameMajorView.swift */,
 				ACECE5CB2B8D8F6A00CB40A7 /* TechStackView.swift */,
-				ACECE58F2B8734DE00CB40A7 /* Item.swift */,
 				ACECE5D72B900B2500CB40A7 /* LoadingView.swift */,
+				AB5A951F2B8F0A8B00689A11 /* SkillSearchView.swift */,
 				4E8C4EFD2B8ACCCF0049F2B3 /* SplashScreen.storyboard */,
 				ACECE5912B8734DF00CB40A7 /* Assets.xcassets */,
 				ACECE5962B8734DF00CB40A7 /* GitGud.entitlements */,
@@ -350,13 +353,14 @@
 				ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */,
 				ACECE58E2B8734DE00CB40A7 /* ContentView.swift in Sources */,
 				AC0BDA992B907ED300109CC9 /* SettingsView.swift in Sources */,
+				ACC1A3A12B9D2958000CF095 /* AILoadingView.swift in Sources */,
+				ACC1A3A32B9D4D0A000CF095 /* PickMemberView.swift in Sources */,
 				ACECE5C62B8AD53C00CB40A7 /* RegisterView.swift in Sources */,
 				ACECE5D82B900B2500CB40A7 /* LoadingView.swift in Sources */,
 				ACECE5CE2B8FEC2200CB40A7 /* Api.swift in Sources */,
 				ACECE5CC2B8D8F6A00CB40A7 /* TechStackView.swift in Sources */,
 				AC0BDA972B907E9200109CC9 /* EnterOTPView.swift in Sources */,
 				ACECE5C82B8D3D5800CB40A7 /* PhoneInputView.swift in Sources */,
-				ACECE5902B8734DE00CB40A7 /* Item.swift in Sources */,
 				4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */,
 				ACECE5C02B8AB83C00CB40A7 /* LoginView.swift in Sources */,
 				ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */,

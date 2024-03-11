@@ -20,7 +20,7 @@ struct LoginView: View {
     @State var result: String? = ""
     
     var body: some View {
-        NavigationStack {
+       NavigationStack {
             ZStack {
                 Color(.background)
                     .ignoresSafeArea()
@@ -101,7 +101,7 @@ struct LoginView: View {
             }
             
         }
-    }
+   }
 }
 
 
