@@ -209,7 +209,7 @@ def generate_team():
             "role": "system",
             "content": f"I want to build a project. Here are some details about it. I need {decoded_body_data['teamSize']} people working with me. \
                         The type of project is a {decoded_body_data['projectType']}. The name of the project is {decoded_body_data['projectName']}. \
-                        Here is a brief description about what the project does: {decoded_body_data['response']}. What skills do the other members need? \
+                        Here is a brief description about what the project does: {decoded_body_data['description']}. What skills do the other members need? \
                         Here is a list of skills to choose from {', '.join(map(str, SKILLS))}"
         },
         {

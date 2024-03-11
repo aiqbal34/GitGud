@@ -63,6 +63,7 @@ struct NavigationBar: View {
                     .tag("Profile")
                 
             }
+            .background(Color.secondaryBackground)
             .foregroundColor(Color.text)
             .accentColor(Color.text)
             .navigationBarBackButtonHidden()
