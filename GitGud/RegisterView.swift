@@ -77,6 +77,7 @@ struct RegisterView: View {
                                 if password == reEnterpPssword && email.count != 0 {
                                     do {
                                         let result = try await create_Account(email: email, password: password)
+                                        print(result)
                                         userModel.userID = result ?? "" //error handle here
                                     }catch {
                                         print("Error as \(error)")

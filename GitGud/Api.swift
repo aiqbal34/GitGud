@@ -47,9 +47,9 @@ struct Team: Codable {
 
 class UserModel: ObservableObject, Codable, Equatable, Hashable {
     static func == (lhs: UserModel, rhs: UserModel) -> Bool {
-        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+        return lhs.userID == rhs.userID
     }
-
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(userID)
     }
@@ -62,12 +62,12 @@ class UserModel: ObservableObject, Codable, Equatable, Hashable {
     var teams: [UserModel]
     var experience: String
     var connections: [UserModel]
-    var requests: [UserModel]
-    var teamConnections: [Team]
-    var teamRequests: [Team]
-    var techStack: [String]
+    @Published var requests: [UserModel]
+    @Published var teamConnections: [Team]
+    @Published var teamRequests: [Team]
+    @Published var techStack: [String]
     var email: String
-
+    
     init() {
         self.name = ""
         self.phone = ""
@@ -83,7 +83,49 @@ class UserModel: ObservableObject, Codable, Equatable, Hashable {
         self.techStack = []
         self.email = ""
     }
-
+    
+    
+    enum CodingKeys: String, CodingKey {
+        case name, phone, userID, major, university, teams, experience, connections, requests, teamConnections, teamRequests, techStack, email
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        phone = try container.decode(String.self, forKey: .phone)
+        userID = try container.decode(String.self, forKey: .userID)
+        major = try container.decode(String.self, forKey: .major)
+        university = try container.decode(String.self, forKey: .university)
+        teams = try container.decode([UserModel].self, forKey: .teams)
+        experience = try container.decode(String.self, forKey: .experience)
+        connections = try container.decode([UserModel].self, forKey: .connections)
+        requests = try container.decode([UserModel].self, forKey: .requests)
+        teamConnections = try container.decode([Team].self, forKey: .teamConnections)
+        teamRequests = try container.decode([Team].self, forKey: .teamRequests)
+        techStack = try container.decode([String].self, forKey: .techStack)
+        email = try container.decode(String.self, forKey: .email)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(phone, forKey: .phone)
+        try container.encode(userID, forKey: .userID)
+        try container.encode(major, forKey: .major)
+        try container.encode(university, forKey: .university)
+        try container.encode(teams, forKey: .teams)
+        try container.encode(experience, forKey: .experience)
+        try container.encode(connections, forKey: .connections)
+        try container.encode(requests, forKey: .requests)
+        try container.encode(teamConnections, forKey: .teamConnections)
+        try container.encode(teamRequests, forKey: .teamRequests)
+        try container.encode(techStack, forKey: .techStack)
+        try container.encode(email, forKey: .email)
+    }
+    func printModel() {
+         print(self.name)
+         print(self.email)
+     }
     func hardCopy(user: UserModel) {
         self.name = user.name
         self.phone = user.phone
@@ -98,11 +140,6 @@ class UserModel: ObservableObject, Codable, Equatable, Hashable {
         self.teamRequests = user.teamRequests
         self.techStack = user.techStack
         self.email = user.email
-    }
-
-    func printModel() {
-        print(self.name)
-        print(self.email)
     }
 }
 
@@ -187,11 +224,32 @@ func sendMatch(currUser: String, sentUser: String) async throws {
         throw URLError(.badURL)
     }
     
-    let (data, response) = try await URLSession.shared.data(from: url)
+    let (_, response) = try await URLSession.shared.data(from: url)
     guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
         throw URLError(.badServerResponse)
     }
     
+}
+
+func rejectUser(currUser: String, rejectedUser: String) async throws {
+    guard let url = URL(string: "http://127.0.0.1:5000/rejectRequest?currUser=\(currUser)&rejectedUser=\(rejectedUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    let (_, response) = try await URLSession.shared.data(from: url)
+    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        throw URLError(.badServerResponse)
+    }
+}
+func accpetUser(currUser: String, acceptUser: String) async throws {
+    guard let url = URL(string: "http://127.0.0.1:5000/acceptRequestAccepter?currUser=\(currUser)&acceptUser=\(acceptUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    let (_, response) = try await URLSession.shared.data(from: url)
+    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        throw URLError(.badServerResponse)
+    }
 }
 
 
