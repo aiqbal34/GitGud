@@ -13,7 +13,7 @@ struct AILoadingView: View {
     
     @State var pickMembersView = false
     @EnvironmentObject var userModel: UserModel
-  
+    @State var aiResponse: [AiResponse] = []
     
     var body: some View {
         NavigationStack {
@@ -28,7 +28,7 @@ struct AILoadingView: View {
             .onAppear{
                 Task {
                     do {
-                        try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
+                        aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
                         pickMembersView = true
                     } catch {
                         print(error)
@@ -36,8 +36,8 @@ struct AILoadingView: View {
                 }
             }
             .navigationDestination(isPresented: $pickMembersView){
-                FindMembersView(viewModel:
-                                    TeamMembersViewModel(numberOfMembers: projectBuild.teamSize))
+                FindMembersView(aiResponse: aiResponse)
+                                   
                 .environmentObject(userModel)
               
             }
