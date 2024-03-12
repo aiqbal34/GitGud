@@ -11,6 +11,9 @@ import SwiftUI
 
 struct TeamBuilderView: View {
     
+    @State private var imFeelingLucky: Bool = true
+    
+    
     
     
     @State private var projectName: String = ""
@@ -47,7 +50,7 @@ struct TeamBuilderView: View {
                         .lineLimit(1)
                         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                         .padding([.top, .horizontal])
-                    
+                    Divider()
                     TextField("Enter Name", text: $projectName)
                         .padding()
                         .frame(width: 360, height: 50, alignment: .center)
@@ -60,7 +63,7 @@ struct TeamBuilderView: View {
                         .font(.title2)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .horizontal])
-                    
+                    Divider()
                     Button(chosenProjectType) {
                         showProjectType.toggle()
                     }.sheet(isPresented: $showProjectType, content: {
@@ -86,6 +89,7 @@ struct TeamBuilderView: View {
                         .font(.title2)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .horizontal])
+                    Divider()
                     Menu{
                         Button("1", action: { teamSize = 1 })
                         Button("2", action: { teamSize = 2 })
@@ -112,7 +116,7 @@ struct TeamBuilderView: View {
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .horizontal])
-                    
+                    Divider()
                     TextEditor(text: $projectDescription)
                         .foregroundColor(Color.text)
                         .font(.custom("HelveticaNeue", size: 14))
@@ -127,6 +131,9 @@ struct TeamBuilderView: View {
                             .monospaced()
                             .font(.custom("HelveticaNeue", size: 10))
                     }
+                    Toggle("Switch", isOn: $imFeelingLucky)
+                        .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                    
                     
                     Button("Find Members"){
                         Task {
@@ -141,21 +148,22 @@ struct TeamBuilderView: View {
                     .frame(width: 260, height: 60)
                     .background(Color.secondaryBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(.top)
+                
                     Spacer()
                 }
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                .ignoresSafeArea(.all)
-                .background(Color.background)
-                .navigationDestination(isPresented: $move_toAiLosingView){
-                    AILoadingView(projectBuild: project)
-                        .environmentObject(userModel)
-                    
-                }
+            }
+            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+            .ignoresSafeArea(.all)
+            .background(Color.background)
+            .navigationDestination(isPresented: $move_toAiLosingView){
+                AILoadingView(imFeelingLucky: imFeelingLucky, projectBuild: project)
+                    .environmentObject(userModel)
+                
             }
         }
     }
 }
+
 
 
 

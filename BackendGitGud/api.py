@@ -284,8 +284,6 @@ def filterMembers():
         user = doc.to_dict()
         user_skills = user.get('skills', [])
         score = sum(skill in user_skills for skill in skills)
-        if 'experienceLevel' in user and user['experienceLevel'] == user_experienceLevel:
-            score += 3
         candidates.append({'user': user, 'score': score})
 
     compatible_candidates = sorted(candidates, key=lambda x: x['score'], reverse=True)
@@ -365,7 +363,7 @@ def generate_team():
     #print(body_data)
     decoded_body_data = json.loads(body_data.decode('utf-8'))
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gpt-3.5-turbo-0125",
     messages = [
         {
             "role": "system",

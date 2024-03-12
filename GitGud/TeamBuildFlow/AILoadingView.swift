@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AILoadingView: View {
     
+    var imFeelingLucky: Bool
+    
     var projectBuild: ProjectBuild
     
     @State var pickMembersView = false
@@ -26,16 +28,28 @@ struct AILoadingView: View {
                     .monospaced()
             }
             .onAppear{
-                
-                Task {
-                    do {
+                print(imFeelingLucky)
+                if imFeelingLucky {
+                    Task {
                         aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
-                        try await createTeam(currUser: userModel.userID, teamDescription: Team(people: [], ids: [], emails: [], project: projectBuild))
-                        userModel.teamConnections.append(Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild))
-                        foundMembers.foundMembers = Array(repeating: nil, count: aiResponse.count)
+                        for response in aiResponse {
+                            var filteredList = try await fetchFilteredList(skills: response.skills, experienceLevel: response.experienceLevel)
+                            foundMembers.foundMembers.append(filteredList[0])
+                        }
+        
                         pickMembersView = true
-                    } catch {
-                        print(error)
+                    }
+                }else {
+                    Task {
+                        do {
+                            aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
+                            
+                            userModel.teamConnections.append(Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild))
+                            foundMembers.foundMembers = Array(repeating: nil, count: aiResponse.count)
+                            
+                        } catch {
+                            print(error)
+                        }
                     }
                 }
             }

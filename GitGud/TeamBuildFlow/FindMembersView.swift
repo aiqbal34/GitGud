@@ -80,7 +80,7 @@ struct FindMembersView: View {
             .scrollContentBackground(.hidden)
         }
         .onAppear {
-            
+            print(foundMembers.foundMembers)
         }
         .navigationDestination(isPresented: $isFindMembers) {
             MatchingView(userList: filteredList, TeamDescription: teamDescription, pickMember: true, currentMemberIndex: currentIndex)
@@ -102,6 +102,29 @@ struct FindMembersView: View {
                         moveToTeamBuilderView = true
                     }
                     
+                }
+            }
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Button("Finish") {
+                    do {
+                        //change maybe, for now displays all the users, for which the guy has created
+                        for member in foundMembers.foundMembers {
+                            if let name = member?.name, let email = member?.email {
+                                teamDescription.people.append(name)
+                                teamDescription.emails.append(email)
+                            }
+                        }
+                        
+                        Task {
+                            try await createTeam(currUser: userModel.userID, teamDescription: teamDescription)
+                            for member in foundMembers.foundMembers {
+                                try await sendTeamMatch(currUser: userModel.userID, sentUser: member?.userID ?? "", teamDescription: teamDescription)
+                            }
+                            moveToTeamBuilderView = true
+                        }
+                    }catch {
+                        print(error)
+                    }
                 }
             }
         }
