@@ -137,7 +137,69 @@ def rejectRequest():
     
     return jsonify({
         'message': 'Successful'
-    })
+    }), 200
+    
+@app.route('/rejectTeamRequest', methods=['POST'])
+def rejectTeamRequest():
+    currUserID = request.args.get('currUser')
+    currRef = db.collection('private').document(currUserID)
+    currRefDict = currRef.get().to_dict()
+    
+    body_data = request.data
+    
+    team_data = json.loads(body_data.decode('utf-8'))
+    
+    teams = currRefDict['teamRequests']
+    removed_team = [team for team in teams if team_data != team]
+    currRefDict['teamRequests'] = removed_team
+    currRef.update(currRefDict)
+    
+    return jsonify({
+        'message': 'Successful'
+    }), 200
+    
+@app.route('/acceptTeamRequest', methods=['POST'])
+def acceptTeamRequest():
+    currUserID = request.args.get('currUser')
+    currRef = db.collection('private').document(currUserID)
+    currRefDict = currRef.get().to_dict()
+    
+    body_data = request.data
+    
+    team_data = json.loads(body_data.decode('utf-8'))
+    
+    teams = currRefDict['teamRequests']
+    removed_team = [team for team in teams if team_data != team]
+    currRefDict['teamRequests'] = removed_team
+    
+    team_data['people'].append(currRefDict['name'])
+    team_data['emails'].append(currRefDict['email'])
+    team_data['ids'].append(currRefDict['userID'])
+    
+    for ids in team_data['ids']:
+        temp_ref = db.collection('private').document(ids)
+        temp_refDict = temp_ref.get().to_dict()
+        for team in temp_refDict.get('teamConnections', []):
+            if team.get('project', {}).get('projectName') == team_data['project']['projectName']:
+                # Remove the current team connection if the project name matches
+                temp_refDict['teamConnections'].remove(team)
+   #     
+        # Append team_data to the member's teamConnections
+        temp_refDict.setdefault('teamConnections', []).append(team_data)
+        
+        temp_ref.update(temp_refDict)
+                
+    # Ensure that 'teamConnections' in currRefDict is an array
+    currRefDict.setdefault('teamConnections', []).append(team_data)
+    
+    currRef.update(currRefDict)
+    
+    return jsonify({
+        'message': 'Successful'
+    }), 200
+
+    
+    
     
 @app.route('/acceptRequestAccepter')
 def acceptRequest():
@@ -171,6 +233,43 @@ def acceptRequest():
     return jsonify({'message': 'Successful'}), 200
 
 
+#TODO
+@app.route('/sendTeamMatch', methods=['POST'])
+def sendTeamMatch():
+    sentUserID =  request.args.get('sentUser')
+    sentRef = db.collection('private').document(sentUserID)
+    sentRefDict = sentRef.get().to_dict()
+    body_data = request.data
+    
+    team_data = json.loads(body_data.decode('utf-8'))
+
+    sentRefDict['teamRequests'].append(team_data)
+    
+    sentRef.set(sentRefDict)
+    
+    return jsonify({'message': 'Successful'}), 200
+
+
+
+@app.route('/createTeam', methods=['POST'])
+def createTeam():
+    currUserID =  request.args.get('currUser')
+
+    body_data = request.data
+    
+    team_data = json.loads(body_data.decode('utf-8'))
+    
+    currRef = db.collection('private').document(currUserID)
+    currRefDict = currRef.get().to_dict()
+    
+    team_data['people'].append(currRefDict['name'])
+    team_data['emails'].append(currRefDict['email'])
+    team_data['ids'].append(currRefDict['userID'])
+    
+    currRefDict['teamConnections'].append(team_data)
+    
+    currRef.set(currRefDict)
+    return jsonify({'message': 'Successful'}), 200
 
 @app.route('/findMember')
 def filterMembers():
@@ -180,7 +279,6 @@ def filterMembers():
     candidates = []
     users_ref = db.collection('private')
     docs = users_ref.stream()
-    print(docs)
 
     for doc in docs:
         user = doc.to_dict()
@@ -191,9 +289,16 @@ def filterMembers():
         candidates.append({'user': user, 'score': score})
 
     compatible_candidates = sorted(candidates, key=lambda x: x['score'], reverse=True)
-    print("this is the list:", compatible_candidates)
 
-    return jsonify([candidate['user'] for candidate in compatible_candidates])
+    # Extract only the original user dictionaries from the candidates list
+    original_users = [candidate['user'] for candidate in compatible_candidates]
+
+    print("this is the list:", original_users)
+
+    # Continue with the rest of your code...
+
+    # The original_users list contains the user dictionaries sorted by score.
+    return jsonify(original_users)
 
 
 

@@ -230,7 +230,7 @@ struct NameMajorView: View {
                     Button(chosenMajor) {
                         showMajorSheet.toggle()
                     }.sheet(isPresented: $showMajorSheet, content: {
-                        SelectionViewSingleItem(allItems: dropDownItem, itemLabel: {
+                        SearchSingleViewModel(allItems: dropDownItem, itemLabel: {
                             major in Text(major).onTapGesture {
                                 showMajorSheet = false
                                 print(major)
@@ -251,7 +251,7 @@ struct NameMajorView: View {
                     Button(chosenSchool) {
                         showCollegeSheet.toggle()
                     }.sheet(isPresented: $showCollegeSheet, content: {
-                        SelectionViewSingleItem(allItems: Colleges, itemLabel: {
+                        SearchSingleViewModel(allItems: Colleges, itemLabel: {
                             school in Text(school).onTapGesture {
                                 showMajorSheet = false
                                 print(school)
