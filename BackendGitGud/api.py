@@ -183,7 +183,7 @@ def acceptTeamRequest():
             if team.get('project', {}).get('projectName') == team_data['project']['projectName']:
                 # Remove the current team connection if the project name matches
                 temp_refDict['teamConnections'].remove(team)
-        
+   #     
         # Append team_data to the member's teamConnections
         temp_refDict.setdefault('teamConnections', []).append(team_data)
         
