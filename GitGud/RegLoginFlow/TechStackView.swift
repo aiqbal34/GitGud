@@ -57,7 +57,7 @@ struct TechStackView: View {
                     Button("Choose Skills") {
                         showSkillSheet.toggle()
                     }.sheet(isPresented: $showSkillSheet, content: {
-                        SelectionView(selectedItems: $chosenSkills, allItems: allSkills, itemLabel: { skill in
+                        SearchViewModel(selectedItems: $chosenSkills, allItems: allSkills, itemLabel: { skill in
                             Text(skill)
                         }, filterPredicate: { skill, searchText in
                             skill.lowercased().contains(searchText.lowercased())

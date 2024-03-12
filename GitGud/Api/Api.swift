@@ -4,144 +4,13 @@
 //
 //  Created by Aariz Iqbal on 2/28/24.
 //
-var allPeople: [UserModel] = []
 
-let allSkills: [String] = [
-    "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
-    "Python", "Java", "C++", "PHP", "Ruby", "Go", "Node.js",
-    "Assembly Language", "Swift", "Kotlin", "C#", "Perl",
-    "R", "Scala", "TypeScript", "Dart", "Haskell",
-    "Bootstrap", "jQuery", "Express.js", "Django", "Spring",
-    "Laravel", "TensorFlow", "PyTorch", "Keras",
-    "Git", "Agile", "Waterfall", "Unit testing",
-    "Integration testing", "APIs", "Web Services", "SQL",
-    "NoSQL", "MySQL", "PostgreSQL", "MongoDB", "Oracle",
-    "SQLite", "Cassandra", "CouchDB",
-    "Docker", "Kubernetes", "Jenkins", "Ansible",
-    "Heroku", "DigitalOcean", "Linode",
-    "Software Design Patterns", "Formal Languages & Automata Theory",
-    "Compiler Design", "Operating Systems Design", "Computer Architecture",
-    "Distributed Systems", "Computer Graphics", "Human-Computer Interaction (HCI)",
-    "Natural Language Processing (NLP)", "Computer Vision", "Robotics",
-    "Software Engineering Principles",
-    "User Research", "Usability Testing", "Information Architecture",
-    "User Interface (UI) Design", "User Experience (UX) Writing", "Wireframing",
-    "Prototyping", "Interaction Design", "Visual Design", "Accessibility",
-    "UI/UX Design Tools (e.g., Figma, Adobe XD)", "User Empathy", "Usability Heuristics",
-    "User Persona Development", "Card Sorting", "A/B Testing", "User Flows",
-    "Design Thinking", "Iterative Design", "User Interface (UI) Patterns",
-    "Microinteractions", "Visual Communication", "Color Theory", "Typography"
-]
 
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 import Firebase
 
-struct Team: Codable {
-    var people: [String]
-    var emails: [String]
-    var project: ProjectBuild
-    
-}
-
-class UserModel: ObservableObject, Codable, Equatable, Hashable {
-    static func == (lhs: UserModel, rhs: UserModel) -> Bool {
-        return lhs.userID == rhs.userID
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(userID)
-    }
-    
-    var name: String
-    var phone: String
-    var userID: String
-    var major: String
-    var university: String
-    var teams: [UserModel]
-    var experience: String
-    var connections: [UserModel]
-    @Published var requests: [UserModel]
-    @Published var teamConnections: [Team]
-    @Published var teamRequests: [Team]
-    @Published var techStack: [String]
-    var email: String
-    
-    init() {
-        self.name = ""
-        self.phone = ""
-        self.userID = ""
-        self.major = ""
-        self.university = ""
-        self.teams = []
-        self.experience = ""
-        self.connections = []
-        self.teamConnections = []
-        self.requests = []
-        self.teamRequests = []
-        self.techStack = []
-        self.email = ""
-    }
-    
-    
-    enum CodingKeys: String, CodingKey {
-        case name, phone, userID, major, university, teams, experience, connections, requests, teamConnections, teamRequests, techStack, email
-    }
-    
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-        phone = try container.decode(String.self, forKey: .phone)
-        userID = try container.decode(String.self, forKey: .userID)
-        major = try container.decode(String.self, forKey: .major)
-        university = try container.decode(String.self, forKey: .university)
-        teams = try container.decode([UserModel].self, forKey: .teams)
-        experience = try container.decode(String.self, forKey: .experience)
-        connections = try container.decode([UserModel].self, forKey: .connections)
-        requests = try container.decode([UserModel].self, forKey: .requests)
-        teamConnections = try container.decode([Team].self, forKey: .teamConnections)
-        teamRequests = try container.decode([Team].self, forKey: .teamRequests)
-        techStack = try container.decode([String].self, forKey: .techStack)
-        email = try container.decode(String.self, forKey: .email)
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encode(phone, forKey: .phone)
-        try container.encode(userID, forKey: .userID)
-        try container.encode(major, forKey: .major)
-        try container.encode(university, forKey: .university)
-        try container.encode(teams, forKey: .teams)
-        try container.encode(experience, forKey: .experience)
-        try container.encode(connections, forKey: .connections)
-        try container.encode(requests, forKey: .requests)
-        try container.encode(teamConnections, forKey: .teamConnections)
-        try container.encode(teamRequests, forKey: .teamRequests)
-        try container.encode(techStack, forKey: .techStack)
-        try container.encode(email, forKey: .email)
-    }
-    func printModel() {
-         print(self.name)
-         print(self.email)
-     }
-    func hardCopy(user: UserModel) {
-        self.name = user.name
-        self.phone = user.phone
-        self.userID = user.userID
-        self.major = user.major
-        self.university = user.university
-        self.teams = user.teams
-        self.experience = user.experience
-        self.connections = user.connections
-        self.teamConnections = user.teamConnections
-        self.requests = user.requests
-        self.teamRequests = user.teamRequests
-        self.techStack = user.techStack
-        self.email = user.email
-    }
-}
 
 //initial fecthing of data
 
@@ -231,6 +100,141 @@ func sendMatch(currUser: String, sentUser: String) async throws {
     
 }
 
+func sendTeamMatch(currUser: String, sentUser: String, teamDescription: Team) async throws {
+    // Construct URL with query parameters
+    guard let url = URL(string: "http://127.0.0.1:5000/sendTeamMatch?currUser=\(currUser)&sentUser=\(sentUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    // Create POST request
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+        // Encode teamDescription to JSON data
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(teamDescription)
+        
+        // Set JSON data as HTTP body
+        request.httpBody = jsonData
+        
+        // Send POST request
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Check response status code
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
+
+func createTeam(currUser: String, teamDescription: Team) async throws {
+    // Construct URL with query parameters
+    guard let url = URL(string: "http://127.0.0.1:5000/createTeam?currUser=\(currUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    // Create POST request
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+        // Encode teamDescription to JSON data
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(teamDescription)
+        
+        // Set JSON data as HTTP body
+        request.httpBody = jsonData
+        
+        // Send POST request
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Check response status code
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
+
+func rejectTeam(currUser: String, teamDescription: Team) async throws {
+    guard let url = URL(string: "http://127.0.0.1:5000/rejectTeamRequest?currUser=\(currUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    // Create POST request
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+        // Encode teamDescription to JSON data
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(teamDescription)
+        
+        // Set JSON data as HTTP body
+        request.httpBody = jsonData
+        
+        // Send POST request
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Check response status code
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
+
+func acceptTeam(currUser: String, teamDescription: Team) async throws {
+    guard let url = URL(string: "http://127.0.0.1:5000/acceptTeamRequest?currUser=\(currUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    // Create POST request
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+        // Encode teamDescription to JSON data
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(teamDescription)
+        
+        // Set JSON data as HTTP body
+        request.httpBody = jsonData
+        
+        // Send POST request
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Check response status code
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
+
+
 func rejectUser(currUser: String, rejectedUser: String) async throws {
     guard let url = URL(string: "http://127.0.0.1:5000/rejectRequest?currUser=\(currUser)&rejectedUser=\(rejectedUser)") else {
         throw URLError(.badURL)
@@ -270,7 +274,7 @@ func saveNewAccount(userData: UserModel, urlString: String) async throws {
     do {
         request.httpBody = try encoder.encode(userData)
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (_, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
@@ -284,7 +288,7 @@ func saveNewAccount(userData: UserModel, urlString: String) async throws {
 //AI Model Part
 
 //Struct for sending the user input to the ai model
-struct ProjectBuild: Codable {
+struct ProjectBuild: Codable, Hashable {
     var projectName: String
     var description: String
     var teamSize: Int

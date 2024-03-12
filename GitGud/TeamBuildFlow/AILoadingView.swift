@@ -29,6 +29,8 @@ struct AILoadingView: View {
                 Task {
                     do {
                         aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
+                        try await createTeam(currUser: userModel.userID, teamDescription: Team(people: [], ids: [], emails: [], project: projectBuild))
+                        userModel.teamConnections.append(Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild))
                         pickMembersView = true
                     } catch {
                         print(error)
@@ -36,9 +38,8 @@ struct AILoadingView: View {
                 }
             }
             .navigationDestination(isPresented: $pickMembersView){
-                FindMembersView(aiResponse: aiResponse)
-                                   
-                .environmentObject(userModel)
+                FindMembersView(teamDescription: Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild), aiResponse: aiResponse)
+                    .environmentObject(userModel)
               
             }
             .navigationBarBackButtonHidden()

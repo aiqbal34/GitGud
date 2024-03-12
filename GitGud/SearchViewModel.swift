@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 // Updated to be generic
-struct SelectionView<Item, ItemLabel>: View where Item: Hashable, ItemLabel: View {
+struct SearchViewModel<Item, ItemLabel>: View where Item: Hashable, ItemLabel: View {
     @Binding var selectedItems: [Item] // Bind to the selected items array
     let allItems: [Item] // All available items
     let itemLabel: (Item) -> ItemLabel // Closure to provide a label for each item
@@ -44,7 +44,7 @@ struct SelectionView<Item, ItemLabel>: View where Item: Hashable, ItemLabel: Vie
 
 
 
-struct SelectionViewSingleItem<Item, ItemLabel>: View where Item: Hashable, ItemLabel: View {
+struct SearchSingleViewModel<Item, ItemLabel>: View where Item: Hashable, ItemLabel: View {
     let allItems: [Item] // All available items
     let itemLabel: (Item) -> ItemLabel // Closure to provide a label for each item
     let filterPredicate: (Item, String) -> Bool // Closure to filter items based on the search text

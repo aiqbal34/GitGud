@@ -31,7 +31,7 @@ struct NavigationBar: View {
      
     var body: some View {
             TabView(selection: $selectedTab) {
-                HomeMatchingView(userList: userList)
+                MatchingView(userList: userList, pickMember: false)
                     .environmentObject(userModel)
                     .tabItem {
                         Label("Find Matches", systemImage: "magnifyingglass")

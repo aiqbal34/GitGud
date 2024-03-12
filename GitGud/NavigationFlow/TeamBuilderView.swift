@@ -11,7 +11,7 @@ import SwiftUI
 
 struct TeamBuilderView: View {
     
-
+    
     
     @State private var projectName: String = ""
     @State private var projectDescription: String = ""
@@ -64,7 +64,7 @@ struct TeamBuilderView: View {
                     Button(chosenProjectType) {
                         showProjectType.toggle()
                     }.sheet(isPresented: $showProjectType, content: {
-                        SelectionViewSingleItem(allItems: projectTypeArray, itemLabel: {
+                        SearchSingleViewModel(allItems: projectTypeArray, itemLabel: {
                             projecttype in Text(projecttype).onTapGesture {
                                 showProjectType = false
                                 print(projecttype)
@@ -80,16 +80,12 @@ struct TeamBuilderView: View {
                     .fontDesign(.monospaced)
                     .cornerRadius(10)
                     .fontWeight(.bold)
-                  
-                    
-                    
                     
                     Text("Team Size:")
                         .foregroundStyle(Color.text)
                         .font(.title2)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .horizontal])
-                    
                     Menu{
                         Button("1", action: { teamSize = 1 })
                         Button("2", action: { teamSize = 2 })
@@ -110,7 +106,6 @@ struct TeamBuilderView: View {
                         .cornerRadius(5)
                     }
                     
-                    
                     Text("Project Description:")
                         .foregroundStyle(Color.text)
                         .font(.title2)
@@ -126,7 +121,6 @@ struct TeamBuilderView: View {
                         .background(Color.secondaryBackground)
                         .padding(4)
                         .cornerRadius(5)
-                    
                     if (isError) {
                         Text("Please fill all the fields before moving on")
                             .foregroundStyle(Color.red)
@@ -140,7 +134,7 @@ struct TeamBuilderView: View {
                                 project = ProjectBuild(projectName: projectName, description: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
                                 move_toAiLosingView = true
                             } else {
-                               isError = true
+                                isError = true
                             }
                         }
                     }
@@ -148,21 +142,15 @@ struct TeamBuilderView: View {
                     .background(Color.secondaryBackground)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.top)
-
-                    
-                    
                     Spacer()
-                    
                 }
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                 .ignoresSafeArea(.all)
                 .background(Color.background)
-                
-                
                 .navigationDestination(isPresented: $move_toAiLosingView){
                     AILoadingView(projectBuild: project)
                         .environmentObject(userModel)
-                     
+                    
                 }
             }
         }

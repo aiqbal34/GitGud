@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import AlertToast
 
 
-
-struct HomeMatchingView: View {
+struct MatchingView: View {
     
     @EnvironmentObject var userModel: UserModel
     @State var userList: [UserModel]
+    @State var TeamDescription: Team?
+    @State var pickMember: Bool
     
     @State private var getNext = false
+    
+    @State var bannerVisible: Bool = false
     
     var body: some View {
         NavigationStack{
@@ -104,13 +108,42 @@ struct HomeMatchingView: View {
                         
                         
                         
-                        
-                        HStack{
+                        if !pickMember {
+                            HStack{
+                                Button("Match") {
+                                    Task {
+                                        let sentUser = UserModel()
+                                        sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+                                        try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
+                                        bannerVisible = true
+                                        userList.removeFirst()
+                                        
+                                    }
+                                }
+                                .foregroundColor(Color.text)
+                                .frame(width: 160, height: 64)
+                                .background(Color.secondaryBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .padding(.horizontal)
+                                
+                                Button("Next") {
+                                    userList.removeFirst()
+                                }
+                                .foregroundColor(Color.text)
+                                .frame(width: 160, height: 64)
+                                .background(Color.secondaryBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .padding()
+                                
+                            }
+                        }else {
                             Button("Match") {
                                 Task {
                                     let sentUser = UserModel()
                                     sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                    try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
+                                    let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+                                    try await sendTeamMatch(currUser: userModel.userID, sentUser: sentUser.userID, teamDescription: team)
+                                    bannerVisible = true
                                     userList.removeFirst()
                                     
                                 }
@@ -129,21 +162,26 @@ struct HomeMatchingView: View {
                             .background(Color.secondaryBackground)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding()
-                            
                         }
-                        
                         
                         Spacer()
                     } else {
                         Text("No more users")
                     }
                 }
+            
+
                 
                 
+            }.toast(isPresenting: $bannerVisible){
+                AlertToast(displayMode: .hud, type: .regular, title: "Match Sent")
+
             }
+            
+            
             .ignoresSafeArea(.all)
             .background(Color.background)
-            .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden(!pickMember)
             
         }
         
