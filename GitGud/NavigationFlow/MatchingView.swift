@@ -154,12 +154,12 @@ struct MatchingView: View {
                                             let sentUser = UserModel()
                                             sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
                                             let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
-                                            try await sendTeamMatch(currUser: userModel.userID, sentUser: sentUser.userID, teamDescription: team)
+                                            
                                             bannerVisible = true
                                             userList.removeFirst()
                                             
                                             foundMembers.foundMembers[currentMemberIndex ?? 0] = sentUser
-                                            print(foundMembers)
+                                            
                                             dismiss()
                                             
                                         }
