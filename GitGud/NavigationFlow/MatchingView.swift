@@ -9,16 +9,22 @@ import SwiftUI
 import AlertToast
 
 
+
 struct MatchingView: View {
     
     @EnvironmentObject var userModel: UserModel
     @State var userList: [UserModel]
     @State var TeamDescription: Team?
     @State var pickMember: Bool
-    
     @State private var getNext = false
-    
     @State var bannerVisible: Bool = false
+    
+    //For the pickMembers part
+    var currentMemberIndex: Int?
+    @EnvironmentObject var foundMembers: FoundMembers
+    @Environment(\.dismiss) var dismiss
+    
+    
     
     var body: some View {
         NavigationStack{
@@ -110,58 +116,67 @@ struct MatchingView: View {
                         
                         if !pickMember {
                             HStack{
-                                Button("Match") {
-                                    Task {
-                                        let sentUser = UserModel()
-                                        sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                        try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
-                                        bannerVisible = true
-                                        userList.removeFirst()
-                                        
+                            
+                                    Button("Match") {
+                                        Task {
+                                            let sentUser = UserModel()
+                                            sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+                                            try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
+                                            bannerVisible = true
+                                            userList.removeFirst()
+                                            
+                                        }
                                     }
-                                }
-                                .foregroundColor(Color.text)
-                                .frame(width: 160, height: 64)
-                                .background(Color.secondaryBackground)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .padding(.horizontal)
+                                    .foregroundColor(Color.text)
+                                    .frame(width: 160, height: 64)
+                                    .background(Color.secondaryBackground)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding()
                                 
-                                Button("Next") {
-                                    userList.removeFirst()
-                                }
-                                .foregroundColor(Color.text)
-                                .frame(width: 160, height: 64)
-                                .background(Color.secondaryBackground)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .padding()
+                                    Button("Next") {
+                                        userList.removeFirst()
+                                    }
+                                    .foregroundColor(Color.secondaryBackground)
+                                    .frame(width: 160, height: 64)
+                                    .background(Color.text)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding()
+                                    .border(Color.background, width: 4)
+                            
+
                                 
                             }
                         }else {
-                            Button("Match") {
-                                Task {
-                                    let sentUser = UserModel()
-                                    sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                    let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
-                                    try await sendTeamMatch(currUser: userModel.userID, sentUser: sentUser.userID, teamDescription: team)
-                                    bannerVisible = true
-                                    userList.removeFirst()
+                            HStack {
+                                Group {
+                                    Button("Match") {
+                                        Task {
+                                            let sentUser = UserModel()
+                                            sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+                                            let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+                                            try await sendTeamMatch(currUser: userModel.userID, sentUser: sentUser.userID, teamDescription: team)
+                                            bannerVisible = true
+                                            userList.removeFirst()
+                                            
+                                            foundMembers.foundMembers[currentMemberIndex ?? 0] = sentUser
+                                            print(foundMembers)
+                                            dismiss()
+                                            
+                                        }
+                                    }
+                                    
+                                    Button("Next") {
+                                        userList.removeFirst()
+                                    }
                                     
                                 }
+                                .foregroundColor(Color.text)
+                                .frame(width: 160, height: 64)
+                                .background(Color.secondaryBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                
+
                             }
-                            .foregroundColor(Color.text)
-                            .frame(width: 160, height: 64)
-                            .background(Color.secondaryBackground)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding(.horizontal)
-                            
-                            Button("Next") {
-                                userList.removeFirst()
-                            }
-                            .foregroundColor(Color.text)
-                            .frame(width: 160, height: 64)
-                            .background(Color.secondaryBackground)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding()
                         }
                         
                         Spacer()
@@ -169,13 +184,13 @@ struct MatchingView: View {
                         Text("No more users")
                     }
                 }
-            
-
+                
+                
                 
                 
             }.toast(isPresenting: $bannerVisible){
                 AlertToast(displayMode: .hud, type: .regular, title: "Match Sent")
-
+                
             }
             
             

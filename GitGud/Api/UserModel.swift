@@ -8,6 +8,15 @@
 import Foundation
 
 
+class FoundMembers: ObservableObject {
+    @Published var foundMembers: [UserModel?]
+    
+    init(foundMembers: [UserModel?]) {
+        self.foundMembers = foundMembers
+    }
+}
+
+
 struct Team: Codable, Hashable {
     var people: [String]
     var ids: [String]

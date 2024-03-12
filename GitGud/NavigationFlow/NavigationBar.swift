@@ -15,18 +15,7 @@ struct NavigationBar: View {
     var userList: [UserModel]
  
     @State var selectedTab: String
-//    init() {
-//        let appearance = UITabBarAppearance()
-//        appearance.backgroundColor = UIColor(named: "SecondaryBackground") 
-//
-//        // Use this appearance when the tab bar is in any state
-//        UITabBar.appearance().standardAppearance = appearance
-//
-//        // Use this appearance when the tab bar scroll edge appearance is in any state (for example, when the tab bar is scrolled off the screen on iPhone in landscape)
-//        if #available(iOS 15.0, *) {
-//            UITabBar.appearance().scrollEdgeAppearance = appearance
-//        }
-//    }
+  
 
      
     var body: some View {
@@ -70,7 +59,3 @@ struct NavigationBar: View {
         }
 }
 
-//#Preview {
-//    NavigationBar()
-//        .modelContainer(for: Item.self, inMemory: true)
-//}

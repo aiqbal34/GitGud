@@ -11,6 +11,7 @@ import SwiftUI
 
 
 struct FindMembersView: View {
+    @EnvironmentObject var foundMembers: FoundMembers
     @State private var isFindMembers: Bool = false
     @State var currentMember: [String?] = ["Find Member"]
     @State private var filteredList: [UserModel] = []
@@ -21,23 +22,16 @@ struct FindMembersView: View {
     
     @State var aiResponse: [AiResponse]
     var experienceLevels: [String] = ["Medium", "Experienced", "Beginner"]
-    
-    
-    //   @EnvironmentObject var userModel: UserModel
-    
-    
-    // onappear change name if flag
-    
-    
+    @State var currentIndex: Int  = 0
+   
+
     var body: some View {
         ZStack {
             Color.background.edgesIgnoringSafeArea(.all)
             List {
                 ForEach(aiResponse.indices, id: \.self) { index in
-                    // Access the element using the index
-                    let member = $aiResponse[index] // Using $ to access the binding
+                    let member = $aiResponse[index]
                     
-                    // Your code inside the ForEach loop
                     Section(header: Text("Member")
                         .foregroundColor(Color.text)
                         .font(.title3)) {
@@ -56,7 +50,7 @@ struct FindMembersView: View {
                                     Task {
                                         do {
                                             filteredList = try await fetchFilteredList(skills: currentSkills, experienceLevel: currentExperienceLevel)
-                                            
+                                            currentIndex = index
                                             print(filteredList)
                                             isFindMembers = true
                                         } catch {
@@ -66,8 +60,13 @@ struct FindMembersView: View {
                                     }
                                 }) {
                                     HStack {
-                                        Text("Find Member")
-                                        Image(systemName: "plus.magnifyingglass")
+                                        if let chosenMember = foundMembers.foundMembers[index] {
+                                          Text(chosenMember.name)
+                                        } else {
+                                          Text("Find Member ")
+                                            Image(systemName: "plus.magnifyingglass")
+                                        }
+                                        
                                     }
                                 }
                                 Spacer()
@@ -75,13 +74,18 @@ struct FindMembersView: View {
                         }
                         .listRowBackground(Color.secondaryBackground)
                     
+                    
                 }
             }
             .scrollContentBackground(.hidden)
         }
+        .onAppear {
+            
+        }
         .navigationDestination(isPresented: $isFindMembers) {
-            MatchingView(userList: filteredList, TeamDescription: teamDescription, pickMember: true)
+            MatchingView(userList: filteredList, TeamDescription: teamDescription, pickMember: true, currentMemberIndex: currentIndex)
                 .environmentObject(userModel)
+                .environmentObject(foundMembers)
         }
         
         .navigationBarBackButtonHidden()
