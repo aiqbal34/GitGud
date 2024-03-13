@@ -32,187 +32,111 @@ struct MatchingView: View {
                 GradientStyles.backgroundGradient
                     .ignoresSafeArea(.all)
                 VStack{
-                    if (userList.count > 0) {
+                    
+                    UserCardView(userList: $userList)
+                        .environmentObject(userModel)
+                    
+                    if !pickMember {
+                        HStack{
+                            
+                            Button("Match") {
+                                Task {
+                                    let sentUser = UserModel()
+                                    sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+                                    try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
+                                    
+                                    
+                                }
+                                bannerVisible = true
+                                userList.removeFirst()
+                            }
+                            .bold()
+                            .foregroundColor(Color.text)
+                            .frame(width: 160, height: 64)
+                            .background(Color.secondaryBackground)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding()
+                            
+                            Button("Next") {
+                                userList.removeFirst()
+                            }
+                            .bold()
+                            .foregroundColor(Color.secondaryBackground)
+                            .frame(width: 160, height: 64)
+                            .background(Color.background)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding()
+                            
+                            
+                            
+                            
+                        }
+                    }else {
                         HStack {
-                            Spacer()
-                            Text(userList[0].name)
-                                .font(.system(size: 45))
-                                .foregroundColor(Color.text)
-                                .bold()
-                            
-                            Spacer()
-                            
-                        }
-                        
-                        List{
-                            HStack{
-                                Image(systemName: "graduationcap.fill")
-                                    .font(.system(size: 24))
-                                Text(userList[0].university)
-                                    .foregroundColor(Color.text)
-                                    .font(.system(size: 24))
-                                Spacer()
-                            }
-                            .listRowBackground(Color.secondaryBackground)
-                            .padding()
-                            
-                            HStack{
-                                Image(systemName: "book.fill")
-                                    .font(.system(size: 24))
-                                Text(userList[0].major)
-                                    .foregroundColor(Color.text)
-                                    .font(.system(size: 24))
-                                Spacer()
+                            Group {
+                                Button("Match") {
+                                    Task {
+                                        let sentUser = UserModel()
+                                        sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+                                        let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+                                        
+                                        bannerVisible = true
+                                        userList.removeFirst()
+                                        
+                                        foundMembers.foundMembers[currentMemberIndex ?? 0] = sentUser
+                                        
+                                        dismiss()
+                                        
+                                    }
+                                }
                                 
-                            }
-                            .listRowBackground(Color.secondaryBackground)
-                            .padding()
-                            HStack{
-                                Image(systemName: "eyeglasses")
-                                    .font(.system(size: 24))
-                                Text(userList[0].experience)
-                                    .foregroundColor(Color.text)
-                                    .font(.system(size: 24))
-                                Spacer()
-                                
-                            }
-                            .listRowBackground(Color.secondaryBackground)
-                            .padding()
-                            HStack{
-                                Image(systemName: "laptopcomputer")
-                                    .font(.system(size: 24))
-                                
-                                Text("Tech Stack")
-                                    .foregroundColor(Color.text)
-                                    .font(.system(size: 24))
-                                
-                                
-                            }
-                            .listRowBackground(Color.secondaryBackground)
-                            .padding()
-                            
-                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 8) {
-                                ForEach(userList[0].techStack, id: \.self) { skill in
-                                    SkillTagView(skill: skill)
+                                Button("Next") {
+                                    userList.removeFirst()
                                 }
                                 
                             }
-                            .listRowBackground(Color.secondaryBackground)
-                            .padding()
+                            .bold()
+                            .foregroundColor(Color.text)
+                            .frame(width: 160, height: 64)
+                            .background(Color.background)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
                             
                         }
-                        .scrollContentBackground(.hidden)
-                        .frame(width: 400, height: 460, alignment: .bottomTrailing)
-                        
-                   
-                        
-                        if !pickMember {
-                            HStack{
-                            
-                                    Button("Match") {
-                                        Task {
-                                            let sentUser = UserModel()
-                                            sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                            try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
-                                            bannerVisible = true
-                                            userList.removeFirst()
-                                            
-                                        }
-                                    }
-                                    .bold()
-                                    .foregroundColor(Color.text)
-                                    .frame(width: 160, height: 64)
-                                    .background(Color.secondaryBackground)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    .padding()
-                                
-                                    Button("Next") {
-                                        userList.removeFirst()
-                                    }
-                                    .bold()
-                                    .foregroundColor(Color.secondaryBackground)
-                                    .frame(width: 160, height: 64)
-                                    .background(Color.background)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    .padding()
-                                   
-                            
-
-                                
-                            }
-                        }else {
-                            HStack {
-                                Group {
-                                    Button("Match") {
-                                        Task {
-                                            let sentUser = UserModel()
-                                            sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                            let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
-                                            
-                                            bannerVisible = true
-                                            userList.removeFirst()
-                                            
-                                            foundMembers.foundMembers[currentMemberIndex ?? 0] = sentUser
-                                            
-                                            dismiss()
-                                            
-                                        }
-                                    }
-                                    
-                                    Button("Next") {
-                                        userList.removeFirst()
-                                    }
-                                    
-                                }
-                                .bold()
-                                .foregroundColor(Color.text)
-                                .frame(width: 160, height: 64)
-                                .background(Color.background)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                
-
-                            }
-                        }
-                        
-                     
-                    } else {
-                        Text("No more users")
                     }
+                    
+                    
                 }
-                
-                
-                
-                
-            }.toast(isPresenting: $bannerVisible){
-                AlertToast(displayMode: .hud, type: .regular, title: "Match Sent")
-                
             }
             
-            
-            .ignoresSafeArea(.all)
-            .navigationBarBackButtonHidden(!pickMember)
+        }.toast(isPresenting: $bannerVisible){
+            AlertToast(displayMode: .hud, type: .regular, title: "Match Sent")
             
         }
         
+        
+        .ignoresSafeArea(.all)
+        .navigationBarBackButtonHidden(!pickMember)
+        
     }
-}
-
-
-struct SkillTagView: View {
-    var skill: String
     
-    var body: some View {
-        Text(skill)
-            .font(.system(size: 16))
-            .padding(.vertical, 8)
-            .padding(.horizontal, 20)
-            .background(Capsule().fill(Color.gray.opacity(0.2)))
-            .overlay(
-                Capsule().strokeBorder(Color.gray, lineWidth: 0.5)
-            )
+    
+    
+    struct SkillTagView: View {
+        var skill: String
+        
+        var body: some View {
+            Text(skill)
+                .font(.system(size: 16))
+                .padding(.vertical, 8)
+                .padding(.horizontal, 20)
+                .background(Capsule().fill(Color.gray.opacity(0.2)))
+                .overlay(
+                    Capsule().strokeBorder(Color.gray, lineWidth: 0.5)
+                )
+        }
     }
+    
 }
-
-
-
-
+    
+    

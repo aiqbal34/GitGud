@@ -29,7 +29,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" name="Background"/>
+                        <color key="backgroundColor" red="0.54509803921568623" green="0.56470588235294117" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -38,11 +38,8 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="Background">
-            <color red="0.36078431372549019" green="0.57647058823529407" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="Text">
-            <color red="0.12156862745098039" green="0.32549019607843138" blue="0.44705882352941179" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.32941176470588235" green="0.23529411764705882" blue="0.52549019607843139" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

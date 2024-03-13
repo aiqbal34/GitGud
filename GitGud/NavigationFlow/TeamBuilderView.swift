@@ -41,6 +41,10 @@ struct TeamBuilderView: View {
                             .fontWeight(.bold)
                             .padding(.top, 80)
                         
+                        Toggle("I'm Feeling Lucky", isOn: $imFeelingLucky)
+                            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                            .frame(width: 200)
+                            .bold()
                         Text("Project Name:")
                             .bold()
                             .foregroundStyle(Color.text)
@@ -83,8 +87,11 @@ struct TeamBuilderView: View {
                         .frame(width: 360, height: 50)
                         .background(Color.secondaryBackground)
                         .foregroundColor(.text)
-                        
                         .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.text, lineWidth: 1)
+                        )
                         .fontWeight(.bold)
                         
                         Text("Team Size:")
@@ -112,6 +119,10 @@ struct TeamBuilderView: View {
                             .frame(width: 360, height: 50, alignment: .center)
                             .background(Color.secondaryBackground)
                             .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.text, lineWidth: 1)
+                            )
                         }
                         
                         Text("Project Description:")
@@ -128,8 +139,10 @@ struct TeamBuilderView: View {
                             .font(.custom("HelveticaNeue", size: 14))
                             .lineSpacing(5)
                             .frame(width: 360, height: 125)
-                            .padding(4)
-                        
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.text, lineWidth: 1)
+                            )
                         
                         
                         
@@ -139,8 +152,7 @@ struct TeamBuilderView: View {
                                 .monospaced()
                                 .font(.custom("HelveticaNeue", size: 10))
                         }
-                        Toggle("Switch", isOn: $imFeelingLucky)
-                            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+
                         
                         
                         Button("Find Members"){
@@ -158,10 +170,15 @@ struct TeamBuilderView: View {
                                 }
                             }
                         }
+                        .bold()
                         .frame(width: 260, height: 60)
                         .background(Color.secondaryBackground)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                        
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.text, lineWidth: 1)
+                        )
+                    
                         Spacer()
                     }
                 }

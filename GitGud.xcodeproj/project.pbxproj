@@ -24,6 +24,7 @@
 		ACC1A3B32B9FD57B000CF095 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3B22B9FD57B000CF095 /* UserModel.swift */; };
 		ACC1A3B52B9FD5AB000CF095 /* AllSkills.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3B42B9FD5AB000CF095 /* AllSkills.swift */; };
 		ACC1A3B82BA11F1F000CF095 /* LoadingButton in Frameworks */ = {isa = PBXBuildFile; productRef = ACC1A3B72BA11F1F000CF095 /* LoadingButton */; };
+		ACC1A3BA2BA1AF9D000CF095 /* UserCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3B92BA1AF9D000CF095 /* UserCardView.swift */; };
 		ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */; };
 		ACECE5922B8734DF00CB40A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
 		ACECE5952B8734DF00CB40A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5942B8734DF00CB40A7 /* Preview Assets.xcassets */; };
@@ -73,6 +74,7 @@
 		ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AILoadingView.swift; sourceTree = "<group>"; };
 		ACC1A3B22B9FD57B000CF095 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		ACC1A3B42B9FD5AB000CF095 /* AllSkills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSkills.swift; sourceTree = "<group>"; };
+		ACC1A3B92BA1AF9D000CF095 /* UserCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCardView.swift; sourceTree = "<group>"; };
 		ACECE5882B8734DE00CB40A7 /* GitGud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitGud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitGudApp.swift; sourceTree = "<group>"; };
 		ACECE5912B8734DF00CB40A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		ACECE57F2B8734DE00CB40A7 = {
 			isa = PBXGroup;
 			children = (
+				ACC1A3B92BA1AF9D000CF095 /* UserCardView.swift */,
 				ACECE58A2B8734DE00CB40A7 /* GitGud */,
 				ACECE59F2B8734DF00CB40A7 /* GitGudTests */,
 				ACECE5A92B8734DF00CB40A7 /* GitGudUITests */,
@@ -392,6 +395,7 @@
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
 				ABA1BB302B8AB75000BF7BB9 /* MatchingView.swift in Sources */,
 				ACECE5CA2B8D3E4100CB40A7 /* NameMajorView.swift in Sources */,
+				ACC1A3BA2BA1AF9D000CF095 /* UserCardView.swift in Sources */,
 				AC0BDA992B907ED300109CC9 /* SettingsView.swift in Sources */,
 				ACC1A3A12B9D2958000CF095 /* AILoadingView.swift in Sources */,
 				ACECE5C62B8AD53C00CB40A7 /* RegisterView.swift in Sources */,
