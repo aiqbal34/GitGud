@@ -20,7 +20,7 @@ struct AILoadingView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.background).ignoresSafeArea()
+                GradientStyles.backgroundGradient.ignoresSafeArea()
                 ProgressView("Loading…", value: 0.99)
                     .progressViewStyle(CircularProgressViewStyle(tint: .text))
                     .scaleEffect(1.5)
@@ -46,7 +46,7 @@ struct AILoadingView: View {
                             
                             userModel.teamConnections.append(Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild))
                             foundMembers.foundMembers = Array(repeating: nil, count: aiResponse.count)
-                            
+                            pickMembersView = true
                         } catch {
                             print(error)
                         }

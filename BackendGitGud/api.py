@@ -262,9 +262,6 @@ def createTeam():
     currRef = db.collection('private').document(currUserID)
     currRefDict = currRef.get().to_dict()
     
-    team_data['people'].append(currRefDict['name'])
-    team_data['emails'].append(currRefDict['email'])
-    team_data['ids'].append(currRefDict['userID'])
     
     currRefDict['teamConnections'].append(team_data)
     
@@ -282,7 +279,8 @@ def filterMembers():
 
     for doc in docs:
         user = doc.to_dict()
-        user_skills = user.get('skills', [])
+        user_skills = user.get('techStack', [])
+        print(user)
         score = sum(skill in user_skills for skill in skills)
         candidates.append({'user': user, 'score': score})
 

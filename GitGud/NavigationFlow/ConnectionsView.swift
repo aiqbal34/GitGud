@@ -19,7 +19,7 @@ struct ConnectionsView: View {
     var body: some View {
         
         ZStack {
-            Color.background.edgesIgnoringSafeArea(.all)
+            GradientStyles.backgroundGradient.ignoresSafeArea()
             VStack{
                 List {
                     Picker("", selection: $viewSelection) {
@@ -68,19 +68,21 @@ struct Connections: View {
                     VStack {
                         Text("\(member.name)")
                         Text("\(member.email)")
-                    }
+                    }.fontWeight(.regular)
                 }
                 .listRowBackground(Color.secondaryBackground)
             } else {
                 Text("No Connections")
+                    .fontWeight(.regular)
             }
-        }
+        }.bold()
         
         Section(header: Text("Teams")){
             if userModel.teamConnections.count > 0 {
                 ForEach(userModel.teamConnections, id: \.self) { team in
                     VStack {
                         Text(team.project.projectName)
+                            .fontWeight(.regular)
                     }
                     .onTapGesture {
                         moveToTeamDetailView = true
@@ -94,7 +96,7 @@ struct Connections: View {
             } else {
                 Text("No Team Connections")
             }
-        }
+        }.bold()
     }
 }
 
@@ -140,7 +142,7 @@ struct RequestsView: View {
                         VStack(alignment: .leading) {
                             Text("\(member.name)")
                             Text("\(member.email)")
-                        }
+                        }.fontWeight(.regular)
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {
@@ -189,64 +191,70 @@ struct RequestsView: View {
                 .listRowBackground(Color.secondaryBackground)
             } else {
                 Text("No Requests")
+                    .fontWeight(.regular)
             }
-        }
+        }.bold()
         //TODO
         Section(header: Text("Teams Requests")){
-            ForEach(userModel.teamRequests, id: \.self) { team in
-                HStack {
-                    VStack {
-                        Text(team.project.projectName)
-                    }
-                    .onTapGesture {
-                        moveToTeamDetailView = true
-                        selectedTeam = team
-                    }
-                    Spacer()
-                    HStack(spacing: 20) {
-                        Button(action: {
-                            
-                            Task {
-                                var reUser: UserModel
-                                do {
-                                    try await acceptTeam(currUser: userModel.userID, teamDescription: team)
-                                    reUser = try await fetchCurrentUsersInformation(urlString: "getCurrentUser" ,currUser: userModel.userID)
-                                    userModel.teamConnections = reUser.teamConnections
-                                } catch {
-                                    print(error)
-                                }
-                                
-                            }
-                        }) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.green)
+            if userModel.teamRequests.count > 0 {
+                ForEach(userModel.teamRequests, id: \.self) { team in
+                    HStack {
+                        VStack {
+                            Text(team.project.projectName).fontWeight(.regular)
                         }
-                        Button(action: {
-                            Task {
-                                do {
-                                    try await rejectTeam(currUser: userModel.userID, teamDescription: team)
-                                } catch {
-                                    print(error)
-                                }
+                        .onTapGesture {
+                            moveToTeamDetailView = true
+                            selectedTeam = team
+                        }
+                        Spacer()
+                        HStack(spacing: 20) {
+                            Button(action: {
                                 
+                                Task {
+                                    var reUser: UserModel
+                                    do {
+                                        try await acceptTeam(currUser: userModel.userID, teamDescription: team)
+                                        reUser = try await fetchCurrentUsersInformation(urlString: "getCurrentUser" ,currUser: userModel.userID)
+                                        userModel.teamConnections = reUser.teamConnections
+                                    } catch {
+                                        print(error)
+                                    }
+                                    
+                                }
+                            }) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.green)
                             }
-                            for element in userModel.teamRequests {
-                                if element == team {
-                                    if let index = userModel.teamRequests.firstIndex(of: element) {
-                                        userModel.teamRequests.remove(at: index)
+                            Button(action: {
+                                Task {
+                                    do {
+                                        try await rejectTeam(currUser: userModel.userID, teamDescription: team)
+                                    } catch {
+                                        print(error)
+                                    }
+                                    
+                                }
+                                for element in userModel.teamRequests {
+                                    if element == team {
+                                        if let index = userModel.teamRequests.firstIndex(of: element) {
+                                            userModel.teamRequests.remove(at: index)
+                                        }
                                     }
                                 }
+                            }) {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.red)
                             }
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.red)
                         }
                     }
                 }
-            }
-            .listRowBackground(Color.secondaryBackground)
-            .navigationDestination(isPresented: $moveToTeamDetailView){
-                TeamDetailView(teamName: selectedTeam)
+                .listRowBackground(Color.secondaryBackground)
+                .navigationDestination(isPresented: $moveToTeamDetailView){
+                    TeamDetailView(teamName: selectedTeam)
+                }.bold()
+            } else {
+                Text("No Requests")
+                    .fontWeight(.regular)
             }
         }
     }

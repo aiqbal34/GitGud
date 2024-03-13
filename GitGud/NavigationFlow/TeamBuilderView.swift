@@ -36,128 +36,144 @@ struct TeamBuilderView: View {
     
     var body: some View {
         NavigationStack{
-            VStack{
+            ZStack {
+                GradientStyles.backgroundGradient
+                    .ignoresSafeArea()
                 ScrollView{
-                    Text("Team Builder")
-                        .foregroundColor(Color.text)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.top, 80)
-                    
-                    Text("Project Name:")
-                        .foregroundStyle(Color.text)
-                        .font(.title2)
-                        .lineLimit(1)
-                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                        .padding([.top, .horizontal])
-                    Divider()
-                    TextField("Enter Name", text: $projectName)
-                        .padding()
-                        .frame(width: 360, height: 50, alignment: .center)
-                        .background(Color.secondaryBackground)
-                        .cornerRadius(5)
-                    
-                    
-                    Text("Project Type:")
-                        .foregroundStyle(Color.text)
-                        .font(.title2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.top, .horizontal])
-                    Divider()
-                    Button(chosenProjectType) {
-                        showProjectType.toggle()
-                    }.sheet(isPresented: $showProjectType, content: {
-                        SearchSingleViewModel(allItems: projectTypeArray, itemLabel: {
-                            projecttype in Text(projecttype).onTapGesture {
-                                showProjectType = false
-                                print(projecttype)
-                                chosenProjectType = projecttype
-                            }
-                        }, filterPredicate: { projecttype, searchText in
-                            projecttype.lowercased().contains(searchText.lowercased())
+                    VStack{
+                        
+                        Text("Team Builder")
+                            .foregroundColor(Color.text)
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(.top, 80)
+                        
+                        Text("Project Name:")
+                            .bold()
+                            .foregroundStyle(Color.text)
+                            .font(.title2)
+                            .lineLimit(1)
+                            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+                            .padding([.top, .horizontal])
+                        
+                        TextField("Enter Name", text: $projectName)
+                            .padding()
+                            .frame(width: 360, height: 50, alignment: .center)
+                            .background(Color.secondaryBackground)
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.text, lineWidth: 1)
+                            )
+                        
+                        
+                        Text("Project Type:")
+                            .bold()
+                            .foregroundStyle(Color.text)
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.top, .horizontal])
+                        
+                        Button(chosenProjectType) {
+                            showProjectType.toggle()
+                        }.sheet(isPresented: $showProjectType, content: {
+                            SearchSingleViewModel(allItems: projectTypeArray, itemLabel: {
+                                projecttype in Text(projecttype).onTapGesture {
+                                    showProjectType = false
+                                    print(projecttype)
+                                    chosenProjectType = projecttype
+                                }
+                            }, filterPredicate: { projecttype, searchText in
+                                projecttype.lowercased().contains(searchText.lowercased())
+                            })
                         })
-                    })
-                    .frame(width: 360, height: 50)
-                    .background(Color.secondaryBackground)
-                    .foregroundColor(.text)
-                    .fontDesign(.monospaced)
-                    .cornerRadius(10)
-                    .fontWeight(.bold)
-                    
-                    Text("Team Size:")
-                        .foregroundStyle(Color.text)
-                        .font(.title2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.top, .horizontal])
-                    Divider()
-                    Menu{
-                        Button("1", action: { teamSize = 1 })
-                        Button("2", action: { teamSize = 2 })
-                        Button("3", action: { teamSize = 3 })
-                        Button("4", action: { teamSize = 4 })
-                        Button("5", action: { teamSize = 5 })
-                    } label: {
-                        HStack{
-                            Spacer()
-                            Text(("\(teamSize)"))
-                                .foregroundColor(Color.text)
-                            Spacer()
-                            Image(systemName:"chevron.down")
+                        .frame(width: 360, height: 50)
+                        .background(Color.secondaryBackground)
+                        .foregroundColor(.text)
+                        
+                        .cornerRadius(10)
+                        .fontWeight(.bold)
+                        
+                        Text("Team Size:")
+                            .bold()
+                            .foregroundStyle(Color.text)
+                            .font(.title2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.top, .horizontal])
+                        
+                        Menu{
+                            Button("1", action: { teamSize = 1 })
+                            Button("2", action: { teamSize = 2 })
+                            Button("3", action: { teamSize = 3 })
+                            Button("4", action: { teamSize = 4 })
+                            Button("5", action: { teamSize = 5 })
+                        } label: {
+                            HStack{
+                                Spacer()
+                                Text(("\(teamSize)"))
+                                    .foregroundColor(Color.text)
+                                Spacer()
+                                Image(systemName:"chevron.down")
+                            }
+                            .padding()
+                            .frame(width: 360, height: 50, alignment: .center)
+                            .background(Color.secondaryBackground)
+                            .cornerRadius(10)
                         }
-                        .padding()
-                        .frame(width: 360, height: 50, alignment: .center)
-                        .background(Color.secondaryBackground)
-                        .cornerRadius(5)
-                    }
-                    
-                    Text("Project Description:")
-                        .foregroundStyle(Color.text)
-                        .font(.title2)
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.top, .horizontal])
-                    Divider()
-                    TextEditor(text: $projectDescription)
-                        .foregroundColor(Color.text)
-                        .font(.custom("HelveticaNeue", size: 14))
-                        .lineSpacing(5)
-                        .frame(width: 360, height: 125)
-                        .background(Color.secondaryBackground)
-                        .padding(4)
-                        .cornerRadius(5)
-                    if (isError) {
-                        Text("Please fill all the fields before moving on")
-                            .foregroundStyle(Color.red)
-                            .monospaced()
-                            .font(.custom("HelveticaNeue", size: 10))
-                    }
-                    Toggle("Switch", isOn: $imFeelingLucky)
-                        .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                    
-                    
-                    Button("Find Members"){
-                        Task {
-                            if !projectName.isEmpty && !projectDescription.isEmpty && teamSize > 0 && chosenProjectType != "Choose Project Type" {
-                                project = ProjectBuild(projectName: projectName, description: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
-                                move_toAiLosingView = true
-                            } else {
-                                isError = true
+                        
+                        Text("Project Description:")
+                            .bold()
+                            .foregroundStyle(Color.text)
+                            .lineLimit(1)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding([.top, .horizontal])
+                            .font(.title3)
+                        
+                        TextEditor(text: $projectDescription)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .foregroundColor(Color.text)
+                            .font(.custom("HelveticaNeue", size: 14))
+                            .lineSpacing(5)
+                            .frame(width: 360, height: 125)
+                            .padding(4)
+                        
+                        
+                        
+                        
+                        if (isError) {
+                            Text("Please fill all the fields before moving on")
+                                .foregroundStyle(Color.red)
+                                .monospaced()
+                                .font(.custom("HelveticaNeue", size: 10))
+                        }
+                        Toggle("Switch", isOn: $imFeelingLucky)
+                            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                        
+                        
+                        Button("Find Members"){
+                            Task {
+                                if !projectName.isEmpty && !projectDescription.isEmpty && teamSize > 0 && chosenProjectType != "Choose Project Type" {
+                                    project = ProjectBuild(projectName: projectName, description: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
+                                    move_toAiLosingView = true
+                                } else {
+                                    isError = true
+                                }
                             }
                         }
+                        .frame(width: 260, height: 60)
+                        .background(Color.secondaryBackground)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        
+                        Spacer()
                     }
-                    .frame(width: 260, height: 60)
-                    .background(Color.secondaryBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                
-                    Spacer()
                 }
-            }
-            .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-            .ignoresSafeArea(.all)
-            .background(Color.background)
-            .navigationDestination(isPresented: $move_toAiLosingView){
-                AILoadingView(imFeelingLucky: imFeelingLucky, projectBuild: project)
-                    .environmentObject(userModel)
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                .ignoresSafeArea(.all)
+                .navigationDestination(isPresented: $move_toAiLosingView){
+                    AILoadingView(imFeelingLucky: imFeelingLucky, projectBuild: project)
+                        .environmentObject(userModel)
+                    
+                }
                 
             }
         }

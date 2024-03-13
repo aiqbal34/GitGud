@@ -29,24 +29,16 @@ struct MatchingView: View {
     var body: some View {
         NavigationStack{
             ZStack{
+                GradientStyles.backgroundGradient
+                    .ignoresSafeArea(.all)
                 VStack{
                     if (userList.count > 0) {
                         HStack {
                             Spacer()
-                            
-                            Circle()
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(.white)
-                                .padding(.top, 60)
-                            
-                            Spacer()
-                            
-                            
                             Text(userList[0].name)
                                 .font(.system(size: 45))
                                 .foregroundColor(Color.text)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.top, 60)
+                                .bold()
                             
                             Spacer()
                             
@@ -110,9 +102,9 @@ struct MatchingView: View {
                             
                         }
                         .scrollContentBackground(.hidden)
-                        .frame(width: 400, height: 460)
+                        .frame(width: 400, height: 460, alignment: .bottomTrailing)
                         
-                        
+                   
                         
                         if !pickMember {
                             HStack{
@@ -127,6 +119,7 @@ struct MatchingView: View {
                                             
                                         }
                                     }
+                                    .bold()
                                     .foregroundColor(Color.text)
                                     .frame(width: 160, height: 64)
                                     .background(Color.secondaryBackground)
@@ -136,12 +129,13 @@ struct MatchingView: View {
                                     Button("Next") {
                                         userList.removeFirst()
                                     }
+                                    .bold()
                                     .foregroundColor(Color.secondaryBackground)
                                     .frame(width: 160, height: 64)
-                                    .background(Color.text)
+                                    .background(Color.background)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                     .padding()
-                                    .border(Color.background, width: 4)
+                                   
                             
 
                                 
@@ -170,16 +164,17 @@ struct MatchingView: View {
                                     }
                                     
                                 }
+                                .bold()
                                 .foregroundColor(Color.text)
                                 .frame(width: 160, height: 64)
-                                .background(Color.secondaryBackground)
+                                .background(Color.background)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 
 
                             }
                         }
                         
-                        Spacer()
+                     
                     } else {
                         Text("No more users")
                     }
@@ -195,7 +190,6 @@ struct MatchingView: View {
             
             
             .ignoresSafeArea(.all)
-            .background(Color.background)
             .navigationBarBackButtonHidden(!pickMember)
             
         }

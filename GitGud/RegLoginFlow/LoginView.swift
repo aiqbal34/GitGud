@@ -22,8 +22,8 @@ struct LoginView: View {
     var body: some View {
        NavigationStack {
             ZStack {
-                Color(.background)
-                    .ignoresSafeArea()
+                GradientStyles.backgroundGradient
+                    .edgesIgnoringSafeArea(.all)
                 VStack {
                     Text("Sign in")
                         .font(.system(size: 24))

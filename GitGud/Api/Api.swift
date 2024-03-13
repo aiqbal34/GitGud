@@ -5,6 +5,17 @@
 //  Created by Aariz Iqbal on 2/28/24.
 //
 
+import SwiftUI
+
+struct GradientStyles {
+    static var backgroundGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [Color.background, Color.secondaryBackground]),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+}
 
 import Foundation
 import FirebaseFirestore

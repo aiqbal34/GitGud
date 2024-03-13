@@ -21,7 +21,8 @@ struct LoadingView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.background).ignoresSafeArea()
+                GradientStyles.backgroundGradient
+                    .ignoresSafeArea()
                 ProgressView("Loading…", value: 0.99)
                     .progressViewStyle(CircularProgressViewStyle(tint: .text))
                     .scaleEffect(1.5)
