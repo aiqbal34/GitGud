@@ -12,12 +12,13 @@ import LoadingButton
 
 struct FindMembersView: View {
     @EnvironmentObject var foundMembers: FoundMembers
+    @EnvironmentObject var userModel: UserModel
     @State private var isFindMembers: Bool = false
     @State var currentMember: [String?] = ["Find Member"]
     @State private var filteredList: [UserModel] = []
     @State var moveToTeamBuilderView = false
     @State var userList: [UserModel] = []
-    @EnvironmentObject var userModel: UserModel
+    
     @State var teamDescription: Team
     
     @State var aiResponse: [AiResponse]
@@ -94,6 +95,7 @@ struct FindMembersView: View {
         .navigationBarBackButtonHidden()
         .navigationDestination(isPresented: $moveToTeamBuilderView, destination: {
             NavigationBar(userList: userList, selectedTab: "Team Builder")
+                .environmentObject(userModel)
             
         })
         
@@ -109,6 +111,10 @@ struct FindMembersView: View {
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Button("Finish") {
+                    UserDefaults.standard.removeObject(forKey: "projectName")
+                    UserDefaults.standard.removeObject(forKey: "projectDescription")
+                    UserDefaults.standard.removeObject(forKey: "teamSize")
+                    UserDefaults.standard.removeObject(forKey: "projectType")
                     do {
                         //change maybe, for now displays all the users, for which the guy has created
                         for member in foundMembers.foundMembers {

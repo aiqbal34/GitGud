@@ -12,19 +12,12 @@ import SwiftUI
 struct TeamBuilderView: View {
     
     @State private var imFeelingLucky: Bool = true
-    
-    
-    
-    
     @State private var projectName: String = ""
     @State private var projectDescription: String = ""
     @State private var teamSize: Int = 1
-    
     @State var chosenProjectType = "Choose Project Type"
     @State var showProjectType = false
-    
     @State var move_toAiLosingView: Bool = false
-    
     @State var project: ProjectBuild = ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: "")
     @EnvironmentObject var userModel: UserModel
     
@@ -151,9 +144,14 @@ struct TeamBuilderView: View {
                         
                         
                         Button("Find Members"){
+                            
                             Task {
                                 if !projectName.isEmpty && !projectDescription.isEmpty && teamSize > 0 && chosenProjectType != "Choose Project Type" {
                                     project = ProjectBuild(projectName: projectName, description: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
+                                    UserDefaults.standard.set(projectName, forKey: "projectName")
+                                    UserDefaults.standard.set(projectDescription, forKey: "projectDescription")
+                                    UserDefaults.standard.set(teamSize, forKey: "teamSize")
+                                    UserDefaults.standard.set(chosenProjectType, forKey: "projectType")
                                     move_toAiLosingView = true
                                 } else {
                                     isError = true
@@ -175,6 +173,30 @@ struct TeamBuilderView: View {
                     
                 }
                 
+            }.onAppear {
+                if let savedProjectName = UserDefaults.standard.string(forKey: "projectName") {
+                    projectName = savedProjectName
+                } else {
+                    projectName = "" // Or set a default value
+                }
+
+                if let savedProjectDescription = UserDefaults.standard.string(forKey: "projectDescription") {
+                    projectDescription = savedProjectDescription
+                } else {
+                    projectDescription = "" // Or set a default value
+                }
+
+                // Use integer(forKey:) for teamSize and string(forKey:) for projectType
+                if UserDefaults.standard.object(forKey: "teamSize") != nil {
+                  teamSize = UserDefaults.standard.integer(forKey: "teamSize")
+                } else {
+                  teamSize = 1 // Or set a default value
+                }
+                if let savedProjectType = UserDefaults.standard.string(forKey: "projectType") {
+                    chosenProjectType = savedProjectType
+                } else {
+                    chosenProjectType = "Choose Project Type" // Or set a default value
+                }
             }
         }
     }
