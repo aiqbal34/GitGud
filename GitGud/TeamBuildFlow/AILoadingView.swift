@@ -54,7 +54,7 @@ struct AILoadingView: View {
                 }
             }
             .navigationDestination(isPresented: $pickMembersView){
-                FindMembersView(teamDescription: Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild), aiResponse: aiResponse)
+                FindMembersView(teamDescription: Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild), aiResponse: aiResponse, imFeelingLucky: imFeelingLucky)
                     .environmentObject(userModel)
                     .environmentObject(foundMembers)
               
