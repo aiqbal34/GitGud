@@ -24,6 +24,7 @@ struct FindMembersView: View {
     @State var aiResponse: [AiResponse]
     var experienceLevels: [String] = ["Medium", "Experienced", "Beginner"]
     @State var currentIndex: Int  = 0
+    @State var imFeelingLucky: Bool
    
 
     var body: some View {
@@ -43,7 +44,9 @@ struct FindMembersView: View {
                                     Text(level)
                                 }
                             }
-                            TechStackEntryView(member: member) // Pass the binding
+                            if(!imFeelingLucky){
+                                TechStackEntryView(member: member) // Pass the binding
+                            }
                             HStack {
                                 Spacer()
                                 Button(action: {
@@ -152,7 +155,6 @@ struct TechStackEntryView: View {
     // This view now presents a SelectionView when adding skills.
     var body: some View {
         VStack {
-            
             Button("Add Skills +") {
                 showingSkillsSelection.toggle()
             }
