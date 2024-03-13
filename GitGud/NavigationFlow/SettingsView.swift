@@ -25,6 +25,7 @@ struct SettingsView: View {
                 VStack{
                     Spacer()
                     List {
+                        
                         Section(header: Text("Account Information")){
                             TextField(userModel.name, text: $userName)
                             TextField(userModel.email, text: $email)
@@ -64,7 +65,7 @@ struct SettingsView: View {
                                 })
                             })
                             .frame(width: 200, height: 50)
-                            .background(Color.secondaryBackground)
+
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
                             .cornerRadius(10)
@@ -120,4 +121,5 @@ struct SettingsView: View {
 
 #Preview {
         SettingsView()
+            .environmentObject(UserModel())
 }

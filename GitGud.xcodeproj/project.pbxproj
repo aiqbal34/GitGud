@@ -23,6 +23,7 @@
 		ACC1A3AB2B9FC741000CF095 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = ACC1A3AA2B9FC741000CF095 /* AlertToast */; };
 		ACC1A3B32B9FD57B000CF095 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3B22B9FD57B000CF095 /* UserModel.swift */; };
 		ACC1A3B52B9FD5AB000CF095 /* AllSkills.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3B42B9FD5AB000CF095 /* AllSkills.swift */; };
+		ACC1A3B82BA11F1F000CF095 /* LoadingButton in Frameworks */ = {isa = PBXBuildFile; productRef = ACC1A3B72BA11F1F000CF095 /* LoadingButton */; };
 		ACECE58C2B8734DE00CB40A7 /* GitGudApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACECE58B2B8734DE00CB40A7 /* GitGudApp.swift */; };
 		ACECE5922B8734DF00CB40A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
 		ACECE5952B8734DF00CB40A7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5942B8734DF00CB40A7 /* Preview Assets.xcassets */; };
@@ -101,6 +102,7 @@
 				ACC1A3AB2B9FC741000CF095 /* AlertToast in Frameworks */,
 				ACC1A3A82B9FC369000CF095 /* BasicThemeKit in Frameworks */,
 				ACECE5D62B8FFE1500CB40A7 /* FirebaseFirestore in Frameworks */,
+				ACC1A3B82BA11F1F000CF095 /* LoadingButton in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +262,7 @@
 				ACECE5D52B8FFE1500CB40A7 /* FirebaseFirestore */,
 				ACC1A3A72B9FC369000CF095 /* BasicThemeKit */,
 				ACC1A3AA2B9FC741000CF095 /* AlertToast */,
+				ACC1A3B72BA11F1F000CF095 /* LoadingButton */,
 			);
 			productName = GitGud;
 			productReference = ACECE5882B8734DE00CB40A7 /* GitGud.app */;
@@ -337,6 +340,7 @@
 				ACECE5D12B8FF1BF00CB40A7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				ACC1A3A62B9FC369000CF095 /* XCRemoteSwiftPackageReference "BasicThemeKit" */,
 				ACC1A3A92B9FC741000CF095 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				ACC1A3B62BA11F1F000CF095 /* XCRemoteSwiftPackageReference "LoadingButton" */,
 			);
 			productRefGroup = ACECE5892B8734DE00CB40A7 /* Products */;
 			projectDirPath = "";
@@ -566,6 +570,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitGud/Preview Content\"";
+				DEVELOPMENT_TEAM = X9BSTMX7UN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitGud/Info.plist;
@@ -598,6 +603,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"GitGud/Preview Content\"";
+				DEVELOPMENT_TEAM = X9BSTMX7UN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = GitGud/Info.plist;
@@ -751,6 +757,14 @@
 				minimumVersion = 1.3.9;
 			};
 		};
+		ACC1A3B62BA11F1F000CF095 /* XCRemoteSwiftPackageReference "LoadingButton" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Changemin/LoadingButton";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
+			};
+		};
 		ACECE5D12B8FF1BF00CB40A7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -771,6 +785,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ACC1A3A92B9FC741000CF095 /* XCRemoteSwiftPackageReference "AlertToast" */;
 			productName = AlertToast;
+		};
+		ACC1A3B72BA11F1F000CF095 /* LoadingButton */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACC1A3B62BA11F1F000CF095 /* XCRemoteSwiftPackageReference "LoadingButton" */;
+			productName = LoadingButton;
 		};
 		ACECE5D32B8FF99100CB40A7 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

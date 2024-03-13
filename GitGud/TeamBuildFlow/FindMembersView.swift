@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import LoadingButton
 
 
 struct FindMembersView: View {
@@ -27,12 +27,14 @@ struct FindMembersView: View {
 
     var body: some View {
         ZStack {
-            Color.background.edgesIgnoringSafeArea(.all)
+            GradientStyles.backgroundGradient
+                .ignoresSafeArea()
             List {
                 ForEach(aiResponse.indices, id: \.self) { index in
                     let member = $aiResponse[index]
                     
-                    Section(header: Text("Member")
+                    Section(header: Text("Member \(index + 1)")
+                        .bold()
                         .foregroundColor(Color.text)
                         .font(.title3)) {
                             Picker("Experience Level:", selection: $aiResponse[index].experienceLevel) {
@@ -61,7 +63,8 @@ struct FindMembersView: View {
                                 }) {
                                     HStack {
                                         if let chosenMember = foundMembers.foundMembers[index] {
-                                          Text(chosenMember.name)
+                                          Text("Chosen Member: \(chosenMember.name)")
+                                                .foregroundColor(.black)
                                         } else {
                                           Text("Find Member ")
                                             Image(systemName: "plus.magnifyingglass")
@@ -120,8 +123,10 @@ struct FindMembersView: View {
                             for member in foundMembers.foundMembers {
                                 try await sendTeamMatch(currUser: userModel.userID, sentUser: member?.userID ?? "", teamDescription: teamDescription)
                             }
+                            
                             moveToTeamBuilderView = true
                         }
+                        userModel.teamConnections.append(teamDescription)
                     }catch {
                         print(error)
                     }
@@ -142,9 +147,10 @@ struct TechStackEntryView: View {
     var body: some View {
         VStack {
             
-            Button("Add Skills") {
+            Button("Add Skills +") {
                 showingSkillsSelection.toggle()
             }
+            .foregroundColor(.black)
             .sheet(isPresented: $showingSkillsSelection) {
                 // Replace SkillsSelectionView with SelectionView for skill selection
                 SearchViewModel(selectedItems: $member.skills, allItems: allSkills, itemLabel: { skill in
@@ -159,6 +165,7 @@ struct TechStackEntryView: View {
                 HStack {
                     ForEach(member.skills, id: \.self) { skill in
                         CustomBadge(label: skill)
+                            
                     }
                 }
             }
@@ -184,7 +191,7 @@ struct CustomBadge: View {
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
             .background(Color.background)
-            .foregroundColor(foregroundColor ?? (colorScheme == .dark ? .text : .text))
+            .foregroundColor(.white)
             .cornerRadius(30)
     }
 }

@@ -52,10 +52,21 @@ struct NavigationBar: View {
                     .tag("Profile")
                 
             }
-            .background(Color.secondaryBackground)
+            .toolbarBackground(Color.secondaryBackground, for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
+            .toolbarColorScheme(.dark, for: .tabBar)
             .foregroundColor(Color.text)
-            .accentColor(Color.text)
+            .tint(Color.black)
             .navigationBarBackButtonHidden()
+
+
         }
 }
-
+struct RoundedTabBar: Shape {
+    func path(in rect: CGRect) -> Path {
+        let cornerRadius = CGFloat(10)
+        let path = Path(roundedRect: rect, cornerRadius: cornerRadius)
+        return path
+    }
+}
+/*      */
