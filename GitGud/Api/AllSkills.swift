@@ -29,7 +29,7 @@ let allSkills: [String] = [
     "User Research", "Usability Testing", "Information Architecture",
     "User Interface (UI) Design", "User Experience (UX) Writing", "Wireframing",
     "Prototyping", "Interaction Design", "Visual Design", "Accessibility",
-    "UI/UX Design Tools (e.g., Figma, Adobe XD)", "User Empathy", "Usability Heuristics",
+    "UI/UX Design Tools", "User Empathy", "Usability Heuristics",
     "User Persona Development", "Card Sorting", "A/B Testing", "User Flows",
     "Design Thinking", "Iterative Design", "User Interface (UI) Patterns",
     "Microinteractions", "Visual Communication", "Color Theory", "Typography"
