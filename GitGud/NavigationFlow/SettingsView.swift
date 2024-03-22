@@ -7,7 +7,7 @@ struct SettingsView: View {
     //@State private var removeTags: Set<String> = []
     @State private var searchText: String = ""
     @State var experience = ""
-    var experienceLevels = ["beginner", "intermediate", "advanced"]
+    var experienceLevels = ["Beginner", "Medium" ," Experienced"]
     @State var userName = ""
     @State var password = ""
     //@State var email = ""
@@ -16,7 +16,7 @@ struct SettingsView: View {
     @State var showSkillSheet = false
     @State var chosenSkills: [String] = []
     @State var moveToLogin = false
-    
+    @State var isError: Bool = false
     @State var removeTags: [String] = []
     
     var body: some View {
@@ -96,26 +96,13 @@ struct SettingsView: View {
                                         .fontDesign(.monospaced)
                                         .clipShape(Capsule())
                                     
-//                                    Button(action: {
-//                                        //let chosen = skill
-//                                        print(skill)
-////                                        chosenSkills.removeAll(where:{
-////                                            //let shorthand = $0
-////                                            $0 == "React"
-////                                            
-////                                        })
-//                                        
-//                                        //chosenSkills.removeLast()
-//
-//                                    }) {
-//                                        Image(systemName: "x.circle")
-//                                            .foregroundColor(.red)
-//                                    }
                                 }
                             }
                         }
                         .padding()
-                        
+                        .alert(isPresented: $isError, content: {
+                            Alert(title: Text("Update Failed"), message: Text("Try Updating User Again"), dismissButton: .cancel())
+                        })
                         HStack{
                             Spacer()
                             Button("Clear Skill Selection"){
@@ -125,7 +112,7 @@ struct SettingsView: View {
                         }
                     }
                     .listStyle(InsetGroupedListStyle())
-                    //.searchable(text: $searchText)
+                   
                     
                     .onAppear {
                         chosenSkills = userModel.techStack
@@ -139,7 +126,13 @@ struct SettingsView: View {
                         }
                         Spacer()
                         Button("Save"){
-                            
+                            var update = UserModel()
+                            update.name = userName
+                            update.university = university
+                            update.major = major
+                            update.techStack = chosenSkills
+                            update.experience = experience
+
                         }
                         Spacer()
                     }

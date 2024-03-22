@@ -68,13 +68,14 @@ struct LoginView: View {
                         Task {
                             do {
                                 result = try await userSignIn(email: userName, password: password)
-                                UserDefaults.standard.set(result, forKey: "userID")
-                                move_Home = true
+                                
+                                
                             } catch let error as Error {
                                 print(error.localizedDescription)
                                 LoginFailed = true
                             }
-                            
+                            move_Home = true
+                            UserDefaults.standard.set(result, forKey: "userID")
                         }
                         
                     }

@@ -90,8 +90,27 @@ def createBasicAccountinDB():
 
     return jsonify({
         'message': "Successful"
-    })
+    }), 200
 
+@app.route('/updateUser', methods=['POST'])
+def updateUser():
+    currUserID = request.args.get('currUser')
+    doc_ref = db.collection('private').document(currUserID)
+    doc_refDict = doc_ref.get().to_dict()
+    body_data = request.data
+    # print(body_data)
+    decoded_body_data = json.loads(body_data.decode('utf-8'))
+    for key, value in decoded_body_data.items():
+        # Check if the value is not None and it's not an empty list
+        if value != "" and (not isinstance(value, list) or value):
+            doc_refDict[key] = value
+        if isinstance(value, list) and len(value) > 1:
+            doc_refDict[key] = value
+    doc_ref.update(doc_refDict)
+    
+    return jsonify({
+        'message': "Successful"
+    }), 200
 
 @app.route('/getCurrentUser')
 def getCurrentUser():
@@ -151,7 +170,7 @@ def sendMatchToRequest():
 
     return jsonify({
         'message': 'Successful'
-    })
+    }), 200
 
 
 @app.route('/rejectRequest')

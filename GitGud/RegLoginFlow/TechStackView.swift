@@ -12,7 +12,7 @@ struct TechStackView: View {
     @EnvironmentObject var userModel: UserModel
     @State var move_to_PhoneInputView = false
     @State var experience = ""
-    var experienceLevels = [" Beginner", "Medium" ," Experienced"]
+    var experienceLevels = ["Beginner", "Medium" ," Experienced"]
     
 
     @State var showSkillSheet = false

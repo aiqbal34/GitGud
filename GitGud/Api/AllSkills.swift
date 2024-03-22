@@ -34,4 +34,4 @@ let allSkills: [String] = [
     "Design Thinking", "Iterative Design", "User Interface (UI) Patterns",
     "Microinteractions", "Visual Communication", "Color Theory", "Typography"
 ]
-var url = "http://127.0.0.1:5000/"
+
