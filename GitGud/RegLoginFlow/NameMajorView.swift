@@ -10,18 +10,13 @@ import SwiftUI
 struct NameMajorView: View {
     
     @EnvironmentObject var userModel: UserModel
-    
-    @State var move_to_techStackView = false
-    @State var name = ""
-    @State var Major = ""
-    @State var email = ""
-    
-    
     @FocusState var isKeyBoard: Bool
+    @State var name = ""
     @State var chosenMajor = "Select Major"
     @State var chosenSchool = "Select College"
     @State var showMajorSheet = false
     @State var showCollegeSheet = false
+    @State var move_to_techStackView = false
     
     let Colleges = [
         "University of California, Berkeley",

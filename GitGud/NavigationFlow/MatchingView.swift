@@ -24,6 +24,7 @@ struct MatchingView: View {
     @State var pickMember: Bool
     @State private var getNext = false
     @State var bannerVisible: Bool = false
+    @State var nextFailed: Bool = false
     
     // For the pickMembers part
     var currentMemberIndex: Int?
@@ -46,15 +47,17 @@ struct MatchingView: View {
                         HStack{
                             // Sends a request to the user and removes him from stack
                             Button("Match") {
-                                Task {
-                                    let sentUser = UserModel()
-                                    sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                    try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID) // Sends match request
-                                    
-                                    
+                                if(!userList.isEmpty){
+                                    Task {
+                                        let sentUser = UserModel()
+                                        sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+                                        try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID) // Sends match request
+                                    }
+                                    bannerVisible = true
+                                    userList.removeFirst()
+                                }else{
+                                    nextFailed = true
                                 }
-                                bannerVisible = true
-                                userList.removeFirst()
                             }
                             .bold()
                             .foregroundColor(Color.text)
@@ -65,7 +68,11 @@ struct MatchingView: View {
                             
                             // Remove user from stack
                             Button("Next") {
-                                userList.removeFirst()
+                                if(!userList.isEmpty){
+                                    userList.removeFirst()
+                                }else{
+                                    nextFailed = true
+                                }
                             }
                             .bold()
                             .foregroundColor(Color.secondaryBackground)
@@ -73,6 +80,9 @@ struct MatchingView: View {
                             .background(Color.background)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding()
+                            .alert(isPresented: $nextFailed, content: {
+                                Alert(title: Text("No More Users"), message: Text("There are no more users to match with. Please try again Later"), dismissButton: .cancel())
+                            })
                             
                             
                             
@@ -82,23 +92,31 @@ struct MatchingView: View {
                         HStack {
                             Group {
                                 Button("Match") {
-                                    Task {
-                                        let sentUser = UserModel()
-                                        sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
- 
-                                        
-                                        bannerVisible = true
-                                        userList.removeFirst()
-                                        
-                                        foundMembers.foundMembers[currentMemberIndex ?? 0] = sentUser
-                                        
-                                        dismiss()
-                                        
+                                    if(!userList.isEmpty){
+                                        Task {
+                                            let sentUser = UserModel()
+                                            sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
+     
+                                            
+                                            bannerVisible = true
+                                            userList.removeFirst()
+                                            
+                                            foundMembers.foundMembers[currentMemberIndex ?? 0] = sentUser
+                                            
+                                            dismiss()
+                                            
+                                        }
+                                    }else{
+                                        nextFailed = true
                                     }
                                 }
                                 
                                 Button("Next") {
-                                    userList.removeFirst()
+                                    if(!userList.isEmpty){
+                                        userList.removeFirst()
+                                    }else{
+                                        nextFailed = true
+                                    }
                                 }
                                 
                             }
@@ -107,6 +125,10 @@ struct MatchingView: View {
                             .frame(width: 160, height: 64)
                             .background(Color.background)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .alert(isPresented: $nextFailed, content: {
+                                Alert(title: Text("No More Users"), message: Text("There are no more users to match with. Please try again Later."), dismissButton: .cancel())
+                            })
+                            
                             
                             
                         }
