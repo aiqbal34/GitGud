@@ -25,11 +25,14 @@ import FirebaseAuth
 import Firebase
 
 
-//var url = "http://127.0.0.1:5000/"
+
 var url = "https://backendgg-9e8e232e3312.herokuapp.com/"
 
 
 
+/*
+ This function fetches Users for Home page
+ */
 
 func fetchUsersForHomePage(currUser: String) async throws -> [UserModel] {
     guard let url = URL(string: "\(url)?currUser=\(currUser)") else {
@@ -53,7 +56,9 @@ func fetchUsersForHomePage(currUser: String) async throws -> [UserModel] {
     }
 }
 
-
+/*
+ This function fetches the current users informatoin
+ */
 
 func fetchCurrentUsersInformation(urlString: String, currUser: String) async throws -> UserModel {
     guard let url = URL(string: "\(url)\(urlString)?currUser=\(currUser)") else {
@@ -77,6 +82,9 @@ func fetchCurrentUsersInformation(urlString: String, currUser: String) async thr
     }
 }
 
+/*
+ This function fetches the current users teams
+ */
 func fetchCurrentUserTeam(currUser: String) async throws -> UserTeamData {
     guard let url = URL(string: "\(url)getCurrentUserTeams?currUser=\(currUser)") else {
         throw URLError(.badURL)
@@ -98,6 +106,7 @@ func fetchCurrentUserTeam(currUser: String) async throws -> UserTeamData {
         throw error
     }
 }
+
 
 func updateUser(currUser: String, updatedUser: UserModel) async throws {
     // Construct URL with query parameters
@@ -163,7 +172,9 @@ func fetchFilteredList(skills: [String], experienceLevel: String) async throws -
     return userModels
 }
 
-
+/*
+ This function sends a match
+ */
 
 func sendMatch(currUser: String, sentUser: String) async throws {
     guard let url = URL(string: "\(url)match?currUser=\(currUser)&sentUser=\(sentUser)") else {
@@ -176,6 +187,9 @@ func sendMatch(currUser: String, sentUser: String) async throws {
     }
     
 }
+/*
+ This function sends a Team Match to another User
+ */
 
 func sendTeamMatch(currUser: String, sentUser: String, teamID: String) async throws {
     // Construct URL with query parameters
@@ -210,7 +224,9 @@ func sendTeamMatch(currUser: String, sentUser: String, teamID: String) async thr
         throw error
     }
 }
-
+/*
+ This function ccreates a team and puts it in the database
+ */
 func createTeam(currUser: String, teamDescription: Team) async throws -> createTeamResponse {
     // Construct URL with query parameters
     guard let url = URL(string: "\(url)createTeam?currUser=\(currUser)") else {
@@ -247,7 +263,9 @@ func createTeam(currUser: String, teamDescription: Team) async throws -> createT
         throw error
     }
 }
-
+/*
+ This rejectTeam is a function that rejects the teamRequest
+ */
 func rejectTeam(currUser: String, teamID: String) async throws {
     print("In reject Team")
     guard let url = URL(string: "\(url)rejectTeamRequest?currUser=\(currUser)") else {
@@ -282,6 +300,9 @@ func rejectTeam(currUser: String, teamID: String) async throws {
     }
 }
 
+/*
+ This acceptTeam function accepts a team request
+ */
 func acceptTeam(currUser: String, teamID: String) async throws {
     print("in accept team")
     guard let url = URL(string: "\(url)acceptTeamRequest?currUser=\(currUser)") else {
@@ -316,7 +337,9 @@ func acceptTeam(currUser: String, teamID: String) async throws {
     }
 }
 
-
+/*
+    This function rejects the rejectsUser for a request
+ */
 func rejectUser(currUser: String, rejectedUser: String) async throws {
     guard let url = URL(string: "\(url)rejectRequest?currUser=\(currUser)&rejectedUser=\(rejectedUser)") else {
         throw URLError(.badURL)
@@ -327,6 +350,9 @@ func rejectUser(currUser: String, rejectedUser: String) async throws {
         throw URLError(.badServerResponse)
     }
 }
+/*
+ This function accepts a user for when another user sends a Request
+ */
 func accpetUser(currUser: String, acceptUser: String) async throws {
     guard let url = URL(string: "\(url)acceptRequestAccepter?currUser=\(currUser)&acceptUser=\(acceptUser)") else {
         throw URLError(.badURL)
@@ -341,7 +367,9 @@ func accpetUser(currUser: String, acceptUser: String) async throws {
 
 
 
-
+    /*
+     This function saves a new account
+     */
 
 func saveNewAccount(userData: UserModel, urlString: String) async throws {
     guard let url = URL(string: "\(url)\(urlString)") else {

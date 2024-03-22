@@ -1,0 +1,5 @@
+.env
+serviceAccount.json
+/bin
+/lib
+/__pycache__

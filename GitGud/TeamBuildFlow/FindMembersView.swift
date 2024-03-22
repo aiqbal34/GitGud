@@ -9,20 +9,25 @@ import Foundation
 import SwiftUI
 import LoadingButton
 
-//Add the userTeamData here so the frontend can append that data
-
+/*
+    - User matches with one person for each
+        role to create team
+    - List of users is sorted
+    - Can Add skills to each role
+ */
 struct FindMembersView: View {
+    // @Objects
     @EnvironmentObject var foundMembers: FoundMembers
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
     
+    @State var aiResponse: [AiResponse]
     @State private var isFindMembers: Bool = false
     @State var currentMember: [String?] = ["Find Member"]
     @State private var filteredList: [UserModel] = []
     @State var moveToTeamBuilderView = false
     @State var userList: [UserModel] = []
     @State var teamDescription: Team
-    @State var aiResponse: [AiResponse]
     @State var currentIndex: Int  = 0
     @State var imFeelingLucky: Bool
     
@@ -34,6 +39,7 @@ struct FindMembersView: View {
             GradientStyles.backgroundGradient
                 .ignoresSafeArea()
             List {
+                // Based on backend call to gpt
                 ForEach(aiResponse.indices, id: \.self) { index in
                     let member = $aiResponse[index]
                     
@@ -47,16 +53,18 @@ struct FindMembersView: View {
                                 }
                             }
                             if(!imFeelingLucky){
-                                TechStackEntryView(member: member) // Pass the binding
+                                // Display generated skills
+                                TechStackEntryView(member: member)
                             }
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                    let currentSkills: [String] = member.wrappedValue.skills // Accessing the wrapped value
+                                    let currentSkills: [String] = member.wrappedValue.skills
                                     let currentExperienceLevel: String = member.wrappedValue.experienceLevel
                                     
                                     Task {
                                         do {
+                                            // Fecthes users list sorted by compatiblity based on skills
                                             filteredList = try await fetchFilteredList(skills: currentSkills, experienceLevel: currentExperienceLevel)
                                             currentIndex = index
                                             print(filteredList)
@@ -68,6 +76,7 @@ struct FindMembersView: View {
                                     }
                                 }) {
                                     HStack {
+                                        // Display chosen member
                                         if let chosenMember = foundMembers.foundMembers[index] {
                                           Text("Chosen Member: \(chosenMember.name)")
                                                 .foregroundColor(.black)
@@ -92,11 +101,13 @@ struct FindMembersView: View {
             print(foundMembers.foundMembers)
         }
         .navigationDestination(isPresented: $isFindMembers) {
-            MatchingView(userList: filteredList, TeamDescription: teamDescription, pickMember: true, currentMemberIndex: currentIndex)
+            // Navigate to MatchingView to display list of users
+            MatchingView(userList: filteredList, TeamDescription: teamDescription,
+                         pickMember: true, currentMemberIndex: currentIndex)
                 .environmentObject(userModel)
                 .environmentObject(foundMembers)
         }
-        
+    
         .navigationBarBackButtonHidden()
         .navigationDestination(isPresented: $moveToTeamBuilderView, destination: {
             NavigationBar(userList: userList, selectedTab: "Team Builder")
@@ -106,6 +117,7 @@ struct FindMembersView: View {
         })
         
         .toolbar {
+            // Custom Back button
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 Button("Back") {
                     Task {
@@ -122,14 +134,15 @@ struct FindMembersView: View {
                     UserDefaults.standard.removeObject(forKey: "teamSize")
                     UserDefaults.standard.removeObject(forKey: "projectType")
                     do {
-                        //change maybe, for now displays all the users, for which the guy has created
                         
                         Task {
+                            // Creates team and addes it to connections
                             try await createTeam(currUser: userModel.userID, teamDescription: teamDescription)
                             UserTeams.teamConnections.append(teamDescription)
                             for member in foundMembers.foundMembers {
                                 try await sendTeamMatch(currUser: userModel.userID, sentUser: member?.userID ?? "", teamID: teamDescription.teamID)
                             }
+                            // Populates homeView again
                             userList = try await fetchUsersForHomePage(currUser: userModel.userID)
                             moveToTeamBuilderView = true
                         }
@@ -143,14 +156,16 @@ struct FindMembersView: View {
     }
 }
 
+/*
+    - Displays skills
+    - Allows user to add skills via search
+ */
 
 struct TechStackEntryView: View {
     @Binding var member: AiResponse
     @State private var showingSkillsSelection = false
     
     
-    
-    // This view now presents a SelectionView when adding skills.
     var body: some View {
         VStack {
             Button("Add Skills +") {
@@ -158,7 +173,7 @@ struct TechStackEntryView: View {
             }
             .foregroundColor(.black)
             .sheet(isPresented: $showingSkillsSelection) {
-                // Replace SkillsSelectionView with SelectionView for skill selection
+                // Skill searching functionality, pop up sheet
                 SearchViewModel(selectedItems: $member.skills, allItems: allSkills, itemLabel: { skill in
                     Text(skill)
                 }, filterPredicate: { skill, searchText in
@@ -166,9 +181,9 @@ struct TechStackEntryView: View {
                 })
             }
             
-            // Display selected skills remains unchanged
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
+                    // Creates bubbles UI
                     ForEach(member.skills, id: \.self) { skill in
                         CustomBadge(label: skill)
                             
@@ -181,7 +196,9 @@ struct TechStackEntryView: View {
 
 
 
-
+/*
+ - Custom UI for skills bubbles in this view
+ */
 
 struct CustomBadge: View {
     @Environment(\.colorScheme) var colorScheme
