@@ -20,7 +20,7 @@ class FoundMembers: ObservableObject {
     }
 }
 
-
+// this is the users team data stored in a different database
 class UserTeamData: Codable, Hashable, ObservableObject {
     @Published var teamConnections: [Team]
     @Published var teamRequests: [Team]
@@ -70,7 +70,7 @@ class UserTeamData: Codable, Hashable, ObservableObject {
     }
 }
 
-
+//struct for the team
 struct Team: Codable, Hashable {
     var people: [String]
     var teamID: String
@@ -83,7 +83,7 @@ struct Team: Codable, Hashable {
 }
 
 
-
+//user class
 class UserModel: ObservableObject, Codable, Equatable, Hashable {
     static func == (lhs: UserModel, rhs: UserModel) -> Bool {
         return lhs.userID == rhs.userID

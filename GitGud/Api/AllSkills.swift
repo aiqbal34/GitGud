@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+// a list of skills
 let allSkills: [String] = [
     "HTML", "CSS", "JavaScript", "React", "Angular", "Vue.js",
     "Python", "Java", "C++", "PHP", "Ruby", "Go", "Node.js",
