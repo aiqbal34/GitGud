@@ -7,6 +7,9 @@ The TeamBuilder App has more view that lie within it so and it also has quite of
 The FindMembers View in that file is where the user can pick the users they need for thier team. 
 The API file also contains the structs we use and the classes we used, and also all the API calls that we did to our backend.
 
+Login Info: SarahMiller@gmail.com Password: 1234567
+Login Info: BryanLee@gmail.com Password: 1234567
+
 ## Testing and Building App
 To build our app just clone the repository and run the app.
 If it seems like the backend is not working where no users are showing up you might need to run the backend on your own. 
