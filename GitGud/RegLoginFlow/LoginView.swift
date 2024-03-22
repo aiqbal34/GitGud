@@ -67,8 +67,8 @@ struct LoginView: View {
                         // this function allows the user to login is in the api file
                         Task {
                             do {
-                                 result = try await userSignIn(email: userName, password: password)
-                                
+                                result = try await userSignIn(email: userName, password: password)
+                                UserDefaults.standard.set(result, forKey: "userID")
                                 move_Home = true
                             } catch let error as Error {
                                 print(error.localizedDescription)

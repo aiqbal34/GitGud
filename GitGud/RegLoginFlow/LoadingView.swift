@@ -13,7 +13,7 @@ struct LoadingView: View {
     @State var move_to_Home = false
     @State var userList: [UserModel] = []
     @State var currUserID: String
-    
+    @State var isError: Bool = false
     @StateObject var UserTeams = UserTeamData()
 
 
@@ -38,6 +38,7 @@ struct LoadingView: View {
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser",currUser: currUserID))
                             try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         } catch {
+                            isError = true
                             print(error)
                         }
                         
@@ -49,6 +50,7 @@ struct LoadingView: View {
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser", currUser: currUserID))
                             try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         }catch {
+                            isError = true
                             print(error)
                         }
                     }
@@ -58,6 +60,14 @@ struct LoadingView: View {
                 }
                 
             }
+            .navigationDestination(isPresented: $isError, destination: {
+                LoginView()
+                    .environmentObject(userModel)
+            })
+            .alert(isPresented: $isError) {
+                // Content of the alert
+                Alert(title: Text("Login Failed"), message: Text("Login Failed Try again"), dismissButton: .default(Text("Cancel")))
+                                                                 }
             .navigationDestination(isPresented: $move_to_Home) {
                 
                 NavigationBar(userList: userList, selectedTab: "Find Matches")

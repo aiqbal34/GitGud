@@ -19,11 +19,16 @@ struct GitGudApp: App {
     }
     
     @StateObject var userModel = UserModel()
-    
+   
     var body: some Scene {
         WindowGroup {
-            LoginView()
-                .environmentObject(userModel)
+            if let userId = UserDefaults.standard.string(forKey: "userID") {
+                LoadingView(currUserID: userId, getData: true)
+                    .environmentObject(userModel)
+            } else {
+                LoginView()
+                    .environmentObject(userModel)
+            }
            
         }
     }

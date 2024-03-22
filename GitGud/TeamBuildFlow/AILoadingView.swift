@@ -18,6 +18,7 @@ struct AILoadingView: View {
     @EnvironmentObject var UserTeams: UserTeamData
     @State var aiResponse: [AiResponse] = []
     @State var foundMembers: FoundMembers = FoundMembers(foundMembers: [])
+    @State var isError: Bool = false
     var body: some View {
         NavigationStack {
             ZStack {
@@ -49,6 +50,9 @@ struct AILoadingView: View {
                             pickMembersView = true
                         } catch {
                             print(error)
+                            
+                            isError = true
+                            
                         }
                     }
                 }
@@ -61,6 +65,14 @@ struct AILoadingView: View {
               
             }
             .navigationBarBackButtonHidden()
+            .alert(isPresented: $isError) {
+                Alert(title: Text("Welp"), message: Text("Something Went Wrong"), dismissButton: .default(Text("Cancel")))
+            }
+            .navigationDestination(isPresented: $isError) {
+                TeamBuilderView()
+                    .environmentObject(userModel)
+                    .environmentObject(UserTeams)
+            }
         }
     }
 }
