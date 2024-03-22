@@ -18,6 +18,7 @@ struct LoginView: View {
     @State var move_Register = false
     @State var move_Home = false
     @State var result: String? = ""
+    @State var errorMessage = ""
     
     
     
@@ -62,6 +63,7 @@ struct LoginView: View {
                         .frame(width: 200, height: 2)
                         .foregroundColor(.text)
                         .padding(.bottom, 25)
+                    
                     Button("Login") {
                         // this function allows the user to login is in the api file
                         Task {
@@ -71,10 +73,10 @@ struct LoginView: View {
                                 move_Home = true
                             } catch let error as Error {
                                 print(error.localizedDescription)
+                                errorMessage = "Email/Password is Incorrect"
                             }
                             
                         }
-                        
                     }
                     .frame(width: 200, height: 50)
                     .background(Color.secondaryBackground)
@@ -83,6 +85,7 @@ struct LoginView: View {
                     .cornerRadius(10)
                     .fontWeight(.bold)
                     .padding(.bottom)
+                    
                     
                     Button("Create Account") {
                         move_Register = true
@@ -94,6 +97,10 @@ struct LoginView: View {
                     .fontDesign(.monospaced)
                     .cornerRadius(10)
                     .fontWeight(.bold)
+                    
+                    Text(errorMessage)
+                        .fontDesign(.monospaced)
+                        .foregroundColor(.red)
                 }
                 
                 .navigationDestination(isPresented: $move_Register){

@@ -16,8 +16,9 @@ struct RegisterView: View {
     
     @State var email = ""
     @State var password = ""
-    @State var reEnterpPssword = ""
+    @State var reEnterPassword = ""
     @FocusState var isKeyBoard: Bool
+    @State var errorMessage = ""
     
     @State var move_to_NameMajorView: Bool = false
     
@@ -57,7 +58,7 @@ struct RegisterView: View {
                         .foregroundColor(.text)
                         .padding(.bottom, 25)
                     
-                    SecureField("ReEnter Password", text: $reEnterpPssword)
+                    SecureField("ReEnter Password", text: $reEnterPassword)
                         .frame(width: 200)
                         .foregroundColor(.text)
                         .focused($isKeyBoard)
@@ -68,22 +69,45 @@ struct RegisterView: View {
                         .frame(width: 200, height: 2)
                         .foregroundColor(.text)
                         .padding(.bottom, 40)
+                    
+                    Text(errorMessage)
+                        .fontDesign(.monospaced)
+                        .foregroundColor(.red)
+                        
+                    
                     Spacer()
                     HStack {
                         Spacer()
                         Button("Next") {
                             Task {
-                                if password == reEnterpPssword && email.count != 0 {
+                                if password == reEnterPassword && email.count != 0 && password.count != 0 && email.contains("@"){
                                     do {
                                         let result = try await create_Account(email: email, password: password)
                                         print(result)
                                         userModel.userID = result ?? "" //error handle here
+                                        userModel.email = email
+                                        move_to_NameMajorView = true
                                     }catch {
                                         print("Error as \(error)")
                                     }
+                                }else{
+                                    if email.count == 0{
+                                        errorMessage = "Email is not entered"
+                                    }
+                                    else if email.contains("@") == false{
+                                        errorMessage = "Not valid email"
+                                    }
+                                    else if password.count == 0{
+                                        errorMessage = "Password is not entered"
+                                    }
+                                    else if password != reEnterPassword{
+                                        errorMessage = "Passwords Don't Match"
+                                    }
+                                    
+                                    
                                 }
-                                userModel.email = email
-                                move_to_NameMajorView = true
+                                
+                                
                             }
                         }
                         .padding(.trailing, 35)

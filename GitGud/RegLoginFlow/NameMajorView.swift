@@ -202,6 +202,7 @@ struct NameMajorView: View {
 
     @State var selectedMajor = []
     @State var searchtext = ""
+    @State var errorMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -252,7 +253,7 @@ struct NameMajorView: View {
                     }.sheet(isPresented: $showCollegeSheet, content: {
                         SearchSingleViewModel(allItems: Colleges, itemLabel: {
                             school in Text(school).onTapGesture {
-                                showMajorSheet = false
+                                showCollegeSheet = false
                                 print(school)
                                 chosenSchool = school
                             }
@@ -268,6 +269,10 @@ struct NameMajorView: View {
                     .fontWeight(.bold)
                     .padding(.bottom)
                     
+                    Text(errorMessage)
+                        .fontDesign(.monospaced)
+                        .foregroundColor(.red)
+                    
                     Spacer()
                     HStack {
                         Spacer()
@@ -277,6 +282,9 @@ struct NameMajorView: View {
                                 userModel.major = chosenMajor
                                 userModel.university = chosenSchool
                                 move_to_techStackView = true
+                                errorMessage = ""
+                            }else{
+                                errorMessage = "Please Enter All Fields"
                             }
                         }
                         .padding(.trailing, 35)
