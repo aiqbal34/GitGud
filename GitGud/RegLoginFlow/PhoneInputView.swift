@@ -18,8 +18,8 @@ struct PhoneInputView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.background)
-                    .ignoresSafeArea()
+                GradientStyles.backgroundGradient
+                    .edgesIgnoringSafeArea(.all)
                 VStack {
                     Spacer()
                     Text("Enter Phone Number")
