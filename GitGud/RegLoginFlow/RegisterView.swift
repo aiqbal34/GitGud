@@ -5,19 +5,22 @@
 //  Created by Aariz Iqbal on 2/24/24.
 //
 
+/*
+ This view is the first step in the account creation process. The user is prompted to enter their email and password they plan to use for the account. The User also has to reenter their password to ensure they typed it in correctly.
+ */
+
 import SwiftUI
 
 struct RegisterView: View {
     
-    
     @EnvironmentObject var userModel: UserModel
-    
+    //State variables that are passed into textfields
     @State var email = ""
     @State var password = ""
     @State var reEnterPassword = ""
+    
     @FocusState var isKeyBoard: Bool
     @State var errorMessage = ""
-    
     @State var move_to_NameMajorView: Bool = false
     
     
@@ -25,6 +28,7 @@ struct RegisterView: View {
         NavigationStack {
             ZStack {
                 GradientStyles.backgroundGradient.ignoresSafeArea()
+                //The VStack which contains the Text and TextField prompting the User to enter their email and password
                 VStack {
                     Spacer()
                     Text("Create Account")
@@ -79,8 +83,10 @@ struct RegisterView: View {
                         //Moves onto NameMajorView for next step in Creating an Account
                         Button("Next") {
                             Task {
+                                //Check to see if the passwords and emailed entered are valid
                                 if password == reEnterPassword && email.count != 0 && password.count != 0 && email.contains("@"){
                                     do {
+                                        //Does Api call to create an account
                                         let result = try await create_Account(email: email, password: password)
                                         print(result)
                                         userModel.userID = result ?? ""
@@ -103,7 +109,6 @@ struct RegisterView: View {
                                     else if password != reEnterPassword{
                                         errorMessage = "Passwords Don't Match"
                                     }
-                                    
                                     
                                 }
                                 
