@@ -1,3 +1,13 @@
+# Final Project Submission
+
+## Code Layout
+The app opens to a login view if the user is not logged in, or if no account they can register. This is in the RegLoginFlow.
+The main tabs of our app lie in the NavgationFlow, this contiains the tabs and the views to go to the Settings, Connections, Team Builder, and Home view.
+The TeamBuilder App has more view that lie within it so and it also has quite of functionality so that lies within TeamBuildFlow.
+The FindMembers View in that file is where the user can pick the users they need for thier team. 
+The API file also contains the structs we use and the classes we used, and also all the API calls that we did to our backend.
+
+
 # MileStone 2 Notes
 
 
