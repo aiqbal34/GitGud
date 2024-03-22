@@ -7,18 +7,29 @@
 
 import SwiftUI
 
+/*
+ - Loading Screen -> FindMemebersView:
+     - Calls the backend to generate
+        skills based on description via gpt
+     - On "I'm feeling lucky" generates matches
+        for the team (automates matches)
+ */
 struct AILoadingView: View {
     
+    // Toggle for automatching
     var imFeelingLucky: Bool
     
+    // @Objects
     var projectBuild: ProjectBuild
-    
-    @State var pickMembersView = false
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
     @State var aiResponse: [AiResponse] = []
     @State var foundMembers: FoundMembers = FoundMembers(foundMembers: [])
+    
+    // Navigation Conrol
     @State var isError: Bool = false
+    @State var pickMembersView = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,38 +42,46 @@ struct AILoadingView: View {
             }
             .onAppear{
                 print(imFeelingLucky)
+                // AutoMate match making
                 if imFeelingLucky {
                     Task {
+                        // Generates skills for each based on description
                         aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
                         for response in aiResponse {
-                            var filteredList = try await fetchFilteredList(skills: response.skills, experienceLevel: response.experienceLevel)
+                            // Fetches users and sorts based on compatibility
+                            let filteredList = try await fetchFilteredList(skills: response.skills, 
+                                                                           experienceLevel: response.experienceLevel)
+                            // Matches with the best pick based on sorted list
                             foundMembers.foundMembers.append(filteredList[0])
                         }
                         
                         pickMembersView = true
                     }
                 }else {
+                    // Manual Matching Making
                     Task {
                         do {
-                            aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
-
+                            // Generates skills for each based on description
+                            aiResponse = try await sendReqToAiModel(description: projectBuild, 
+                                                                    urlString: "generateTeam")
                             foundMembers.foundMembers = Array(repeating: nil, count: aiResponse.count)
                             pickMembersView = true
                         } catch {
                             print(error)
-                            
                             isError = true
-                            
                         }
                     }
                 }
             }
             .navigationDestination(isPresented: $pickMembersView){
-                FindMembersView(teamDescription: Team(people: [userModel.name], teamID: projectBuild.projectName + String(generateRandomNumber()), emails: [userModel.email], project: projectBuild), aiResponse: aiResponse, imFeelingLucky: imFeelingLucky)
+                // Navigates to FindMembersView
+                FindMembersView(teamDescription: Team(people: [userModel.name], teamID: projectBuild.projectName
+                                                      + String(generateRandomNumber()),
+                                                      emails: [userModel.email], project: projectBuild),
+                                                    aiResponse: aiResponse, imFeelingLucky: imFeelingLucky)
                     .environmentObject(userModel)
                     .environmentObject(foundMembers)
                     .environmentObject(UserTeams)
-              
             }
             .navigationBarBackButtonHidden()
             .alert(isPresented: $isError) {
