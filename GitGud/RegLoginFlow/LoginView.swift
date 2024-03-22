@@ -70,14 +70,13 @@ struct LoginView: View {
                         Task {
                             do {
                                 result = try await userSignIn(email: userName, password: password)
-                                
-                                
+                                move_Home = true
+                                UserDefaults.standard.set(result, forKey: "userID")
                             } catch let error as Error {
                                 print(error.localizedDescription)
                                 errorMessage = "Email/Password is Incorrect"
                             }
-                            move_Home = true
-                            UserDefaults.standard.set(result, forKey: "userID")
+ 
                         }
                     }
                     .frame(width: 200, height: 50)
