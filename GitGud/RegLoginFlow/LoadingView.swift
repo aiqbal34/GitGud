@@ -66,15 +66,15 @@ struct LoadingView: View {
                 }
                 
             }
-            // On error, entrupt log-in
-            .navigationDestination(isPresented: $isError, destination: {
+
+            .navigationDestination(isPresented: $isError) {
                 LoginView()
                     .environmentObject(userModel)
-            })
+            }
             .alert(isPresented: $isError) {
                 // Content of the alert
                 Alert(title: Text("Login Failed"), message: Text("Login Failed Try again"), dismissButton: .default(Text("Cancel")))
-                                                                 }
+            }
             .navigationDestination(isPresented: $move_to_Home) {
                 
                 NavigationBar(userList: userList, selectedTab: "Find Matches")

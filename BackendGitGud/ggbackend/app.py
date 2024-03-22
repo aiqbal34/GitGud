@@ -118,7 +118,8 @@ def getCurrentUser():
     # Assuming 'currUser' is a field in the 'private' document
     doc_ref = db.collection('private').document(currUserID)
     doc_snapshot = doc_ref.get()
-    doc_snapshot.to_dict()
+    user_data = doc_snapshot.to_dict()
+    print(user_data)
     # Check if the document exists
     if doc_snapshot.exists:
         user_data = doc_snapshot.to_dict()
@@ -198,6 +199,7 @@ def rejectTeamRequest():
     currUserID = request.args.get('currUser')
     currRef = db.collection('private').document(currUserID)
     currRefDict = currRef.get().to_dict()
+    
 
     body_data = request.data
 
