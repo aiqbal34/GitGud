@@ -1,21 +1,23 @@
 # Final Project Submission
 
 ## Code Layout
-The app opens to a login view if the user is not logged in, or if no account they can register. This is in the RegLoginFlow.
-The main tabs of our app lie in the NavgationFlow, this contiains the tabs and the views to go to the Settings, Connections, Team Builder, and Home view.
-The TeamBuilder App has more view that lie within it so and it also has quite of functionality so that lies within TeamBuildFlow.
-The FindMembers View in that file is where the user can pick the users they need for thier team. 
-The API file also contains the structs we use and the classes we used, and also all the API calls that we did to our backend.
+The application begins with a login view if the user is not logged in. Alternatively, if the user doesn't have an account, they are directed to the registration process. This process is part of the RegLoginFlow.
+
+The primary tabs of our app are situated within the NavigationFlow. This includes tabs leading to Settings, Connections, Team Builder, and Home views.
+
+The TeamBuilder App encompasses additional views and functionalities, all encapsulated within the TeamBuildFlow. Within this flow, the FindMembers View allows users to select the individuals they require for their team.
+The API file contains the necessary structs and classes, along with all the API calls made to our backend.
 
 Login Info: SarahMiller@gmail.com Password: 1234567
 Login Info: BryanLee@gmail.com Password: 1234567
 
 ## Testing and Building App
-To build our app just clone the repository and run the app run it on the simulator.
-If it seems like the backend is not working where no users are showing up you might need to run the backend on your own. 
+To build our app just clone the repository and run the app run it on the simulator. We are hosting the backend on Heroku
+
+IF it seems like the backend is not working where no users are showing up you might need to run the backend on your own. 
 The in the backend file you have to install the reqiurements using the command pip install  -r requirements.txt
 you would need the API key , which is OPENAI_API_KEY=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 and put that in the .env file
-Also then do python app.py to run it
+Also then do python app.py to run it. THIS IS ONLY IF THE BACKEND DOESN'T WORK INITIALLY
 
 
 # MileStone 2 Notes
