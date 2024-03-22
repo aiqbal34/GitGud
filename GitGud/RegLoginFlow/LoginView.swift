@@ -40,6 +40,9 @@ struct LoginView: View {
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
                             .focused($isKeyBoard)
+                            .onAppear{
+                                userName = ""
+                            }
                     }
                     Rectangle()
                         .frame(width: 200, height: 2)
@@ -51,6 +54,9 @@ struct LoginView: View {
                         .foregroundColor(.text)
                         .focused($isKeyBoard)
                         .textContentType(.password)
+                        .onAppear{
+                            password = ""
+                        }
 
                     Rectangle()
                         .frame(width: 200, height: 2)
@@ -58,7 +64,6 @@ struct LoginView: View {
                         .padding(.bottom, 25)
                     Button("Login") {
                         // this function allows the user to login is in the api file
-                        
                         Task {
                             do {
                                  result = try await userSignIn(email: userName, password: password)

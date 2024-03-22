@@ -10,7 +10,7 @@ struct SettingsView: View {
     var experienceLevels = ["beginner", "intermediate", "advanced"]
     @State var userName = ""
     @State var password = ""
-    @State var email = ""
+    //@State var email = ""
     @State var university = ""
     @State var major = ""
     @State var showSkillSheet = false
@@ -28,16 +28,25 @@ struct SettingsView: View {
                     List {
                         
                         Section(header: Text("Account Information")){
-                            TextField(userModel.name, text: $userName)
-                            TextField(userModel.email, text: $email)
-                            TextField(userModel.university, text: $university)
-                            TextField(userModel.major, text: $major)
+                            TextField("Enter Name", text: $userName)
+                                .onAppear {
+                                    userName = userModel.name
+                                }
+                            //TextField(userModel.email, text: $email)
+                            TextField("Enter University", text: $university)
+                                .onAppear {
+                                    university = userModel.university
+                                }
+                            TextField("Enter Major", text: $major)
+                                .onAppear {
+                                    major = userModel.major
+                                }
                         }
                         .listRowBackground(Color.secondaryBackground)
                         .foregroundColor(Color.text)
                         
                         Section(header: Text("Experience Level")){
-                            Picker("Select Major", selection: $experience) {
+                            Picker("Select Experience", selection: $experience) {
                                 ForEach(experienceLevels, id: \.self) { item in
                                     Text(item)
                                         .foregroundColor(.blue) // Change the text color
@@ -122,12 +131,19 @@ struct SettingsView: View {
                         chosenSkills = userModel.techStack
                     }
                     //Spacer()
-                    
-                    Button("Logout") {
-                        //TODO
-                        moveToLogin = true
+                    HStack{
+                        Spacer()
+                        Button("Logout") {
+                            moveToLogin = true
+                        }
+                        Spacer()
+                        Button("Save"){
+                            
+                        }
+                        Spacer()
                     }
                     Spacer()
+                    
                 }
             }
         }
