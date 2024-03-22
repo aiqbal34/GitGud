@@ -71,6 +71,30 @@ func fetchCurrentUsersInformation(urlString: String, currUser: String) async thr
     }
 }
 
+func fetchCurrentUserTeam(currUser: String) async throws -> UserTeamData {
+    guard let url = URL(string: "http://127.0.0.1:5000/getCurrentUserTeams?currUser=\(currUser)") else {
+        throw URLError(.badURL)
+    }
+    do {
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        let decoder = JSONDecoder()
+        do {
+            try print(decoder.decode(UserTeamData.self, from: data))
+        } catch {
+            print("Failed")
+        }
+        try print(decoder.decode(UserTeamData.self, from: data))
+        return try decoder.decode(UserTeamData.self, from: data) // Decode into an array of UserModel
+    } catch {
+        throw error
+    }
+}
+
+
+
 func fetchFilteredList(skills: [String], experienceLevel: String) async throws -> [UserModel] {
     var components = URLComponents(string: "http://127.0.0.1:5000/findMember")
     var queryItems = skills.map { URLQueryItem(name: "skills", value: $0) }
@@ -111,7 +135,7 @@ func sendMatch(currUser: String, sentUser: String) async throws {
     
 }
 
-func sendTeamMatch(currUser: String, sentUser: String, teamDescription: Team) async throws {
+func sendTeamMatch(currUser: String, sentUser: String, teamID: String) async throws {
     // Construct URL with query parameters
     guard let url = URL(string: "http://127.0.0.1:5000/sendTeamMatch?currUser=\(currUser)&sentUser=\(sentUser)") else {
         throw URLError(.badURL)
@@ -125,7 +149,7 @@ func sendTeamMatch(currUser: String, sentUser: String, teamDescription: Team) as
     do {
         // Encode teamDescription to JSON data
         let encoder = JSONEncoder()
-        let jsonData = try encoder.encode(teamDescription)
+        let jsonData = try encoder.encode(teamID)
         
         // Set JSON data as HTTP body
         request.httpBody = jsonData
@@ -145,7 +169,7 @@ func sendTeamMatch(currUser: String, sentUser: String, teamDescription: Team) as
     }
 }
 
-func createTeam(currUser: String, teamDescription: Team) async throws {
+func createTeam(currUser: String, teamDescription: Team) async throws -> createTeamResponse {
     // Construct URL with query parameters
     guard let url = URL(string: "http://127.0.0.1:5000/createTeam?currUser=\(currUser)") else {
         throw URLError(.badURL)
@@ -165,12 +189,15 @@ func createTeam(currUser: String, teamDescription: Team) async throws {
         request.httpBody = jsonData
         
         // Send POST request
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        let teamID = try JSONDecoder().decode(createTeamResponse.self, from: data)
         
         // Check response status code
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
+        return teamID
         
     } catch {
         // Log or handle the error in a meaningful way
@@ -179,7 +206,7 @@ func createTeam(currUser: String, teamDescription: Team) async throws {
     }
 }
 
-func rejectTeam(currUser: String, teamDescription: Team) async throws {
+func rejectTeam(currUser: String, teamID: String) async throws {
     guard let url = URL(string: "http://127.0.0.1:5000/rejectTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
@@ -192,7 +219,7 @@ func rejectTeam(currUser: String, teamDescription: Team) async throws {
     do {
         // Encode teamDescription to JSON data
         let encoder = JSONEncoder()
-        let jsonData = try encoder.encode(teamDescription)
+        let jsonData = try encoder.encode(teamID)
         
         // Set JSON data as HTTP body
         request.httpBody = jsonData
@@ -212,7 +239,7 @@ func rejectTeam(currUser: String, teamDescription: Team) async throws {
     }
 }
 
-func acceptTeam(currUser: String, teamDescription: Team) async throws {
+func acceptTeam(currUser: String, teamID: String) async throws {
     guard let url = URL(string: "http://127.0.0.1:5000/acceptTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
@@ -225,7 +252,7 @@ func acceptTeam(currUser: String, teamDescription: Team) async throws {
     do {
         // Encode teamDescription to JSON data
         let encoder = JSONEncoder()
-        let jsonData = try encoder.encode(teamDescription)
+        let jsonData = try encoder.encode(teamID)
         
         // Set JSON data as HTTP body
         request.httpBody = jsonData

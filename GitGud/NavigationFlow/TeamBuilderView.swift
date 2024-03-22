@@ -20,6 +20,7 @@ struct TeamBuilderView: View {
     @State var move_toAiLosingView: Bool = false
     @State var project: ProjectBuild = ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: "")
     @EnvironmentObject var userModel: UserModel
+    @EnvironmentObject var UserTeams: UserTeamData
     
     
     
@@ -187,6 +188,7 @@ struct TeamBuilderView: View {
                 .navigationDestination(isPresented: $move_toAiLosingView){
                     AILoadingView(imFeelingLucky: imFeelingLucky, projectBuild: project)
                         .environmentObject(userModel)
+                        .environmentObject(UserTeams)
                     
                 }
                 

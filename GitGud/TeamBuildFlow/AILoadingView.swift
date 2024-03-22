@@ -15,6 +15,7 @@ struct AILoadingView: View {
     
     @State var pickMembersView = false
     @EnvironmentObject var userModel: UserModel
+    @EnvironmentObject var UserTeams: UserTeamData
     @State var aiResponse: [AiResponse] = []
     @State var foundMembers: FoundMembers = FoundMembers(foundMembers: [])
     var body: some View {
@@ -36,15 +37,14 @@ struct AILoadingView: View {
                             var filteredList = try await fetchFilteredList(skills: response.skills, experienceLevel: response.experienceLevel)
                             foundMembers.foundMembers.append(filteredList[0])
                         }
-        
+                        
                         pickMembersView = true
                     }
                 }else {
                     Task {
                         do {
                             aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
-                            
-                            userModel.teamConnections.append(Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild))
+
                             foundMembers.foundMembers = Array(repeating: nil, count: aiResponse.count)
                             pickMembersView = true
                         } catch {
@@ -54,9 +54,10 @@ struct AILoadingView: View {
                 }
             }
             .navigationDestination(isPresented: $pickMembersView){
-                FindMembersView(teamDescription: Team(people: [userModel.name],ids: [userModel.userID], emails: [userModel.email], project: projectBuild), aiResponse: aiResponse, imFeelingLucky: imFeelingLucky)
+                FindMembersView(teamDescription: Team(people: [userModel.name], teamID: projectBuild.projectName + String(generateRandomNumber()), emails: [userModel.email], project: projectBuild), aiResponse: aiResponse, imFeelingLucky: imFeelingLucky)
                     .environmentObject(userModel)
                     .environmentObject(foundMembers)
+                    .environmentObject(UserTeams)
               
             }
             .navigationBarBackButtonHidden()
@@ -64,3 +65,6 @@ struct AILoadingView: View {
     }
 }
 
+func generateRandomNumber() -> Int {
+    return Int.random(in: 1...1000) // Generating a random number between 1 and 100
+}

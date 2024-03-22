@@ -14,6 +14,7 @@ struct LoadingView: View {
     @State var userList: [UserModel] = []
     @State var currUserID: String
     
+    @StateObject var UserTeams = UserTeamData()
 
 
     var getData: Bool
@@ -35,6 +36,7 @@ struct LoadingView: View {
                         do {
                             userList = try await fetchUsersForHomePage(currUser: currUserID)
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser",currUser: currUserID))
+                            try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         } catch {
                             print(error)
                         }
@@ -45,11 +47,13 @@ struct LoadingView: View {
                             userList = try await fetchUsersForHomePage(currUser: currUserID)
                          
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser", currUser: currUserID))
+                            try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         }catch {
                             print(error)
                         }
                     }
                     userModel.printModel()
+                    print("This is the team Connections + \(UserTeams.teamConnections)")
                     move_to_Home = true
                 }
                 
@@ -58,6 +62,7 @@ struct LoadingView: View {
                 
                 NavigationBar(userList: userList, selectedTab: "Find Matches")
                     .environmentObject(userModel)
+                    .environmentObject(UserTeams)
                   
             }
         }

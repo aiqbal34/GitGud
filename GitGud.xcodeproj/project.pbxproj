@@ -18,6 +18,8 @@
 		ABA1BB342B8BCA7C00BF7BB9 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */; };
 		AC0BDA972B907E9200109CC9 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */; };
 		AC0BDA992B907ED300109CC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA982B907ED300109CC9 /* SettingsView.swift */; };
+		ACB963BA2BABD33B009CAFAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
+		ACB963BB2BABD33B009CAFAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
 		ACC1A3A12B9D2958000CF095 /* AILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */; };
 		ACC1A3A82B9FC369000CF095 /* BasicThemeKit in Frameworks */ = {isa = PBXBuildFile; productRef = ACC1A3A72B9FC369000CF095 /* BasicThemeKit */; };
 		ACC1A3AB2B9FC741000CF095 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = ACC1A3AA2B9FC741000CF095 /* AlertToast */; };
@@ -372,6 +374,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACB963BA2BABD33B009CAFAD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +382,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACB963BB2BABD33B009CAFAD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

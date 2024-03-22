@@ -19,11 +19,14 @@ struct LoginView: View {
     @State var move_Home = false
     @State var result: String? = ""
     
+    
+    
     var body: some View {
        NavigationStack {
             ZStack {
                 GradientStyles.backgroundGradient
                     .edgesIgnoringSafeArea(.all)
+                
                 VStack {
                     Text("Sign in")
                         .font(.system(size: 24))
@@ -41,19 +44,18 @@ struct LoginView: View {
                     Rectangle()
                         .frame(width: 200, height: 2)
                         .foregroundColor(.text)
-                        .padding(.bottom)
+                        .padding(.bottom, 25)
             
-                        SecureField("Password", text: $password)
-                            .frame(width: 200)
-                            .foregroundColor(.text)
-                            .fontDesign(.monospaced)
-                            .focused($isKeyBoard)
-                            .textContentType(.password)
+                    SecureField("Password", text: $password)
+                        .frame(width: 200)
+                        .foregroundColor(.text)
+                        .focused($isKeyBoard)
+                        .textContentType(.password)
 
                     Rectangle()
                         .frame(width: 200, height: 2)
                         .foregroundColor(.text)
-                        .padding(.bottom, 40)
+                        .padding(.bottom, 25)
                     Button("Login") {
                         // this function allows the user to login is in the api file
                         
