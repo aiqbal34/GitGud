@@ -25,7 +25,8 @@ import FirebaseAuth
 import Firebase
 
 
-var url = "http://127.0.0.1:5000/"
+//var url = "http://127.0.0.1:5000/"
+var url = "https://backendgg-9e8e232e3312.herokuapp.com/"
 
 
 

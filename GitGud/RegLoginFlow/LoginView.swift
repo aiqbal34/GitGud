@@ -5,12 +5,15 @@
 //  Created by Aariz Iqbal on 2/24/24.
 //
 
+/*
+ This is the Login Page for the User. The user can either login using their email and password or they create an account. If the user presses on create account logging in will take them to the next step in the account create process which is Register.View.
+ */
+
 import SwiftUI
 
 struct LoginView: View {
     
     @EnvironmentObject var userModel: UserModel
-    
     @State var userName = ""
     @State var password = ""
     @FocusState var isKeyBoard: Bool
@@ -28,7 +31,7 @@ struct LoginView: View {
             ZStack {
                 GradientStyles.backgroundGradient
                     .edgesIgnoringSafeArea(.all)
-                
+                // A VStack with the Sign in Display and textfields
                 VStack {
                     Text("Sign in")
                         .font(.system(size: 24))
@@ -66,18 +69,16 @@ struct LoginView: View {
                         .padding(.bottom, 25)
                     
                     Button("Login") {
-                        // this function allows the user to login is in the api file
+                        // this function allows the user to login using the userSignIn fucntion the Api file
                         Task {
                             do {
                                 result = try await userSignIn(email: userName, password: password)
-                                
-                                
+                                move_Home = true
+                                UserDefaults.standard.set(result, forKey: "userID")
                             } catch let error as Error {
                                 print(error.localizedDescription)
                                 errorMessage = "Email/Password is Incorrect"
                             }
-                            move_Home = true
-                            UserDefaults.standard.set(result, forKey: "userID")
                         }
                     }
                     .frame(width: 200, height: 50)
@@ -88,7 +89,7 @@ struct LoginView: View {
                     .fontWeight(.bold)
                     .padding(.bottom)
                     
-                    
+                    //Causes flag to set to true so user can move onto next step in registration process
                     Button("Create Account") {
                         move_Register = true
                         

@@ -15,7 +15,6 @@ struct SettingsView: View {
     @State private var searchText: String = ""
     @State var experience = ""
     var experienceLevels = ["Beginner", "Medium" ," Experienced"]
-
     @State var userName = ""
     @State var password = ""
     @State var university = ""
@@ -24,8 +23,6 @@ struct SettingsView: View {
     @State var chosenSkills: [String] = []
     @State var moveToLogin = false
     @State var isError: Bool = false
-
-    @State var removeTags: [String] = []
     
     var body: some View {
         NavigationStack {
@@ -34,7 +31,6 @@ struct SettingsView: View {
                 VStack{
                     Spacer()
                     List {
-                        
                         Section(header: Text("Account Information")){
                             TextField("Enter Name", text: $userName)
                                 .onAppear {
@@ -52,6 +48,7 @@ struct SettingsView: View {
                         .listRowBackground(Color.secondaryBackground)
                         .foregroundColor(Color.text)
                         
+                        //Segmented picker for expereicen Level
                         Section(header: Text("Experience Level")){
                             Picker("Select Experience", selection: $experience) {
                                 ForEach(experienceLevels, id: \.self) { item in
@@ -82,7 +79,6 @@ struct SettingsView: View {
                                 })
                             })
                             .frame(width: 200, height: 50)
-
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
                             .cornerRadius(10)
