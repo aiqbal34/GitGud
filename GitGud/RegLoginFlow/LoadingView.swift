@@ -7,7 +7,13 @@
 
 import SwiftUI
 
+/*
+ - Fetches users from data base to populate homeView
+ - Creates account, if needed
+ -
+ */
 struct LoadingView: View {
+    // @Objects
     @EnvironmentObject var userModel: UserModel
     
     @State var move_to_Home = false
@@ -31,8 +37,8 @@ struct LoadingView: View {
                     .monospaced()
             }.onAppear {
                 Task {
+                    // Fetches users from database
                     if (getData) {
-                        //pull the currenct users information
                         do {
                             userList = try await fetchUsersForHomePage(currUser: currUserID)
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser",currUser: currUserID))
@@ -43,10 +49,10 @@ struct LoadingView: View {
                         }
                         
                     } else {
+                        // Stores new account in data base and fetch new users
                         do {
                             try await saveNewAccount(userData: userModel, urlString: "createBasicAccount")
                             userList = try await fetchUsersForHomePage(currUser: currUserID)
-                         
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser", currUser: currUserID))
                             try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         }catch {
@@ -60,6 +66,7 @@ struct LoadingView: View {
                 }
                 
             }
+
             .navigationDestination(isPresented: $isError) {
                 LoginView()
                     .environmentObject(userModel)
