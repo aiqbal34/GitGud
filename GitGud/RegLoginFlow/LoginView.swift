@@ -18,6 +18,7 @@ struct LoginView: View {
     @State var move_Register = false
     @State var move_Home = false
     @State var result: String? = ""
+    @State var LoginFailed: Bool = false
     
     
     
@@ -35,7 +36,7 @@ struct LoginView: View {
                         .padding(.bottom)
                         .fontWeight(.bold)
                     HStack {
-                        TextField("Username", text: $userName)
+                        TextField("Email", text: $userName)
                             .frame(width: 200)
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
@@ -71,6 +72,7 @@ struct LoginView: View {
                                 move_Home = true
                             } catch let error as Error {
                                 print(error.localizedDescription)
+                                LoginFailed = true
                             }
                             
                         }
@@ -83,6 +85,9 @@ struct LoginView: View {
                     .cornerRadius(10)
                     .fontWeight(.bold)
                     .padding(.bottom)
+                    .alert(isPresented: $LoginFailed, content: {
+                        Alert(title: Text("Login Failed"), message: Text("Login Failed Try again"), dismissButton: .cancel())
+                    })
                     
                     Button("Create Account") {
                         move_Register = true

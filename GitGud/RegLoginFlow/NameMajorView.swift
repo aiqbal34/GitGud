@@ -278,6 +278,8 @@ struct NameMajorView: View {
                                 userModel.major = chosenMajor
                                 userModel.university = chosenSchool
                                 move_to_techStackView = true
+                            } else {
+                                
                             }
                         }
                         .padding(.trailing, 35)
