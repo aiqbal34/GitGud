@@ -7,7 +7,7 @@ struct SettingsView: View {
     //@State private var removeTags: Set<String> = []
     @State private var searchText: String = ""
     @State var experience = ""
-    var experienceLevels = ["beginner", "intermediate", "advanced"]
+    var experienceLevels = ["Beginner", "Medium", "Experienced"]
     @State var userName = ""
     @State var password = ""
     //@State var email = ""
