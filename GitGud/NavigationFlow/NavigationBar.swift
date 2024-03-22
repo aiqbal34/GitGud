@@ -12,6 +12,7 @@ struct NavigationBar: View {
    
     
     @EnvironmentObject var userModel: UserModel
+    @EnvironmentObject var UserTeams: UserTeamData
     var userList: [UserModel]
  
     @State var selectedTab: String
@@ -29,6 +30,7 @@ struct NavigationBar: View {
 
                 TeamBuilderView()
                     .environmentObject(userModel)
+                    .environmentObject(UserTeams)
                     .tabItem {
                         Label("Team Builder", systemImage: "cube.fill")
                     }
@@ -38,6 +40,7 @@ struct NavigationBar: View {
 
                 ConnectionsView()
                     .environmentObject(userModel)
+                    .environmentObject(UserTeams)
                     .tabItem {
                         Label("Connections", systemImage: "network")
                     }

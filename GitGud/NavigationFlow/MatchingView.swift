@@ -78,7 +78,7 @@ struct MatchingView: View {
                                     Task {
                                         let sentUser = UserModel()
                                         sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                        let team = TeamDescription ?? Team(people: [],ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+ 
                                         
                                         bannerVisible = true
                                         userList.removeFirst()

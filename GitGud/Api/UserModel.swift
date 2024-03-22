@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct createTeamResponse: Codable {
+    var message: String
+    var teamID: String
+}
 
 class FoundMembers: ObservableObject {
     @Published var foundMembers: [UserModel?]
@@ -17,9 +21,59 @@ class FoundMembers: ObservableObject {
 }
 
 
+class UserTeamData: Codable, Hashable, ObservableObject {
+    @Published var teamConnections: [Team]
+    @Published var teamRequests: [Team]
+    
+    init(teamConnections: [Team], teamRequests: [Team]) {
+        self.teamConnections = teamConnections
+        self.teamRequests = teamRequests
+    }
+    init() {
+        self.teamConnections = []
+        self.teamRequests = []
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case teamConnections
+        case teamRequests
+    }
+    
+    // Implement required initializer for Decodable
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.teamConnections = try container.decode([Team].self, forKey: .teamConnections)
+        self.teamRequests = try container.decode([Team].self, forKey: .teamRequests)
+    }
+    
+    // Implement Encodable
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(teamConnections, forKey: .teamConnections)
+        try container.encode(teamRequests, forKey: .teamRequests)
+    }
+    
+    // Override Hashable's hash(into:) function
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(teamConnections)
+        hasher.combine(teamRequests)
+    }
+    
+    // Override Equatable's == operator
+    static func == (lhs: UserTeamData, rhs: UserTeamData) -> Bool {
+        return lhs.teamConnections == rhs.teamConnections && lhs.teamRequests == rhs.teamRequests
+    }
+    
+    func hardCopy(userTeams: UserTeamData) {
+        self.teamConnections = userTeams.teamConnections
+        self.teamRequests = userTeams.teamRequests
+    }
+}
+
+
 struct Team: Codable, Hashable {
     var people: [String]
-    var ids: [String]
+    var teamID: String
     var emails: [String]
     var project: ProjectBuild
     
@@ -27,6 +81,8 @@ struct Team: Codable, Hashable {
         return lhs.people == rhs.people
     }
 }
+
+
 
 class UserModel: ObservableObject, Codable, Equatable, Hashable {
     static func == (lhs: UserModel, rhs: UserModel) -> Bool {
@@ -46,8 +102,8 @@ class UserModel: ObservableObject, Codable, Equatable, Hashable {
     var experience: String
     var connections: [UserModel]
     @Published var requests: [UserModel]
-    @Published var teamConnections: [Team]
-    @Published var teamRequests: [Team]
+    @Published var teamConnections: [String]
+    @Published var teamRequests: [String]
     @Published var techStack: [String]
     var email: String
     
@@ -83,8 +139,8 @@ class UserModel: ObservableObject, Codable, Equatable, Hashable {
         experience = try container.decode(String.self, forKey: .experience)
         connections = try container.decode([UserModel].self, forKey: .connections)
         requests = try container.decode([UserModel].self, forKey: .requests)
-        teamConnections = try container.decode([Team].self, forKey: .teamConnections)
-        teamRequests = try container.decode([Team].self, forKey: .teamRequests)
+        teamConnections = try container.decode([String].self, forKey: .teamConnections)
+        teamRequests = try container.decode([String].self, forKey: .teamRequests)
         techStack = try container.decode([String].self, forKey: .techStack)
         email = try container.decode(String.self, forKey: .email)
     }

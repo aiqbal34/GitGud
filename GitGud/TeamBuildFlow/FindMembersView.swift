@@ -9,22 +9,24 @@ import Foundation
 import SwiftUI
 import LoadingButton
 
+//Add the userTeamData here so the frontend can append that data
 
 struct FindMembersView: View {
     @EnvironmentObject var foundMembers: FoundMembers
     @EnvironmentObject var userModel: UserModel
+    @EnvironmentObject var UserTeams: UserTeamData
+    
     @State private var isFindMembers: Bool = false
     @State var currentMember: [String?] = ["Find Member"]
     @State private var filteredList: [UserModel] = []
     @State var moveToTeamBuilderView = false
     @State var userList: [UserModel] = []
-    
     @State var teamDescription: Team
-    
     @State var aiResponse: [AiResponse]
-    var experienceLevels: [String] = ["Medium", "Experienced", "Beginner"]
     @State var currentIndex: Int  = 0
     @State var imFeelingLucky: Bool
+    
+    var experienceLevels: [String] = ["Medium", "Experienced", "Beginner"]
    
 
     var body: some View {
@@ -99,6 +101,7 @@ struct FindMembersView: View {
         .navigationDestination(isPresented: $moveToTeamBuilderView, destination: {
             NavigationBar(userList: userList, selectedTab: "Team Builder")
                 .environmentObject(userModel)
+                .environmentObject(UserTeams)
             
         })
         
@@ -120,22 +123,17 @@ struct FindMembersView: View {
                     UserDefaults.standard.removeObject(forKey: "projectType")
                     do {
                         //change maybe, for now displays all the users, for which the guy has created
-                        for member in foundMembers.foundMembers {
-                            if let name = member?.name, let email = member?.email {
-                                teamDescription.people.append(name)
-                                teamDescription.emails.append(email)
-                            }
-                        }
                         
                         Task {
                             try await createTeam(currUser: userModel.userID, teamDescription: teamDescription)
+                            UserTeams.teamConnections.append(teamDescription)
                             for member in foundMembers.foundMembers {
-                                try await sendTeamMatch(currUser: userModel.userID, sentUser: member?.userID ?? "", teamDescription: teamDescription)
+                                try await sendTeamMatch(currUser: userModel.userID, sentUser: member?.userID ?? "", teamID: teamDescription.teamID)
                             }
                             
                             moveToTeamBuilderView = true
                         }
-                        userModel.teamConnections.append(teamDescription)
+                        
                     }catch {
                         print(error)
                     }

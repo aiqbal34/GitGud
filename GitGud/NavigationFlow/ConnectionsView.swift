@@ -15,6 +15,7 @@ struct ConnectionsView: View {
     var selectionOptions = ["Connections", "Requests"]
     
     @EnvironmentObject var userModel: UserModel
+    @EnvironmentObject var UserTeams: UserTeamData
     
     var body: some View {
         
@@ -36,10 +37,12 @@ struct ConnectionsView: View {
                     
                     if (viewSelection == "Connections"){
                         Connections()
+                            .environmentObject(UserTeams)
                             .environmentObject(userModel)
                     }
                     if (viewSelection == "Requests") {
                         RequestsView()
+                            .environmentObject(UserTeams)
                             .environmentObject(userModel)
                     }
                     
@@ -48,6 +51,8 @@ struct ConnectionsView: View {
                 .scrollContentBackground(.hidden)
                 .foregroundColor(Color.text)
             }
+        }.onAppear {
+            print(UserTeams.teamConnections)
         }
         
     }
@@ -56,8 +61,9 @@ struct Connections: View {
     @State var connections = ["Sally", "Bob", "Rob", "John"]
     @State var teamConnections = ["StartUp1", "HackathonTeam", "BestBuddies"]
     @State var moveToTeamDetailView = false
-    @State var selectedTeam: Team = Team(people: [], ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
     
+    @EnvironmentObject var UserTeams: UserTeamData
     @EnvironmentObject var userModel: UserModel
     var body: some View {
         
@@ -78,8 +84,8 @@ struct Connections: View {
         }.bold()
         
         Section(header: Text("Teams")){
-            if userModel.teamConnections.count > 0 {
-                ForEach(userModel.teamConnections, id: \.self) { team in
+            if UserTeams.teamConnections.count > 0 {
+                ForEach(UserTeams.teamConnections, id: \.self) { team in
                     VStack {
                         Text(team.project.projectName)
                             .fontWeight(.regular)
@@ -106,12 +112,37 @@ struct TeamDetailView: View {
     
     var body: some View {
         ZStack {
-            Color(.background)
-                .ignoresSafeArea()
-            VStack {
+            GradientStyles.backgroundGradient.ignoresSafeArea()
+            VStack(spacing: 16) { // Adjust spacing as needed
+                HStack(alignment: .top) {
+                    // For emails
+                    VStack {
+                        Text("Emails: ")
+                        ForEach(teamName.emails.indices, id: \.self) { index in
+                            Text("\(teamName.emails[index])")
+                                .foregroundColor(Color.text)
+                                .font(.system(size: 14))
+                                .lineSpacing(2) // Adjust line spacing as needed
+                        }
+                    }
+                    
+                    // For people
+                    VStack {
+                        Text("People: ")
+                        ForEach(teamName.people.indices, id: \.self) { index in
+                            Text("\(teamName.people[index])")
+                                .foregroundColor(Color.text)
+                                .font(.system(size: 14))
+                                .lineSpacing(2) // Adjust line spacing as needed
+                        }
+                    }
+                }.frame(width: 300)
                 Text(teamName.project.description)
-                Text(teamName.emails[0])
-                Text(teamName.people[0])
+                .foregroundColor(Color.text)
+                .font(.system(size: 16)) // Adjust font size for descriptions
+                .lineSpacing(4) // Adjust line spacing for descriptions
+                .multilineTextAlignment(.leading) // Align text to the left
+                .lineLimit(2) // Optionally truncate long descriptions
             }
 
         }
@@ -125,9 +156,10 @@ struct TeamDetailView: View {
 
 struct RequestsView: View {
     @EnvironmentObject var userModel: UserModel
+    @EnvironmentObject var UserTeams: UserTeamData
     @State var teamRequests = ["BestTeam", "TeamHackers", "Buddies"]
     @State var moveToTeamDetailView = false
-    @State var selectedTeam: Team = Team(people: [], ids: [], emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
     //These two values are for the picker
     @State var viewSelection = ""
     var selectionOptions = ["Connections", "Requests"]
@@ -196,8 +228,8 @@ struct RequestsView: View {
         }.bold()
         //TODO
         Section(header: Text("Teams Requests")){
-            if userModel.teamRequests.count > 0 {
-                ForEach(userModel.teamRequests, id: \.self) { team in
+            if UserTeams.teamRequests.count > 0 {
+                ForEach(UserTeams.teamRequests, id: \.self) { team in
                     HStack {
                         VStack {
                             Text(team.project.projectName).fontWeight(.regular)
@@ -213,9 +245,10 @@ struct RequestsView: View {
                                 Task {
                                     var reUser: UserModel
                                     do {
-                                        try await acceptTeam(currUser: userModel.userID, teamDescription: team)
+                                        try await acceptTeam(currUser: userModel.userID, teamID: team.teamID)
                                         reUser = try await fetchCurrentUsersInformation(urlString: "getCurrentUser" ,currUser: userModel.userID)
-                                        userModel.teamConnections = reUser.teamConnections
+                                        try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: userModel.userID))
+
                                     } catch {
                                         print(error)
                                     }
@@ -228,16 +261,16 @@ struct RequestsView: View {
                             Button(action: {
                                 Task {
                                     do {
-                                        try await rejectTeam(currUser: userModel.userID, teamDescription: team)
+                                        try await rejectTeam(currUser: userModel.userID, teamID: team.teamID)
                                     } catch {
                                         print(error)
                                     }
                                     
                                 }
-                                for element in userModel.teamRequests {
+                                for element in UserTeams.teamRequests {
                                     if element == team {
-                                        if let index = userModel.teamRequests.firstIndex(of: element) {
-                                            userModel.teamRequests.remove(at: index)
+                                        if let index = UserTeams.teamRequests.firstIndex(of: element) {
+                                            UserTeams.teamRequests.remove(at: index)
                                         }
                                     }
                                 }
