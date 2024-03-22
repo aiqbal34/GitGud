@@ -26,7 +26,7 @@ struct FindMembersView: View {
     @State var currentIndex: Int  = 0
     @State var imFeelingLucky: Bool
     
-    var experienceLevels: [String] = ["Medium", "Experienced", "Beginner"]
+    var experienceLevels: [String] = [ "Beginner", "Medium", "Experienced",]
    
 
     var body: some View {

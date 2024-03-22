@@ -8,10 +8,21 @@
 import Foundation
 import SwiftUI
 
-
+/*
+ - Prompts users for team details
+ - Calls backend to proccess team details
+    to autofill (gpt api call)
+ - Navigates to teamMatchingView
+    where user can create team,
+    and view options to match with
+    (automated on selection)
+ */
 struct TeamBuilderView: View {
     
+    // @True: AutoMates Matching making
     @State private var imFeelingLucky: Bool = true
+    
+    // Project Info to store and process
     @State private var projectName: String = ""
     @State private var projectDescription: String = ""
     @State private var teamSize: Int = 1
@@ -19,11 +30,12 @@ struct TeamBuilderView: View {
     @State var showProjectType = false
     @State var move_toAiLosingView: Bool = false
     @State var project: ProjectBuild = ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: "")
+    
+    // @Objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
     
-    
-    
+    // Predefined project types for now
     var projectTypeArray = ["Web App", "IOS App", "Andriod App"]
     
     @State var isError = false
@@ -72,6 +84,7 @@ struct TeamBuilderView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding([.top, .horizontal])
                         
+                        // Drop-down search menu of predefined project types
                         Button(chosenProjectType) {
                             showProjectType.toggle()
                         }.sheet(isPresented: $showProjectType, content: {
@@ -159,7 +172,9 @@ struct TeamBuilderView: View {
                         Button("Find Members"){
                             
                             Task {
+                                // Check valid input
                                 if !projectName.isEmpty && !projectDescription.isEmpty && teamSize > 0 && chosenProjectType != "Choose Project Type" {
+                                    // Store Project info in object
                                     project = ProjectBuild(projectName: projectName, description: projectDescription, teamSize: teamSize, projectType: chosenProjectType)
                                     UserDefaults.standard.set(projectName, forKey: "projectName")
                                     UserDefaults.standard.set(projectDescription, forKey: "projectDescription")
@@ -186,12 +201,14 @@ struct TeamBuilderView: View {
                 .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
                 .ignoresSafeArea(.all)
                 .navigationDestination(isPresented: $move_toAiLosingView){
+                    // Calls backend to activate gpt
                     AILoadingView(imFeelingLucky: imFeelingLucky, projectBuild: project)
                         .environmentObject(userModel)
                         .environmentObject(UserTeams)
                     
                 }
                 
+            // For back button handling
             }.onAppear {
                 if let savedProjectName = UserDefaults.standard.string(forKey: "projectName") {
                     projectName = savedProjectName
@@ -204,8 +221,7 @@ struct TeamBuilderView: View {
                 } else {
                     projectDescription = "" // Or set a default value
                 }
-
-                // Use integer(forKey:) for teamSize and string(forKey:) for projectType
+                
                 if UserDefaults.standard.object(forKey: "teamSize") != nil {
                   teamSize = UserDefaults.standard.integer(forKey: "teamSize")
                 } else {
@@ -220,15 +236,3 @@ struct TeamBuilderView: View {
         }
     }
 }
-
-
-
-
-
-
-#Preview {
-    TeamBuilderView()
-}
-
-
-

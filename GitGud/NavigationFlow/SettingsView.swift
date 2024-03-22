@@ -1,22 +1,30 @@
 import SwiftUI
 
+/*
+ - Allows user to adjust his current info
+    such as name, major,...skills, etc
+ - Logout functionality 
+ */
 struct SettingsView: View {
     
+    // @Objects
     @EnvironmentObject var userModel: UserModel
     
-    //@State private var removeTags: Set<String> = []
+    
+    // User info fields
     @State private var searchText: String = ""
     @State var experience = ""
-    var experienceLevels = ["Beginner", "Medium", "Experienced"]
+    var experienceLevels = ["Beginner", "Medium" ," Experienced"]
+
     @State var userName = ""
     @State var password = ""
-    //@State var email = ""
     @State var university = ""
     @State var major = ""
     @State var showSkillSheet = false
     @State var chosenSkills: [String] = []
     @State var moveToLogin = false
-    
+    @State var isError: Bool = false
+
     @State var removeTags: [String] = []
     
     var body: some View {
@@ -32,7 +40,6 @@ struct SettingsView: View {
                                 .onAppear {
                                     userName = userModel.name
                                 }
-                            //TextField(userModel.email, text: $email)
                             TextField("Enter University", text: $university)
                                 .onAppear {
                                     university = userModel.university
@@ -49,13 +56,13 @@ struct SettingsView: View {
                             Picker("Select Experience", selection: $experience) {
                                 ForEach(experienceLevels, id: \.self) { item in
                                     Text(item)
-                                        .foregroundColor(.blue) // Change the text color
-                                        .font(.headline) // Set the font style
-                                        .padding() // Add some padding around each text
+                                        .foregroundColor(.blue)
+                                        .font(.headline)
+                                        .padding()
                                 }
                             }
-                            .pickerStyle(SegmentedPickerStyle()) // Apply MenuPickerStyle
-                            .padding() // Add padding around the picker
+                            .pickerStyle(SegmentedPickerStyle())
+                            .padding()
                         }
                         .onAppear {
                             experience = userModel.experience
@@ -95,27 +102,13 @@ struct SettingsView: View {
                                         .foregroundColor(.text)
                                         .fontDesign(.monospaced)
                                         .clipShape(Capsule())
-                                    
-//                                    Button(action: {
-//                                        //let chosen = skill
-//                                        print(skill)
-////                                        chosenSkills.removeAll(where:{
-////                                            //let shorthand = $0
-////                                            $0 == "React"
-////                                            
-////                                        })
-//                                        
-//                                        //chosenSkills.removeLast()
-//
-//                                    }) {
-//                                        Image(systemName: "x.circle")
-//                                            .foregroundColor(.red)
-//                                    }
                                 }
                             }
                         }
                         .padding()
-                        
+                        .alert(isPresented: $isError, content: {
+                            Alert(title: Text("Update Failed"), message: Text("Try Updating User Again"), dismissButton: .cancel())
+                        })
                         HStack{
                             Spacer()
                             Button("Clear Skill Selection"){
@@ -125,7 +118,7 @@ struct SettingsView: View {
                         }
                     }
                     .listStyle(InsetGroupedListStyle())
-                    //.searchable(text: $searchText)
+                   
                     
                     .onAppear {
                         chosenSkills = userModel.techStack
@@ -135,10 +128,17 @@ struct SettingsView: View {
                         Spacer()
                         Button("Logout") {
                             moveToLogin = true
+                            UserDefaults.standard.removeObject(forKey: "userID")
                         }
                         Spacer()
                         Button("Save"){
-                            
+                            var update = UserModel()
+                            update.name = userName
+                            update.university = university
+                            update.major = major
+                            update.techStack = chosenSkills
+                            update.experience = experience
+
                         }
                         Spacer()
                     }

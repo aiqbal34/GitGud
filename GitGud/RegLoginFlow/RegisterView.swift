@@ -114,6 +114,7 @@ struct RegisterView: View {
                         .foregroundColor(.text)
                         .fontWeight(.bold)
                         
+                        
                     }
                     
                 }

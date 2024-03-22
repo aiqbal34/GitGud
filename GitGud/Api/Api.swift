@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// global background style
 struct GradientStyles {
     static var backgroundGradient: LinearGradient {
         LinearGradient(
@@ -17,13 +17,16 @@ struct GradientStyles {
     }
 }
 
+
+
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 import Firebase
 
 
-//initial fecthing of data
+var url = "http://127.0.0.1:5000/"
+
 
 
 
@@ -95,8 +98,44 @@ func fetchCurrentUserTeam(currUser: String) async throws -> UserTeamData {
     }
 }
 
+func updateUser(currUser: String, updatedUser: UserModel) async throws {
+    // Construct URL with query parameters
+    guard let url = URL(string: "\(url)updateUser?currUser=\(currUser)") else {
+        throw URLError(.badURL)
+    }
+    
+    // Create POST request
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+        // Encode teamDescription to JSON data
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(updatedUser)
+        
+        // Set JSON data as HTTP body
+        request.httpBody = jsonData
+        
+        // Send POST request
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Check response status code
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
 
-
+/*
+ This function takes in two paramters, skills and the experiencelevel
+ returns a list of users closest to those paramters
+ */
 func fetchFilteredList(skills: [String], experienceLevel: String) async throws -> [UserModel] {
     var components = URLComponents(string: "\(url)findMember")
     var queryItems = skills.map { URLQueryItem(name: "skills", value: $0) }
@@ -209,6 +248,7 @@ func createTeam(currUser: String, teamDescription: Team) async throws -> createT
 }
 
 func rejectTeam(currUser: String, teamID: String) async throws {
+    print("In reject Team")
     guard let url = URL(string: "\(url)rejectTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
@@ -242,6 +282,7 @@ func rejectTeam(currUser: String, teamID: String) async throws {
 }
 
 func acceptTeam(currUser: String, teamID: String) async throws {
+    print("in accept team")
     guard let url = URL(string: "\(url)acceptTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }

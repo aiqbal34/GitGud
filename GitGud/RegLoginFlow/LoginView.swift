@@ -19,6 +19,7 @@ struct LoginView: View {
     @State var move_Home = false
     @State var result: String? = ""
     @State var errorMessage = ""
+
     
     
     
@@ -36,7 +37,7 @@ struct LoginView: View {
                         .padding(.bottom)
                         .fontWeight(.bold)
                     HStack {
-                        TextField("Username", text: $userName)
+                        TextField("Email", text: $userName)
                             .frame(width: 200)
                             .foregroundColor(.text)
                             .fontDesign(.monospaced)
@@ -68,14 +69,15 @@ struct LoginView: View {
                         // this function allows the user to login is in the api file
                         Task {
                             do {
-                                 result = try await userSignIn(email: userName, password: password)
+                                result = try await userSignIn(email: userName, password: password)
                                 
-                                move_Home = true
+                                
                             } catch let error as Error {
                                 print(error.localizedDescription)
                                 errorMessage = "Email/Password is Incorrect"
                             }
-                            
+                            move_Home = true
+                            UserDefaults.standard.set(result, forKey: "userID")
                         }
                     }
                     .frame(width: 200, height: 50)
