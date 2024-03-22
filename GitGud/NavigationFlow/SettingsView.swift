@@ -4,7 +4,7 @@ struct SettingsView: View {
     
     @EnvironmentObject var userModel: UserModel
     
-    @State private var selectedTags: Set<String> = []
+    //@State private var removeTags: Set<String> = []
     @State private var searchText: String = ""
     @State var experience = ""
     var experienceLevels = ["beginner", "intermediate", "advanced"]
@@ -16,12 +16,13 @@ struct SettingsView: View {
     @State var showSkillSheet = false
     @State var chosenSkills: [String] = []
     @State var moveToLogin = false
-
+    
+    @State var removeTags: [String] = []
+    
     var body: some View {
         NavigationStack {
             ZStack{
-                Color.background
-                    .edgesIgnoringSafeArea(.all)
+                GradientStyles.backgroundGradient.ignoresSafeArea()
                 VStack{
                     Spacer()
                     List {
@@ -73,6 +74,9 @@ struct SettingsView: View {
                             .padding(.bottom)
                             Spacer()
                         }
+                        
+                        
+                        
                         LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
                             ForEach(chosenSkills, id: \.self) { skill in
                                 HStack {
@@ -83,15 +87,33 @@ struct SettingsView: View {
                                         .fontDesign(.monospaced)
                                         .clipShape(Capsule())
                                     
-                                    Button(action: {
-                                    }) {
-                                        Image(systemName: "x.circle")
-                                            .foregroundColor(.red)
-                                    }
+//                                    Button(action: {
+//                                        //let chosen = skill
+//                                        print(skill)
+////                                        chosenSkills.removeAll(where:{
+////                                            //let shorthand = $0
+////                                            $0 == "React"
+////                                            
+////                                        })
+//                                        
+//                                        //chosenSkills.removeLast()
+//
+//                                    }) {
+//                                        Image(systemName: "x.circle")
+//                                            .foregroundColor(.red)
+//                                    }
                                 }
                             }
                         }
                         .padding()
+                        
+                        HStack{
+                            Spacer()
+                            Button("Clear Skill Selection"){
+                                chosenSkills = []
+                            }
+                            Spacer()
+                        }
                     }
                     .listStyle(InsetGroupedListStyle())
                     //.searchable(text: $searchText)
