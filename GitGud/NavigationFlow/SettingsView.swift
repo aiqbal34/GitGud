@@ -135,6 +135,7 @@ struct SettingsView: View {
                         Spacer()
                         Button("Logout") {
                             moveToLogin = true
+                            UserDefaults.standard.removeObject(forKey: "userID")
                         }
                         Spacer()
                         Button("Save"){
