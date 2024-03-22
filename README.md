@@ -7,6 +7,12 @@ The TeamBuilder App has more view that lie within it so and it also has quite of
 The FindMembers View in that file is where the user can pick the users they need for thier team. 
 The API file also contains the structs we use and the classes we used, and also all the API calls that we did to our backend.
 
+## Testing and Building App
+To build our app just clone the repository and run the app.
+If it seems like the backend is not working where no users are showing up you might need to run the backend on your own. 
+The in the backend file you have to install the reqiurements using the command pip install  -r requirements.txt
+you would need the API key , which is OPENAI_API_KEY=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 and put that in the .env file
+
 
 # MileStone 2 Notes
 
