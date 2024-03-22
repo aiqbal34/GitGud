@@ -143,6 +143,7 @@
 		ACC1A3AE2B9FD402000CF095 /* NavigationFlow */ = {
 			isa = PBXGroup;
 			children = (
+				ACC1A3B92BA1AF9D000CF095 /* UserCardView.swift */,
 				AC0BDA982B907ED300109CC9 /* SettingsView.swift */,
 				ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */,
 				ABA1BB332B8BCA7C00BF7BB9 /* TeamBuilderView.swift */,
@@ -174,7 +175,6 @@
 		ACECE57F2B8734DE00CB40A7 = {
 			isa = PBXGroup;
 			children = (
-				ACC1A3B92BA1AF9D000CF095 /* UserCardView.swift */,
 				ACECE58A2B8734DE00CB40A7 /* GitGud */,
 				ACECE59F2B8734DF00CB40A7 /* GitGudTests */,
 				ACECE5A92B8734DF00CB40A7 /* GitGudUITests */,

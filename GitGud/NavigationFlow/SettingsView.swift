@@ -14,7 +14,8 @@ struct SettingsView: View {
     // User info fields
     @State private var searchText: String = ""
     @State var experience = ""
-    var experienceLevels = ["Beginner", "Medium", "Experienced"]
+    var experienceLevels = ["Beginner", "Medium" ," Experienced"]
+
     @State var userName = ""
     @State var password = ""
     @State var university = ""
@@ -22,6 +23,8 @@ struct SettingsView: View {
     @State var showSkillSheet = false
     @State var chosenSkills: [String] = []
     @State var moveToLogin = false
+    @State var isError: Bool = false
+
     @State var removeTags: [String] = []
     
     var body: some View {
@@ -103,7 +106,9 @@ struct SettingsView: View {
                             }
                         }
                         .padding()
-                        
+                        .alert(isPresented: $isError, content: {
+                            Alert(title: Text("Update Failed"), message: Text("Try Updating User Again"), dismissButton: .cancel())
+                        })
                         HStack{
                             Spacer()
                             Button("Clear Skill Selection"){
@@ -113,7 +118,7 @@ struct SettingsView: View {
                         }
                     }
                     .listStyle(InsetGroupedListStyle())
-                    //.searchable(text: $searchText)
+                   
                     
                     .onAppear {
                         chosenSkills = userModel.techStack
@@ -127,7 +132,13 @@ struct SettingsView: View {
                         }
                         Spacer()
                         Button("Save"){
-                            
+                            var update = UserModel()
+                            update.name = userName
+                            update.university = university
+                            update.major = major
+                            update.techStack = chosenSkills
+                            update.experience = experience
+
                         }
                         Spacer()
                     }

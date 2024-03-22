@@ -181,3 +181,5 @@ class UserModel: ObservableObject, Codable, Equatable, Hashable {
         self.email = user.email
     }
 }
+
+
