@@ -130,7 +130,7 @@ struct FindMembersView: View {
                             for member in foundMembers.foundMembers {
                                 try await sendTeamMatch(currUser: userModel.userID, sentUser: member?.userID ?? "", teamID: teamDescription.teamID)
                             }
-                            
+                            userList = try await fetchUsersForHomePage(currUser: userModel.userID)
                             moveToTeamBuilderView = true
                         }
                         
