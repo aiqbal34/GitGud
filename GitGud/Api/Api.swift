@@ -25,8 +25,10 @@ import Firebase
 
 //initial fecthing of data
 
+
+
 func fetchUsersForHomePage(currUser: String) async throws -> [UserModel] {
-    guard let url = URL(string: "http://127.0.0.1:5000?currUser=\(currUser)") else {
+    guard let url = URL(string: "\(url)?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
     do {
@@ -50,7 +52,7 @@ func fetchUsersForHomePage(currUser: String) async throws -> [UserModel] {
 
 
 func fetchCurrentUsersInformation(urlString: String, currUser: String) async throws -> UserModel {
-    guard let url = URL(string: "http://127.0.0.1:5000/\(urlString)?currUser=\(currUser)") else {
+    guard let url = URL(string: "\(url)\(urlString)?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
     do {
@@ -72,7 +74,7 @@ func fetchCurrentUsersInformation(urlString: String, currUser: String) async thr
 }
 
 func fetchCurrentUserTeam(currUser: String) async throws -> UserTeamData {
-    guard let url = URL(string: "http://127.0.0.1:5000/getCurrentUserTeams?currUser=\(currUser)") else {
+    guard let url = URL(string: "\(url)getCurrentUserTeams?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
     do {
@@ -96,7 +98,7 @@ func fetchCurrentUserTeam(currUser: String) async throws -> UserTeamData {
 
 
 func fetchFilteredList(skills: [String], experienceLevel: String) async throws -> [UserModel] {
-    var components = URLComponents(string: "http://127.0.0.1:5000/findMember")
+    var components = URLComponents(string: "\(url)findMember")
     var queryItems = skills.map { URLQueryItem(name: "skills", value: $0) }
     queryItems.append(URLQueryItem(name: "experienceLevel", value: experienceLevel))
     
@@ -124,7 +126,7 @@ func fetchFilteredList(skills: [String], experienceLevel: String) async throws -
 
 
 func sendMatch(currUser: String, sentUser: String) async throws {
-    guard let url = URL(string: "http://127.0.0.1:5000/match?currUser=\(currUser)&sentUser=\(sentUser)") else {
+    guard let url = URL(string: "\(url)match?currUser=\(currUser)&sentUser=\(sentUser)") else {
         throw URLError(.badURL)
     }
     
@@ -137,7 +139,7 @@ func sendMatch(currUser: String, sentUser: String) async throws {
 
 func sendTeamMatch(currUser: String, sentUser: String, teamID: String) async throws {
     // Construct URL with query parameters
-    guard let url = URL(string: "http://127.0.0.1:5000/sendTeamMatch?currUser=\(currUser)&sentUser=\(sentUser)") else {
+    guard let url = URL(string: "\(url)sendTeamMatch?currUser=\(currUser)&sentUser=\(sentUser)") else {
         throw URLError(.badURL)
     }
     
@@ -155,7 +157,7 @@ func sendTeamMatch(currUser: String, sentUser: String, teamID: String) async thr
         request.httpBody = jsonData
         
         // Send POST request
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (_, response) = try await URLSession.shared.data(for: request)
         
         // Check response status code
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -171,7 +173,7 @@ func sendTeamMatch(currUser: String, sentUser: String, teamID: String) async thr
 
 func createTeam(currUser: String, teamDescription: Team) async throws -> createTeamResponse {
     // Construct URL with query parameters
-    guard let url = URL(string: "http://127.0.0.1:5000/createTeam?currUser=\(currUser)") else {
+    guard let url = URL(string: "\(url)createTeam?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
     
@@ -207,7 +209,7 @@ func createTeam(currUser: String, teamDescription: Team) async throws -> createT
 }
 
 func rejectTeam(currUser: String, teamID: String) async throws {
-    guard let url = URL(string: "http://127.0.0.1:5000/rejectTeamRequest?currUser=\(currUser)") else {
+    guard let url = URL(string: "\(url)rejectTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
     
@@ -240,7 +242,7 @@ func rejectTeam(currUser: String, teamID: String) async throws {
 }
 
 func acceptTeam(currUser: String, teamID: String) async throws {
-    guard let url = URL(string: "http://127.0.0.1:5000/acceptTeamRequest?currUser=\(currUser)") else {
+    guard let url = URL(string: "\(url)acceptTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
     
@@ -274,7 +276,7 @@ func acceptTeam(currUser: String, teamID: String) async throws {
 
 
 func rejectUser(currUser: String, rejectedUser: String) async throws {
-    guard let url = URL(string: "http://127.0.0.1:5000/rejectRequest?currUser=\(currUser)&rejectedUser=\(rejectedUser)") else {
+    guard let url = URL(string: "\(url)rejectRequest?currUser=\(currUser)&rejectedUser=\(rejectedUser)") else {
         throw URLError(.badURL)
     }
     
@@ -284,7 +286,7 @@ func rejectUser(currUser: String, rejectedUser: String) async throws {
     }
 }
 func accpetUser(currUser: String, acceptUser: String) async throws {
-    guard let url = URL(string: "http://127.0.0.1:5000/acceptRequestAccepter?currUser=\(currUser)&acceptUser=\(acceptUser)") else {
+    guard let url = URL(string: "\(url)acceptRequestAccepter?currUser=\(currUser)&acceptUser=\(acceptUser)") else {
         throw URLError(.badURL)
     }
     
@@ -300,7 +302,7 @@ func accpetUser(currUser: String, acceptUser: String) async throws {
 
 
 func saveNewAccount(userData: UserModel, urlString: String) async throws {
-    guard let url = URL(string: "http://127.0.0.1:5000/\(urlString)") else {
+    guard let url = URL(string: "\(url)\(urlString)") else {
         throw URLError(.badURL)
     }
     
@@ -341,7 +343,7 @@ struct AiResponse: Codable, Hashable {
 
 //check why it is not decodable
 func sendReqToAiModel(description: ProjectBuild, urlString: String) async throws -> [AiResponse] {
-    guard let url = URL(string: "http://127.0.0.1:5000/\(urlString)") else {
+    guard let url = URL(string: "\(url)\(urlString)") else {
         throw URLError(.badURL)
     }
     
