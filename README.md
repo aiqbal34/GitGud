@@ -11,10 +11,11 @@ Login Info: SarahMiller@gmail.com Password: 1234567
 Login Info: BryanLee@gmail.com Password: 1234567
 
 ## Testing and Building App
-To build our app just clone the repository and run the app.
+To build our app just clone the repository and run the app run it on the simulator.
 If it seems like the backend is not working where no users are showing up you might need to run the backend on your own. 
 The in the backend file you have to install the reqiurements using the command pip install  -r requirements.txt
 you would need the API key , which is OPENAI_API_KEY=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 and put that in the .env file
+Also then do python app.py to run it
 
 
 # MileStone 2 Notes
