@@ -5,8 +5,6 @@
 //  Created by Aariz Iqbal on 2/24/24.
 //
 
-//Test Comment
-
 import SwiftUI
 
 struct RegisterView: View {
@@ -78,19 +76,21 @@ struct RegisterView: View {
                     Spacer()
                     HStack {
                         Spacer()
+                        //Moves onto NameMajorView for next step in Creating an Account
                         Button("Next") {
                             Task {
                                 if password == reEnterPassword && email.count != 0 && password.count != 0 && email.contains("@"){
                                     do {
                                         let result = try await create_Account(email: email, password: password)
                                         print(result)
-                                        userModel.userID = result ?? "" //error handle here
+                                        userModel.userID = result ?? ""
                                         userModel.email = email
                                         move_to_NameMajorView = true
                                     }catch {
                                         print("Error as \(error)")
                                     }
                                 }else{
+                                    //Error Handling
                                     if email.count == 0{
                                         errorMessage = "Email is not entered"
                                     }
