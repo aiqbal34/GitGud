@@ -113,11 +113,11 @@ struct TeamDetailView: View {
     var body: some View {
         ZStack {
             GradientStyles.backgroundGradient.ignoresSafeArea()
-            VStack(spacing: 16) { // Adjust spacing as needed
-                HStack(alignment: .top) {
-                    // For emails
-                    VStack {
-                        Text("Emails: ")
+            
+            Spacer()
+            VStack {
+                List{
+                    Section(header: Text("Emails:")){
                         ForEach(teamName.emails.indices, id: \.self) { index in
                             Text("\(teamName.emails[index])")
                                 .foregroundColor(Color.text)
@@ -125,10 +125,7 @@ struct TeamDetailView: View {
                                 .lineSpacing(2) // Adjust line spacing as needed
                         }
                     }
-                    
-                    // For people
-                    VStack {
-                        Text("People: ")
+                    Section(header: Text("People:")){
                         ForEach(teamName.people.indices, id: \.self) { index in
                             Text("\(teamName.people[index])")
                                 .foregroundColor(Color.text)
@@ -136,21 +133,23 @@ struct TeamDetailView: View {
                                 .lineSpacing(2) // Adjust line spacing as needed
                         }
                     }
-                }.frame(width: 300)
-                Text(teamName.project.description)
+                    Section(header: Text("Project Description:")){
+                        Text(teamName.project.description)
+                            .foregroundColor(Color.text)
+                            .font(.system(size: 16)) // Adjust font size for descriptions
+                            .lineSpacing(4) // Adjust line spacing for descriptions
+                            .multilineTextAlignment(.leading) // Align text to the left
+                            .lineLimit(2)
+                    }
+                }
+                .listRowBackground(Color.secondaryBackground)
                 .foregroundColor(Color.text)
-                .font(.system(size: 16)) // Adjust font size for descriptions
-                .lineSpacing(4) // Adjust line spacing for descriptions
-                .multilineTextAlignment(.leading) // Align text to the left
-                .lineLimit(2) // Optionally truncate long descriptions
             }
-
         }
-        .background(Color.secondaryBackground)
-        .foregroundColor(Color.text)
-        .accentColor(Color.text)
-        .ignoresSafeArea()
-        .navigationBarTitle(Text(teamName.project.projectName), displayMode: .inline)
+//        .foregroundColor(Color.text)
+//        .accentColor(Color.text)
+//        .ignoresSafeArea()
+//        .navigationBarTitle(Text(teamName.project.projectName), displayMode: .inline)
     }
 }
 
@@ -248,7 +247,7 @@ struct RequestsView: View {
                                         try await acceptTeam(currUser: userModel.userID, teamID: team.teamID)
                                         reUser = try await fetchCurrentUsersInformation(urlString: "getCurrentUser" ,currUser: userModel.userID)
                                         try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: userModel.userID))
-
+                                        
                                     } catch {
                                         print(error)
                                     }
