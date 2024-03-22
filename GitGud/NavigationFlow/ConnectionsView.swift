@@ -7,13 +7,19 @@
 
 import SwiftUI
 
+/*
+ - Segmented view-> Connections/Request
+ - Accept/reject requests
+ - View team details
+ */
 struct ConnectionsView: View {
     
     
-    //These two values are for the picker
+    // These two values are for the picker
     @State var viewSelection = "Connections"
     var selectionOptions = ["Connections", "Requests"]
     
+    // @ Objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
     
@@ -21,17 +27,19 @@ struct ConnectionsView: View {
         
         ZStack {
             GradientStyles.backgroundGradient.ignoresSafeArea()
+            
+            // Segmented View control
             VStack{
                 List {
                     Picker("", selection: $viewSelection) {
                         ForEach(selectionOptions, id: \.self) { item in
                             Text(item)
-                                .foregroundColor(.blue) // Change the text color
-                                .font(.headline) // Set the font style
-                                .padding() // Add some padding around each text
+                                .foregroundColor(.blue)
+                                .font(.headline)
+                                .padding()
                         }
                     }
-                    .pickerStyle(SegmentedPickerStyle()) // Apply MenuPickerStyle
+                    .pickerStyle(SegmentedPickerStyle())
                     .listRowBackground(Color.secondaryBackground)
                     .foregroundColor(Color.text)
                     
@@ -57,11 +65,14 @@ struct ConnectionsView: View {
         
     }
 }
+/*
+ - Displays current connections and teams
+ */
 struct Connections: View {
-    @State var connections = ["Sally", "Bob", "Rob", "John"]
-    @State var teamConnections = ["StartUp1", "HackathonTeam", "BestBuddies"]
     @State var moveToTeamDetailView = false
-    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
+    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [],
+                                         project: ProjectBuild(projectName: "",
+                                                               description: "", teamSize: 0, projectType: ""))
     
     @EnvironmentObject var UserTeams: UserTeamData
     @EnvironmentObject var userModel: UserModel
@@ -122,7 +133,7 @@ struct TeamDetailView: View {
                             Text("\(teamName.emails[index])")
                                 .foregroundColor(Color.text)
                                 .font(.system(size: 14))
-                                .lineSpacing(2) // Adjust line spacing as needed
+                                .lineSpacing(2)
                         }
                     }
                     Section(header: Text("People:")){
@@ -130,15 +141,15 @@ struct TeamDetailView: View {
                             Text("\(teamName.people[index])")
                                 .foregroundColor(Color.text)
                                 .font(.system(size: 14))
-                                .lineSpacing(2) // Adjust line spacing as needed
+                                .lineSpacing(2)
                         }
                     }
                     Section(header: Text("Project Description:")){
                         Text(teamName.project.description)
                             .foregroundColor(Color.text)
-                            .font(.system(size: 16)) // Adjust font size for descriptions
-                            .lineSpacing(4) // Adjust line spacing for descriptions
-                            .multilineTextAlignment(.leading) // Align text to the left
+                            .font(.system(size: 16))
+                            .lineSpacing(4)
+                            .multilineTextAlignment(.leading)
                             .lineLimit(2)
                     }
                 }
@@ -146,24 +157,33 @@ struct TeamDetailView: View {
                 .foregroundColor(Color.text)
             }
         }
-        //        .foregroundColor(Color.text)
-        //        .accentColor(Color.text)
-        //        .ignoresSafeArea()
-        //        .navigationBarTitle(Text(teamName.project.projectName), displayMode: .inline)
     }
 }
 
+/*
+ - Displays recieved invites
+ - User can reject/accept
+ - Connections and teams accepted get
+ addeed to connectionview
+ */
 struct RequestsView: View {
+    // @Objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
-    @State var teamRequests = ["BestTeam", "TeamHackers", "Buddies"]
-    @State var moveToTeamDetailView = false
-    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], project: ProjectBuild(projectName: "", description: "", teamSize: 0, projectType: ""))
-    //These two values are for the picker
+    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], 
+                                         project: ProjectBuild(
+                                            projectName: "", description: "",
+                                            teamSize: 0, projectType: ""))
+
+    
+    // Selected View
     @State var viewSelection = ""
+    @State var moveToTeamDetailView = false
     var selectionOptions = ["Connections", "Requests"]
+    
+    
     var body: some View {
-        
+        // Display recieved requests
         Section(header: Text("Requests")){
             if userModel.requests.count > 0 {
                 ForEach(userModel.requests.indices, id: \.self) { index in
@@ -179,7 +199,8 @@ struct RequestsView: View {
                             Button(action: {
                                 Task {
                                     do {
-                                        try await accpetUser(currUser: userModel.userID, acceptUser: member.userID)
+                                        try await accpetUser(currUser: userModel.userID,
+                                                             acceptUser: member.userID)
                                         
                                     } catch {
                                         print(error)
@@ -196,7 +217,8 @@ struct RequestsView: View {
                                 member.printModel()
                                 Task {
                                     do {
-                                        try await rejectUser(currUser: userModel.userID, rejectedUser: member.userID)
+                                        try await rejectUser(currUser: userModel.userID,
+                                                             rejectedUser: member.userID)
                                     } catch {
                                         print(error)
                                     }
@@ -223,7 +245,6 @@ struct RequestsView: View {
                     .fontWeight(.regular)
             }
         }.bold()
-        //TODO
         Section(header: Text("Teams Requests")){
             if UserTeams.teamRequests.count > 0 {
                 ForEach(UserTeams.teamRequests, id: \.teamID) { team in
@@ -243,9 +264,11 @@ struct RequestsView: View {
                                     print("Clicked CheckMark")
                                     Task {
                                         do {
-                                            try await acceptTeam(currUser: userModel.userID, teamID: team.teamID)
-                                            try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: userModel.userID))
+                                            try await acceptTeam(currUser: userModel.userID,
+                                                                 teamID: team.teamID)
                                             
+                                            try await UserTeams.hardCopy(userTeams:
+                                                                        fetchCurrentUserTeam(currUser: userModel.userID))
                                         } catch {
                                             print(error)
                                         }
@@ -259,24 +282,26 @@ struct RequestsView: View {
                                 .foregroundColor(.red)
                                 .onTapGesture {
                                     
-                                        print("Clicked X")
-                                        Task {
-                                            do {
-                                                try await rejectTeam(currUser: userModel.userID, teamID: team.teamID)
-                                            } catch {
-                                                print(error)
-                                            }
-                                            
+                                    print("Clicked X")
+                                    
+                                    // Rejects and removes invite 
+                                    Task {
+                                        do {
+                                            try await rejectTeam(currUser: userModel.userID, teamID: team.teamID)
+                                        } catch {
+                                            print(error)
                                         }
-                                        for element in UserTeams.teamRequests {
-                                            if element == team {
-                                                if let index = UserTeams.teamRequests.firstIndex(of: element) {
-                                                    UserTeams.teamRequests.remove(at: index)
-                                                }
+                                        
+                                    }
+                                    for element in UserTeams.teamRequests {
+                                        if element == team {
+                                            if let index = UserTeams.teamRequests.firstIndex(of: element) {
+                                                UserTeams.teamRequests.remove(at: index)
                                             }
                                         }
                                     }
-                                
+                                }
+                            
                             
                         }
                     }

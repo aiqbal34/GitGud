@@ -21,8 +21,7 @@ struct TechStackView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.background)
-                    .ignoresSafeArea()
+                GradientStyles.backgroundGradient.ignoresSafeArea()
                 VStack {
                     Spacer()
                     Text("Create Profile")

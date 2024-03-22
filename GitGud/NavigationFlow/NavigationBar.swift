@@ -7,18 +7,19 @@
 
 import SwiftUI
 
+/*
+ - Navigation tool bar to swtich between views
+ */
 struct NavigationBar: View {
     
-   
-    
+    // @objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
     var userList: [UserModel]
  
+    // Current selection
     @State var selectedTab: String
   
-
-     
     var body: some View {
             TabView(selection: $selectedTab) {
                 MatchingView(userList: userList, pickMember: false)
@@ -65,6 +66,8 @@ struct NavigationBar: View {
 
         }
 }
+
+// Bubble UI for the skillss
 struct RoundedTabBar: Shape {
     func path(in rect: CGRect) -> Path {
         let cornerRadius = CGFloat(10)
@@ -72,4 +75,3 @@ struct RoundedTabBar: Shape {
         return path
     }
 }
-/*      */
