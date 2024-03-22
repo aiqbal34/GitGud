@@ -20,6 +20,7 @@ struct RegisterView: View {
     @FocusState var isKeyBoard: Bool
     
     @State var move_to_NameMajorView: Bool = false
+    @State var registerFailed: Bool = false
     
     
     var body: some View {
@@ -82,14 +83,21 @@ struct RegisterView: View {
                                     }catch {
                                         print("Error as \(error)")
                                     }
+                                    userModel.email = email
+                                    move_to_NameMajorView = true
+                                } else {
+                                    registerFailed = true
                                 }
-                                userModel.email = email
-                                move_to_NameMajorView = true
+                                
+
                             }
                         }
                         .padding(.trailing, 35)
                         .foregroundColor(.text)
                         .fontWeight(.bold)
+                        .alert(isPresented: $registerFailed, content: {
+                            Alert(title: Text("Register Failed"), message: Text("Fill Out everything"), dismissButton: .cancel())
+                        })
                         
                     }
                     

@@ -209,6 +209,7 @@ func createTeam(currUser: String, teamDescription: Team) async throws -> createT
 }
 
 func rejectTeam(currUser: String, teamID: String) async throws {
+    print("In reject Team")
     guard let url = URL(string: "\(url)rejectTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }
@@ -242,6 +243,7 @@ func rejectTeam(currUser: String, teamID: String) async throws {
 }
 
 func acceptTeam(currUser: String, teamID: String) async throws {
+    print("in accept team")
     guard let url = URL(string: "\(url)acceptTeamRequest?currUser=\(currUser)") else {
         throw URLError(.badURL)
     }

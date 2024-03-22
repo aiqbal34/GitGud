@@ -85,7 +85,7 @@ struct Connections: View {
         
         Section(header: Text("Teams")){
             if UserTeams.teamConnections.count > 0 {
-                ForEach(UserTeams.teamConnections, id: \.self) { team in
+                ForEach(UserTeams.teamConnections, id: \.teamID) { team in
                     VStack {
                         Text(team.project.projectName)
                             .fontWeight(.regular)
@@ -146,10 +146,10 @@ struct TeamDetailView: View {
                 .foregroundColor(Color.text)
             }
         }
-//        .foregroundColor(Color.text)
-//        .accentColor(Color.text)
-//        .ignoresSafeArea()
-//        .navigationBarTitle(Text(teamName.project.projectName), displayMode: .inline)
+        //        .foregroundColor(Color.text)
+        //        .accentColor(Color.text)
+        //        .ignoresSafeArea()
+        //        .navigationBarTitle(Text(teamName.project.projectName), displayMode: .inline)
     }
 }
 
@@ -197,8 +197,6 @@ struct RequestsView: View {
                                 Task {
                                     do {
                                         try await rejectUser(currUser: userModel.userID, rejectedUser: member.userID)
-                                        // Remove the rejected user from the requests array
-                                        
                                     } catch {
                                         print(error)
                                     }
@@ -228,7 +226,7 @@ struct RequestsView: View {
         //TODO
         Section(header: Text("Teams Requests")){
             if UserTeams.teamRequests.count > 0 {
-                ForEach(UserTeams.teamRequests, id: \.self) { team in
+                ForEach(UserTeams.teamRequests, id: \.teamID) { team in
                     HStack {
                         VStack {
                             Text(team.project.projectName).fontWeight(.regular)
@@ -239,44 +237,47 @@ struct RequestsView: View {
                         }
                         Spacer()
                         HStack(spacing: 20) {
-                            Button(action: {
-                                
-                                Task {
-                                    var reUser: UserModel
-                                    do {
-                                        try await acceptTeam(currUser: userModel.userID, teamID: team.teamID)
-                                        reUser = try await fetchCurrentUsersInformation(urlString: "getCurrentUser" ,currUser: userModel.userID)
-                                        try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: userModel.userID))
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.green)
+                                .onTapGesture {
+                                    print("Clicked CheckMark")
+                                    Task {
+                                        do {
+                                            try await acceptTeam(currUser: userModel.userID, teamID: team.teamID)
+                                            try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: userModel.userID))
+                                            
+                                        } catch {
+                                            print(error)
+                                        }
                                         
-                                    } catch {
-                                        print(error)
                                     }
-                                    
                                 }
-                            }) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.green)
-                            }
-                            Button(action: {
-                                Task {
-                                    do {
-                                        try await rejectTeam(currUser: userModel.userID, teamID: team.teamID)
-                                    } catch {
-                                        print(error)
-                                    }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "xmark")
+                                .foregroundColor(.red)
+                                .onTapGesture {
                                     
-                                }
-                                for element in UserTeams.teamRequests {
-                                    if element == team {
-                                        if let index = UserTeams.teamRequests.firstIndex(of: element) {
-                                            UserTeams.teamRequests.remove(at: index)
+                                        print("Clicked X")
+                                        Task {
+                                            do {
+                                                try await rejectTeam(currUser: userModel.userID, teamID: team.teamID)
+                                            } catch {
+                                                print(error)
+                                            }
+                                            
+                                        }
+                                        for element in UserTeams.teamRequests {
+                                            if element == team {
+                                                if let index = UserTeams.teamRequests.firstIndex(of: element) {
+                                                    UserTeams.teamRequests.remove(at: index)
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                            }) {
-                                Image(systemName: "xmark")
-                                    .foregroundColor(.red)
-                            }
+                                
+                            
                         }
                     }
                 }
