@@ -19,7 +19,7 @@ struct ConnectionsView: View {
     @State var viewSelection = "Connections"
     var selectionOptions = ["Connections", "Requests"]
     
-    // @ Objects
+    // @Objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
     
@@ -93,7 +93,7 @@ struct Connections: View {
                     .fontWeight(.regular)
             }
         }.bold()
-        
+        // Fetches the users connection
         Section(header: Text("Teams")){
             if UserTeams.teamConnections.count > 0 {
                 ForEach(UserTeams.teamConnections, id: \.teamID) { team in
@@ -116,7 +116,9 @@ struct Connections: View {
         }.bold()
     }
 }
-
+/*
+ - Displays the teams details/information
+ */
 
 struct TeamDetailView: View {
     var teamName: Team
@@ -197,6 +199,7 @@ struct RequestsView: View {
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {
+                                // API call to accept connection
                                 Task {
                                     do {
                                         try await accpetUser(currUser: userModel.userID,
@@ -215,6 +218,7 @@ struct RequestsView: View {
                             }
                             Button(action: {
                                 member.printModel()
+                                // API call to reject connection
                                 Task {
                                     do {
                                         try await rejectUser(currUser: userModel.userID,
@@ -263,6 +267,7 @@ struct RequestsView: View {
                                 .onTapGesture {
                                     print("Clicked CheckMark")
                                     Task {
+                                        // API call to accept/reject team invites
                                         do {
                                             try await acceptTeam(currUser: userModel.userID,
                                                                  teamID: team.teamID)
@@ -317,9 +322,4 @@ struct RequestsView: View {
         }
     }
     
-}
-
-
-#Preview {
-    ConnectionsView()
 }

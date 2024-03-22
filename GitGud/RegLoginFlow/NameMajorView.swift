@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
-
+/*
+  - Displays and prompts: name and major
+ */
 struct NameMajorView: View {
     
+    // @Objects
     @EnvironmentObject var userModel: UserModel
+    
     @FocusState var isKeyBoard: Bool
     @State var name = ""
     @State var chosenMajor = "Select Major"
@@ -18,6 +22,7 @@ struct NameMajorView: View {
     @State var showCollegeSheet = false
     @State var move_to_techStackView = false
     
+    // List of Universities in California
     let Colleges = [
         "University of California, Berkeley",
         "University of California, Los Angeles",
@@ -63,6 +68,7 @@ struct NameMajorView: View {
       "Princess Sumaya University for Technology"
       ]
     
+    // List of majors
     var dropDownItem = [
         "Accounting",
         "Aerospace Engineering",
@@ -225,6 +231,7 @@ struct NameMajorView: View {
                     Button(chosenMajor) {
                         showMajorSheet.toggle()
                     }.sheet(isPresented: $showMajorSheet, content: {
+                        // Pop-up search menu
                         SearchSingleViewModel(allItems: dropDownItem, itemLabel: {
                             major in Text(major).onTapGesture {
                                 showMajorSheet = false
@@ -246,6 +253,7 @@ struct NameMajorView: View {
                     Button(chosenSchool) {
                         showCollegeSheet.toggle()
                     }.sheet(isPresented: $showCollegeSheet, content: {
+                        // Pop-up search menu 
                         SearchSingleViewModel(allItems: Colleges, itemLabel: {
                             school in Text(school).onTapGesture {
                                 showCollegeSheet = false
@@ -297,8 +305,4 @@ struct NameMajorView: View {
         }
         
     }
-}
-
-#Preview {
-    NameMajorView()
 }

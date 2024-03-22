@@ -7,11 +7,19 @@
 
 import SwiftUI
 
+/*
+ - Prompts user to enter skills
+ - Pop-up seach menu
+ */
 struct TechStackView: View {
     
+    // @Objects
     @EnvironmentObject var userModel: UserModel
+    
     @State var move_to_PhoneInputView = false
     @State var experience = ""
+    
+    // Predefined list of experience levels
     var experienceLevels = ["Beginner", "Medium" ," Experienced"]
     
 
@@ -24,6 +32,7 @@ struct TechStackView: View {
                 GradientStyles.backgroundGradient.ignoresSafeArea()
                 VStack {
                     Spacer()
+                    
                     Text("Create Profile")
                         .font(.system(size: 24))
                         .foregroundColor(.text)
@@ -37,25 +46,26 @@ struct TechStackView: View {
                         .fontDesign(.monospaced)
                         .padding(.top)
                         .fontWeight(.bold)
+                    
                     Picker("Select Experience", selection: $experience) {
                         ForEach(experienceLevels, id: \.self) { item in
                             Text(item)
-                                .foregroundColor(.blue) // Change the text color
-                                .font(.headline) // Set the font style
-                                .padding() // Add some padding around each text
+                                .foregroundColor(.blue)
+                                .font(.headline)
+                                .padding()
                         }
                     }
-                    .pickerStyle(SegmentedPickerStyle()) // Apply MenuPickerStyle
-                    .padding() // Add padding around the picker
-                    .background(Color.secondaryBackground) // Set background color
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+                    .background(Color.secondaryBackground)
                     .cornerRadius(10)
-                    .frame(height: 100)// Add corner radius
+                    .frame(height: 100)
                     
-
-                    
+                    // Appends skills to the user
                     Button("Choose Skills") {
                         showSkillSheet.toggle()
                     }.sheet(isPresented: $showSkillSheet, content: {
+                        // Pop-up search menu
                         SearchViewModel(selectedItems: $chosenSkills, allItems: allSkills, itemLabel: { skill in
                             Text(skill)
                         }, filterPredicate: { skill, searchText in
@@ -82,11 +92,8 @@ struct TechStackView: View {
                     }
                     .padding()
                     
-                    
-
-                    
-                    
                     Spacer()
+                    
                     HStack {
                         Spacer()
                         Button("Next") {
@@ -110,8 +117,4 @@ struct TechStackView: View {
             }
         }
     }
-}
-
-#Preview {
-    TechStackView()
 }
