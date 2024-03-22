@@ -8,18 +8,24 @@
 import SwiftUI
 import AlertToast
 
-
+/*
+ - Displays Users info/cards
+ - User can match/next
+ */
 
 struct MatchingView: View {
     
+    // @Objects
     @EnvironmentObject var userModel: UserModel
     @State var userList: [UserModel]
     @State var TeamDescription: Team?
+    
+    // @Navigation
     @State var pickMember: Bool
     @State private var getNext = false
     @State var bannerVisible: Bool = false
     
-    //For the pickMembers part
+    // For the pickMembers part
     var currentMemberIndex: Int?
     @EnvironmentObject var foundMembers: FoundMembers
     @Environment(\.dismiss) var dismiss
@@ -32,18 +38,18 @@ struct MatchingView: View {
                 GradientStyles.backgroundGradient
                     .ignoresSafeArea(.all)
                 VStack{
-                    
+                    // Displays users info via cards
                     UserCardView(userList: $userList)
                         .environmentObject(userModel)
                     
                     if !pickMember {
                         HStack{
-                            
+                            // Sends a request to the user and removes him from stack
                             Button("Match") {
                                 Task {
                                     let sentUser = UserModel()
                                     sentUser.hardCopy(user: userList[0]) //Copies the user from the list, overrides an error
-                                    try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID)
+                                    try await sendMatch(currUser: userModel.userID, sentUser: sentUser.userID) // Sends match request
                                     
                                     
                                 }
@@ -57,6 +63,7 @@ struct MatchingView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding()
                             
+                            // Remove user from stack
                             Button("Next") {
                                 userList.removeFirst()
                             }
@@ -121,7 +128,7 @@ struct MatchingView: View {
     }
     
     
-    
+    // Bubble UI for skills
     struct SkillTagView: View {
         var skill: String
         
