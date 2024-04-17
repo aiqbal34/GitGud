@@ -45,8 +45,8 @@ struct SettingsView: View {
                                     major = userModel.major
                                 }
                         }
-                        .listRowBackground(Color.secondaryBackground)
-                        .foregroundColor(Color.text)
+                        .listRowBackground(Color.white)
+                        .foregroundColor(Color(hex: "#543C86"))
                         
                         //Segmented picker for expereicen Level
                         Section(header: Text("Experience Level")){
@@ -64,8 +64,8 @@ struct SettingsView: View {
                         .onAppear {
                             experience = userModel.experience
                         }
-                        .listRowBackground(Color.secondaryBackground)
-                        .foregroundColor(Color.text)
+                        .listRowBackground(Color.white)
+                        .foregroundColor(Color(hex: "#543C86"))
                         
                         HStack {
                             Spacer()
@@ -79,7 +79,7 @@ struct SettingsView: View {
                                 })
                             })
                             .frame(width: 200, height: 50)
-                            .foregroundColor(.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .fontDesign(.monospaced)
                             .cornerRadius(10)
                             .fontWeight(.bold)
@@ -94,8 +94,8 @@ struct SettingsView: View {
                                 HStack {
                                     Text(skill)
                                         .padding()
-                                        .background(Color.secondaryBackground)
-                                        .foregroundColor(.text)
+                                        .background(Color.white)
+                                        .foregroundColor(Color(hex: "#543C86"))
                                         .fontDesign(.monospaced)
                                         .clipShape(Capsule())
                                 }

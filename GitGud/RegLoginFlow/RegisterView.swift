@@ -33,43 +33,43 @@ struct RegisterView: View {
                     Spacer()
                     Text("Create Account")
                         .font(.system(size: 24))
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontDesign(.monospaced)
                         .padding(.bottom)
                         .fontWeight(.bold)
                     
                     TextField("Email", text: $email)
                         .frame(width: 200)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontDesign(.monospaced)
                         .focused($isKeyBoard)
                     
                     Rectangle()
                         .frame(width: 200, height: 2)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .padding(.bottom, 25)
                     
                     SecureField("Password", text: $password)
                         .frame(width: 200)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .focused($isKeyBoard)
                         .textContentType(.newPassword)
                     
                     Rectangle()
                         .frame(width: 200, height: 2)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .padding(.bottom, 25)
                     
                     SecureField("ReEnter Password", text: $reEnterPassword)
                         .frame(width: 200)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .focused($isKeyBoard)
                         .textContentType(.password)
                     
                     
                     Rectangle()
                         .frame(width: 200, height: 2)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .padding(.bottom, 40)
                     
                     Text(errorMessage)
@@ -116,7 +116,7 @@ struct RegisterView: View {
                             }
                         }
                         .padding(.trailing, 35)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontWeight(.bold)
                         
                         
