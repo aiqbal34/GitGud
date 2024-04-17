@@ -7,10 +7,31 @@
 
 import SwiftUI
 // global background style
+extension Color {
+  init(hex: String) {
+    var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+    hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+    var rgb: UInt64 = 0
+    var r, g, b: CGFloat
+
+    Scanner(string: hexSanitized).scanHexInt64(&rgb)
+
+    let length = hexSanitized.count
+   
+      r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+      g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+      b = CGFloat(rgb & 0x0000FF) / 255.0
+    
+
+    self.init(red: r, green: g, blue: b)
+  }
+}
+
+
 struct GradientStyles {
     static var backgroundGradient: LinearGradient {
         LinearGradient(
-            gradient: Gradient(colors: [Color.background, Color.secondaryBackground]),
+            gradient: Gradient(colors: [Color(hex: "#7E7FE3"), Color.white]),
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -26,7 +47,8 @@ import Firebase
 
 
 
-var url = "https://backendgg-9e8e232e3312.herokuapp.com/"
+var url = "https://gitgud-415705.uc.r.appspot.com/"
+//"https://backendgg-9e8e232e3312.herokuapp.com/"
 
 
 

@@ -24,7 +24,7 @@ struct PhoneInputView: View {
                     Spacer()
                     Text("Enter Phone Number")
                         .font(.system(size: 24))
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontDesign(.monospaced)
                         .padding(.bottom)
                         .fontWeight(.bold)
@@ -34,14 +34,14 @@ struct PhoneInputView: View {
                         //.padding(.leading, 100)
                         TextField("Enter Phone Number", text: $phoneNumber)
                             .frame(width: 200)
-                            .foregroundColor(.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .fontDesign(.monospaced)
                             .focused($isKeyBoard)
                             .keyboardType(.numberPad)
                     }
                     Rectangle()
                         .frame(width: 250, height: 2)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .padding(.bottom)
                     Spacer()
                     HStack {
@@ -52,7 +52,7 @@ struct PhoneInputView: View {
                         }
                         .padding(.trailing, 35)
                         .padding(.top, 25)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontWeight(.bold)
                         
                     }

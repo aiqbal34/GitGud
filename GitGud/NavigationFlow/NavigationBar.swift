@@ -56,10 +56,10 @@ struct NavigationBar: View {
                     .tag("Profile")
                 
             }
-            .toolbarBackground(Color.secondaryBackground, for: .tabBar)
+            .toolbarBackground(Color.white, for: .tabBar)
             .toolbarBackground(.visible, for: .tabBar)
             .toolbarColorScheme(.dark, for: .tabBar)
-            .foregroundColor(Color.text)
+            .foregroundColor(Color(hex: "#543C86"))
             .tint(Color.black)
             .navigationBarBackButtonHidden()
 

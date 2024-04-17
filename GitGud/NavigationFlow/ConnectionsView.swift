@@ -40,8 +40,8 @@ struct ConnectionsView: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .listRowBackground(Color.secondaryBackground)
-                    .foregroundColor(Color.text)
+                    .listRowBackground(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
                     
                     if (viewSelection == "Connections"){
                         Connections()
@@ -57,7 +57,7 @@ struct ConnectionsView: View {
                     
                 }
                 .scrollContentBackground(.hidden)
-                .foregroundColor(Color.text)
+                .foregroundColor(Color(hex: "#543C86"))
             }
         }.onAppear {
             print(UserTeams.teamConnections)
@@ -87,7 +87,7 @@ struct Connections: View {
                         Text("\(member.email)")
                     }.fontWeight(.regular)
                 }
-                .listRowBackground(Color.secondaryBackground)
+                .listRowBackground(Color.white)
             } else {
                 Text("No Connections")
                     .fontWeight(.regular)
@@ -106,7 +106,7 @@ struct Connections: View {
                         selectedTeam = team
                     }
                 }
-                .listRowBackground(Color.secondaryBackground)
+                .listRowBackground(Color.white)
                 .navigationDestination(isPresented: $moveToTeamDetailView){
                     TeamDetailView(teamName: selectedTeam)
                 }
@@ -119,48 +119,48 @@ struct Connections: View {
 /*
  - Displays the teams details/information
  */
-
-struct TeamDetailView: View {
-    var teamName: Team
-    
-    var body: some View {
-        ZStack {
-            GradientStyles.backgroundGradient.ignoresSafeArea()
-            
-            Spacer()
-            VStack {
-                List{
-                    Section(header: Text("Emails:")){
-                        ForEach(teamName.emails.indices, id: \.self) { index in
-                            Text("\(teamName.emails[index])")
-                                .foregroundColor(Color.text)
-                                .font(.system(size: 14))
-                                .lineSpacing(2)
-                        }
-                    }
-                    Section(header: Text("People:")){
-                        ForEach(teamName.people.indices, id: \.self) { index in
-                            Text("\(teamName.people[index])")
-                                .foregroundColor(Color.text)
-                                .font(.system(size: 14))
-                                .lineSpacing(2)
-                        }
-                    }
-                    Section(header: Text("Project Description:")){
-                        Text(teamName.project.description)
-                            .foregroundColor(Color.text)
-                            .font(.system(size: 16))
-                            .lineSpacing(4)
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(2)
-                    }
-                }
-                .listRowBackground(Color.secondaryBackground)
-                .foregroundColor(Color.text)
-            }
-        }
-    }
-}
+//
+//struct TeamDetailView: View {
+//    var teamName: Team
+//    
+//    var body: some View {
+//        ZStack {
+//            GradientStyles.backgroundGradient.ignoresSafeArea()
+//            
+//            Spacer()
+//            VStack {
+//                List{
+//                    Section(header: Text("Emails:")){
+//                        ForEach(teamName.emails.indices, id: \.self) { index in
+//                            Text("\(teamName.emails[index])")
+//                                .foregroundColor(Color.text)
+//                                .font(.system(size: 14))
+//                                .lineSpacing(2)
+//                        }
+//                    }
+//                    Section(header: Text("People:")){
+//                        ForEach(teamName.people.indices, id: \.self) { index in
+//                            Text("\(teamName.people[index])")
+//                                .foregroundColor(Color.text)
+//                                .font(.system(size: 14))
+//                                .lineSpacing(2)
+//                        }
+//                    }
+//                    Section(header: Text("Project Description:")){
+//                        Text(teamName.project.description)
+//                            .foregroundColor(Color.text)
+//                            .font(.system(size: 16))
+//                            .lineSpacing(4)
+//                            .multilineTextAlignment(.leading)
+//                            .lineLimit(2)
+//                    }
+//                }
+//                .listRowBackground(Color.secondaryBackground)
+//                .foregroundColor(Color.text)
+//            }
+//        }
+//    }
+//}
 
 /*
  - Displays recieved invites
@@ -241,9 +241,9 @@ struct RequestsView: View {
                         }
                     }
                     .padding(.vertical, 8)
-                    .listRowBackground(Color.secondaryBackground)
+                    .listRowBackground(Color.white)
                 }
-                .listRowBackground(Color.secondaryBackground)
+                .listRowBackground(Color.white)
             } else {
                 Text("No Requests")
                     .fontWeight(.regular)
@@ -311,7 +311,7 @@ struct RequestsView: View {
                         }
                     }
                 }
-                .listRowBackground(Color.secondaryBackground)
+                .listRowBackground(Color.white)
                 .navigationDestination(isPresented: $moveToTeamDetailView){
                     TeamDetailView(teamName: selectedTeam)
                 }.bold()

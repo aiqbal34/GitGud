@@ -49,7 +49,7 @@ struct TeamBuilderView: View {
                     VStack{
                         
                         Text("Team Builder")
-                            .foregroundColor(Color.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .padding(.top, 80)
@@ -60,7 +60,7 @@ struct TeamBuilderView: View {
                             .bold()
                         Text("Project Name:")
                             .bold()
-                            .foregroundStyle(Color.text)
+                            .foregroundStyle(Color(hex: "#543C86"))
                             .font(.title2)
                             .lineLimit(1)
                             .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
@@ -69,17 +69,17 @@ struct TeamBuilderView: View {
                         TextField("Enter Name", text: $projectName)
                             .padding()
                             .frame(width: 360, height: 50, alignment: .center)
-                            .background(Color.secondaryBackground)
+                            .background(Color.white)
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.text, lineWidth: 1)
+                                    .stroke(Color(hex: "#543C86"), lineWidth: 1)
                             )
                         
                         
                         Text("Project Type:")
                             .bold()
-                            .foregroundStyle(Color.text)
+                            .foregroundStyle(Color(hex: "#543C86"))
                             .font(.title2)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding([.top, .horizontal])
@@ -99,18 +99,18 @@ struct TeamBuilderView: View {
                             })
                         })
                         .frame(width: 360, height: 50)
-                        .background(Color.secondaryBackground)
-                        .foregroundColor(.text)
+                        .background(Color.white)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.text, lineWidth: 1)
+                                .stroke(Color(hex: "#543C86"), lineWidth: 1)
                         )
                         .fontWeight(.bold)
                         
                         Text("Team Size:")
                             .bold()
-                            .foregroundStyle(Color.text)
+                            .foregroundStyle(Color(hex: "#543C86"))
                             .font(.title2)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding([.top, .horizontal])
@@ -125,23 +125,23 @@ struct TeamBuilderView: View {
                             HStack{
                                 Spacer()
                                 Text(("\(teamSize)"))
-                                    .foregroundColor(Color.text)
+                                    .foregroundColor(Color(hex: "#543C86"))
                                 Spacer()
                                 Image(systemName:"chevron.down")
                             }
                             .padding()
                             .frame(width: 360, height: 50, alignment: .center)
-                            .background(Color.secondaryBackground)
+                            .background(Color.white)
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.text, lineWidth: 1)
+                                    .stroke(Color(hex: "#543C86"), lineWidth: 1)
                             )
                         }
                         
                         Text("Project Description:")
                             .bold()
-                            .foregroundStyle(Color.text)
+                            .foregroundStyle(Color(hex: "#543C86"))
                             .lineLimit(1)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding([.top, .horizontal])
@@ -149,13 +149,13 @@ struct TeamBuilderView: View {
                         
                         TextEditor(text: $projectDescription)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .foregroundColor(Color.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .font(.custom("HelveticaNeue", size: 14))
                             .lineSpacing(5)
                             .frame(width: 360, height: 125)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.text, lineWidth: 1)
+                                    .stroke(Color(hex: "#543C86"), lineWidth: 1)
                             )
                         
                         
@@ -188,11 +188,11 @@ struct TeamBuilderView: View {
                         }
                         .bold()
                         .frame(width: 260, height: 60)
-                        .background(Color.secondaryBackground)
+                        .background(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.text, lineWidth: 1)
+                                .stroke(Color(hex: "#543C86"), lineWidth: 1)
                         )
                     
                         Spacer()

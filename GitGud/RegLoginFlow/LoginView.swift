@@ -35,14 +35,14 @@ struct LoginView: View {
                 VStack {
                     Text("Sign in")
                         .font(.system(size: 24))
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontDesign(.monospaced)
                         .padding(.bottom)
                         .fontWeight(.bold)
                     HStack {
                         TextField("Email", text: $userName)
                             .frame(width: 200)
-                            .foregroundColor(.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .fontDesign(.monospaced)
                             .focused($isKeyBoard)
                             .onAppear{
@@ -51,12 +51,12 @@ struct LoginView: View {
                     }
                     Rectangle()
                         .frame(width: 200, height: 2)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .padding(.bottom, 25)
             
                     SecureField("Password", text: $password)
                         .frame(width: 200)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .focused($isKeyBoard)
                         .textContentType(.password)
                         .onAppear{
@@ -65,7 +65,7 @@ struct LoginView: View {
 
                     Rectangle()
                         .frame(width: 200, height: 2)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .padding(.bottom, 25)
                     
                     Button("Login") {
@@ -82,8 +82,8 @@ struct LoginView: View {
                         }
                     }
                     .frame(width: 200, height: 50)
-                    .background(Color.secondaryBackground)
-                    .foregroundColor(.text)
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
                     .fontDesign(.monospaced)
                     .cornerRadius(10)
                     .fontWeight(.bold)
@@ -95,8 +95,8 @@ struct LoginView: View {
                         
                     }
                     .frame(width: 200, height: 50)
-                    .background(Color.secondaryBackground)
-                    .foregroundColor(.text)
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
                     .fontDesign(.monospaced)
                     .cornerRadius(10)
                     .fontWeight(.bold)

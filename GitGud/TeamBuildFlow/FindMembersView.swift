@@ -45,7 +45,7 @@ struct FindMembersView: View {
                     
                     Section(header: Text("Member \(index + 1)")
                         .bold()
-                        .foregroundColor(Color.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .font(.title3)) {
                             Picker("Experience Level:", selection: $aiResponse[index].experienceLevel) {
                                 ForEach(experienceLevels, id: \.self) { level in
@@ -90,7 +90,7 @@ struct FindMembersView: View {
                                 Spacer()
                             }
                         }
-                        .listRowBackground(Color.secondaryBackground)
+                        .listRowBackground(Color.white)
                     
                     
                 }
@@ -213,7 +213,7 @@ struct CustomBadge: View {
             .fontWeight(.semibold)
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
-            .background(Color.background)
+            .background(Color(hex: "#7E7FE3"))
             .foregroundColor(.white)
             .cornerRadius(30)
     }

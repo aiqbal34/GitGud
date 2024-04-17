@@ -60,9 +60,9 @@ struct MatchingView: View {
                                 }
                             }
                             .bold()
-                            .foregroundColor(Color.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .frame(width: 160, height: 64)
-                            .background(Color.secondaryBackground)
+                            .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding()
                             
@@ -75,9 +75,9 @@ struct MatchingView: View {
                                 }
                             }
                             .bold()
-                            .foregroundColor(Color.secondaryBackground)
+                            .foregroundColor(Color.white)
                             .frame(width: 160, height: 64)
-                            .background(Color.background)
+                            .background(Color(hex: "#7E7FE3"))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding()
                             .alert(isPresented: $nextFailed, content: {
@@ -88,7 +88,7 @@ struct MatchingView: View {
                             
                             
                         }
-                    }else {
+                    } else {
                         HStack {
                             Group {
                                 Button("Match") {
@@ -121,9 +121,9 @@ struct MatchingView: View {
                                 
                             }
                             .bold()
-                            .foregroundColor(Color.text)
+                            .foregroundColor(Color(hex: "#543C86"))
                             .frame(width: 160, height: 64)
-                            .background(Color.background)
+                            .background(Color(hex: "#7E7FE3"))
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .alert(isPresented: $nextFailed, content: {
                                 Alert(title: Text("No More Users"), message: Text("There are no more users to match with. Please try again Later."), dismissButton: .cancel())

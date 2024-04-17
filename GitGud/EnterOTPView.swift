@@ -32,7 +32,7 @@ struct EnterOTPView: View {
     var body: some View {
         
         ZStack {
-            Color.background
+            Color(hex: "#7E7FE3")
                 .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
             VStack{
                 Text("Enter Your OTP")
@@ -40,10 +40,10 @@ struct EnterOTPView: View {
                     .padding()
                     .fontDesign(.monospaced)
                     .font(.system(size: 30, weight: .heavy, design: .rounded))
-                    .foregroundColor(.text)
+                    .foregroundColor(Color(hex: "#543C86"))
                     
                 Text("Sent to \(phoneNum)")
-                    .foregroundColor(.text)
+                    .foregroundColor(Color(hex: "#543C86"))
                 ZStack{
                     //An HStack of 6 identical text view boxes
                     HStack(spacing: 10) {
@@ -62,8 +62,8 @@ struct EnterOTPView: View {
                                 }
                         }
                         .frame(width: 40, height: 40)
-                        .background(Color.secondaryBackground)
-                        .foregroundColor(.text)
+                        .background(Color.white)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .cornerRadius(5)
                         .multilineTextAlignment(.center)
                     }
@@ -90,8 +90,8 @@ struct EnterOTPView: View {
                     
                 }
                 .padding()
-                .background(Color.secondaryBackground)
-                .foregroundColor(.text)
+                .background(Color.white)
+                .foregroundColor(Color(hex: "#543C86"))
                 .cornerRadius(25)
                 
                 

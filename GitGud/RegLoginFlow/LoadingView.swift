@@ -31,9 +31,9 @@ struct LoadingView: View {
                 GradientStyles.backgroundGradient
                     .ignoresSafeArea()
                 ProgressView("Loading…", value: 0.99)
-                    .progressViewStyle(CircularProgressViewStyle(tint: .text))
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color(hex: "#543C86")))
                     .scaleEffect(1.5)
-                    .foregroundColor(.text)
+                    .foregroundColor(Color(hex: "#543C86"))
                     .monospaced()
             }.onAppear {
                 Task {

@@ -35,14 +35,14 @@ struct TechStackView: View {
                     
                     Text("Create Profile")
                         .font(.system(size: 24))
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontDesign(.monospaced)
                         .padding(.bottom)
                         .fontWeight(.bold)
                     
                     Text("Select Expereince")
                         .font(.system(size: 18))
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontDesign(.monospaced)
                         .padding(.top)
                         .fontWeight(.bold)
@@ -57,7 +57,7 @@ struct TechStackView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding()
-                    .background(Color.secondaryBackground)
+                    .background(Color.white)
                     .cornerRadius(10)
                     .frame(height: 100)
                     
@@ -73,8 +73,8 @@ struct TechStackView: View {
                         })
                     })
                     .frame(width: 200, height: 50)
-                    .background(Color.secondaryBackground)
-                    .foregroundColor(.text)
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
                     .fontDesign(.monospaced)
                     .cornerRadius(10)
                     .fontWeight(.bold)
@@ -84,8 +84,8 @@ struct TechStackView: View {
                         ForEach(chosenSkills, id: \.self) { skill in
                             Text(skill)
                                 .padding()
-                                .background(Color.secondaryBackground)
-                                .foregroundColor(.text)
+                                .background(Color.white)
+                                .foregroundColor(Color(hex: "#543C86"))
                                 .fontDesign(.monospaced)
                                 .clipShape(Capsule())
                         }
@@ -105,7 +105,7 @@ struct TechStackView: View {
                         }
                         .padding(.trailing, 35)
                         .padding(.top, 25)
-                        .foregroundColor(.text)
+                        .foregroundColor(Color(hex: "#543C86"))
                         .fontWeight(.bold)
                         
                     }
