@@ -9,6 +9,7 @@ import os
 from dotenv import load_dotenv
 import random
 from pydantic import BaseModel
+import openai
 
 
 SKILLS = [
@@ -42,8 +43,7 @@ SKILLS = [
 load_dotenv()
 
 
-client = OpenAI()
-
+client = openai.OpenAI(api_key="OPENAI_API_KEY=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")
 app = Flask(__name__)
 
 CORS(app)
@@ -76,6 +76,43 @@ def get_collection():
 
     # Return the list as a JSON response
     return jsonify(collection_data)
+
+
+@app.route('/removeTeamMember')
+def removeTeamMember():
+    currUserID = request.args.get('currUser')
+    currUserTeam = request.args.get('currTeam')
+    removeUserID = request.args.get('UserToRemove')
+
+    doc_ref_team = db.collection('team').document(currUserTeam)
+    doc_snapshot = doc_ref_team.get()
+    if not doc_snapshot.exists:
+        return jsonify({'error': 'Team not found'}), 404
+
+    team = doc_snapshot.to_dict()
+
+    doc_ref_currUser = db.collection('private').document(currUserID)
+    currUser = doc_ref_currUser.get().to_dict()
+
+    if 'admin' not in currUser or not currUser['admin']:  
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    if removeUserID not in team['people']:
+        return jsonify({'error': 'User not found in the team'}), 404
+    
+    team['people'].remove(removeUserID)
+
+    doc_ref_team.update({'people': team['people']})
+
+    doc_ref_removeUser = db.collection('private').document(removeUserID)
+    user_to_remove = doc_ref_removeUser.get().to_dict()
+
+    if 'teamConnections' in user_to_remove and currUserTeam in user_to_remove['teamConnections']:
+        user_to_remove['teamConnections'].remove(currUserTeam)
+        doc_ref_removeUser.update({'teamConnections': user_to_remove['teamConnections']})
+
+    return jsonify({'message': 'User removed successfully'}), 200
+
 
 
 @app.route('/createBasicAccount', methods=['POST'])

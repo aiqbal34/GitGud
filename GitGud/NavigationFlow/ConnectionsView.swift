@@ -109,6 +109,7 @@ struct Connections: View {
                 .listRowBackground(Color.white)
                 .navigationDestination(isPresented: $moveToTeamDetailView){
                     TeamDetailView(teamName: selectedTeam)
+                        .environmentObject(userModel)
                 }
             } else {
                 Text("No Team Connections")
@@ -314,6 +315,7 @@ struct RequestsView: View {
                 .listRowBackground(Color.white)
                 .navigationDestination(isPresented: $moveToTeamDetailView){
                     TeamDetailView(teamName: selectedTeam)
+                        .environmentObject(userModel)
                 }.bold()
             } else {
                 Text("No Requests")

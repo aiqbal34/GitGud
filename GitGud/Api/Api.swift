@@ -47,7 +47,8 @@ import Firebase
 
 
 
-var url = "https://gitgud-415705.uc.r.appspot.com/"
+var url = "http://127.0.0.1:5000"
+// "https://gitgud-415705.uc.r.appspot.com/"
 //"https://backendgg-9e8e232e3312.herokuapp.com/"
 
 
@@ -322,6 +323,45 @@ func rejectTeam(currUser: String, teamID: String) async throws {
     }
 }
 
+func removeTeamMember(currUser: String, teamID: String, userToRemove: String) async throws -> String {
+    // Construct the URL with required query parameters
+    guard let url = URL(string: "\(url)/removeTeamMember?currUser=\(currUser)&currTeam=\(teamID)&UserToRemove=\(userToRemove)") else {
+        throw URLError(.badURL)
+    }
+    
+    // Set up the URLRequest
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+
+    // Perform the HTTP request
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    // Check the response status code
+    guard let httpResponse = response as? HTTPURLResponse else {
+        throw URLError(.cannotParseResponse)
+    }
+
+    // Check for HTTP error responses
+    switch httpResponse.statusCode {
+    case 200:
+        // Handle a successful response
+        if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+           let message = json["message"] as? String {
+            return message
+        } else {
+            throw URLError(.cannotDecodeContentData)
+        }
+    case 403:
+        throw NSError(domain: "API", code: 403, userInfo: [NSLocalizedDescriptionKey: "Unauthorized"])
+    case 404:
+        throw NSError(domain: "API", code: 404, userInfo: [NSLocalizedDescriptionKey: "Not found"])
+    default:
+        // Handle other unexpected statuses
+        throw NSError(domain: "API", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Unexpected response status code: \(httpResponse.statusCode)"])
+    }
+}
+
+
 /*
  This acceptTeam function accepts a team request
  */
@@ -360,7 +400,7 @@ func acceptTeam(currUser: String, teamID: String) async throws {
 }
 
 /*
-    This function rejects the rejectsUser for a request
+ This function rejects the rejectsUser for a request
  */
 func rejectUser(currUser: String, rejectedUser: String) async throws {
     guard let url = URL(string: "\(url)rejectRequest?currUser=\(currUser)&rejectedUser=\(rejectedUser)") else {
