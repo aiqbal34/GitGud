@@ -15,19 +15,14 @@ struct TeamDetailView: View {
                 VStack {
                     List {
                         Section(header: Text("Team Members:")) {
-                            ForEach(teamName.people.indices, id: \.self) { index in
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text(teamName.people[index])
-                                        .foregroundColor(Color(hex: "#543C86"))
-                                        .font(.system(size: 14))
-                                        .lineSpacing(2)
-                                    Text(teamName.emails[index])
-                                        .foregroundColor(Color(hex: "#543C86"))
-                                        .font(.system(size: 14))
-                                        .lineSpacing(2)
+                            ForEach(teamName.people., id: \.self) { key in
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        Text(teamName.people[key] ?? "Unknown")
+                                            .foregroundColor(Color(hex: "#543C86"))
+                                            .font(.system(size: 14))
+                                            .lineSpacing(2)
                                 }
                                 .swipeActions {
-                                  // if userModel.userID != teamName.people[index] && userModel.userID == teamName.leader {
                                         Button(role: .destructive) {
                                             Task {
                                                 await removeMember(index: index)
@@ -35,7 +30,6 @@ struct TeamDetailView: View {
                                         } label: {
                                             Label("Remove", systemImage: "minus.circle")
                                         }
-                                  //  }
                                 }
                                 .padding(.vertical, 4)
                             }

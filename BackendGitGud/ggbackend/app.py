@@ -43,7 +43,8 @@ SKILLS = [
 load_dotenv()
 
 
-client = openai.OpenAI(api_key="OPENAI_API_KEY=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")
+client = OpenAI()
+
 app = Flask(__name__)
 
 CORS(app)
@@ -78,40 +79,52 @@ def get_collection():
     return jsonify(collection_data)
 
 
+
 @app.route('/removeTeamMember')
 def removeTeamMember():
-    currUserID = request.args.get('currUser')
-    currUserTeam = request.args.get('currTeam')
-    removeUserID = request.args.get('UserToRemove')
+    try:
+        currUserID = request.args.get('currUser')
+        currUserTeam = request.args.get('currTeam')
+        removeUserName = request.args.get('UserToRemove')
 
-    doc_ref_team = db.collection('team').document(currUserTeam)
-    doc_snapshot = doc_ref_team.get()
-    if not doc_snapshot.exists:
-        return jsonify({'error': 'Team not found'}), 404
+        # Team
+        doc_ref_team = db.collection('team').document(currUserTeam)
+        doc_team = doc_ref_team.get()
+        if not doc_team.exists:
+            return jsonify({'error': 'Team not found'}), 404
+        team_data = doc_team.to_dict()
+        print("team: ", team_data)
 
-    team = doc_snapshot.to_dict()
+        # Admin
+        doc_ref_currUser = db.collection('private').document(currUserID)
+        doc_currUser = doc_ref_currUser.get()
+        if not doc_currUser.exists:
+            return jsonify({'error': 'Current user not found'}), 404
+        curr_user_data = doc_currUser.to_dict()
+        print("admin: ", curr_user_data)
 
-    doc_ref_currUser = db.collection('private').document(currUserID)
-    currUser = doc_ref_currUser.get().to_dict()
+        if 'admin' not in team_data or team_data['admin'] != curr_user_data['userID']:
+            return jsonify({'error': 'Unauthorized'}), 403
 
-    if 'admin' not in currUser or not currUser['admin']:  
-        return jsonify({'error': 'Unauthorized'}), 403
+        # Update removed user's team connections
+        removeUserID = team_data['people'][removeUserName]
+        doc_ref_removeUser = db.collection('private').document(removeUserID)
+        doc_removeUser = doc_ref_removeUser.get()
+        remove_user_data = doc_removeUser.to_dict()
+        print("remove me: ",remove_user_data)
+            # Remove user from team
+        if remove_user_data['name'] in team_data['people']:
+            team_data['people'].remove(remove_user_data['name'])
+            doc_ref_team.update({'people': team_data['people']})
 
-    if removeUserID not in team['people']:
-        return jsonify({'error': 'User not found in the team'}), 404
-    
-    team['people'].remove(removeUserID)
+        if 'teamConnections' in remove_user_data and currUserTeam in remove_user_data['teamConnections']:
+            remove_user_data['teamConnections'].remove(currUserTeam)
+            doc_ref_removeUser.update({'teamConnections': remove_user_data['teamConnections']})
 
-    doc_ref_team.update({'people': team['people']})
+        return jsonify({'message': 'User removed successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': 'Server Error', 'details': str(e)}), 500
 
-    doc_ref_removeUser = db.collection('private').document(removeUserID)
-    user_to_remove = doc_ref_removeUser.get().to_dict()
-
-    if 'teamConnections' in user_to_remove and currUserTeam in user_to_remove['teamConnections']:
-        user_to_remove['teamConnections'].remove(currUserTeam)
-        doc_ref_removeUser.update({'teamConnections': user_to_remove['teamConnections']})
-
-    return jsonify({'message': 'User removed successfully'}), 200
 
 
 
@@ -167,10 +180,10 @@ def getCurrentUser():
 @app.route('/getCurrentUserTeams')
 def getTeams():
     currUserID = request.args.get('currUser')
-    # Assuming 'currUser' is a field in the 'private' document
     doc_ref = db.collection('private').document(currUserID)
     doc_snapshot = doc_ref.get()
     userData = doc_snapshot.to_dict()
+    
     userTeam = {'teamConnections' : [], 'teamRequests' : []}
     
     for teamRequest in userData['teamRequests']:
@@ -270,7 +283,7 @@ def acceptTeamRequest():
     #Append the current user to the people in the Team
     teamRef = db.collection('team').document(team_data)
     teamRefDict = teamRef.get().to_dict()
-    teamRefDict['people'].append(currRefDict['name'])
+    teamRefDict['people']['name'] = currRefDict['currUserID']
     teamRefDict['emails'].append(currRefDict['email'])
     teamRef.set(teamRefDict)
 
@@ -329,36 +342,49 @@ def sendTeamMatch():
 
     return jsonify({'message': 'Successful'}), 200
 
-
-    
-
 @app.route('/createTeam', methods=['POST'])
 def createTeam():
+    try:
+        # Get current user ID from query parameters
+        currUserID = request.args.get('currUser')
+        if not currUserID:
+            return jsonify({'error': 'Missing current user ID'}), 400
 
-    currUserID = request.args.get('currUser')
-    
-    body_data = request.data
-    team_data = json.loads(body_data.decode('utf-8'))
-    print(team_data)
-    
-    
-    currRef = db.collection('private').document(currUserID)
-    currRefDict = currRef.get().to_dict()
-    
-    
-    
-    currRef.set(currRefDict)
-    
-    teamRef = db.collection('team')
-    
-    teamName = team_data['teamID']
-    singleTeamRef = teamRef.document(teamName)
-    singleTeamRef.set(team_data)
-    currRefDict['teamConnections'].append(teamName)
-    currRef.set(currRefDict)
-    
-    return jsonify({'message': 'Successful', 'teamID': teamName}), 200
- 
+        # Parse the JSON body of the request
+        body_data = request.data
+        team_data = json.loads(body_data.decode('utf-8'))
+
+        # Retrieve current user's reference and data
+        currRef = db.collection('private').document(currUserID)
+        currRefDict = currRef.get().to_dict()
+        if not currRefDict:
+            return jsonify({'error': 'Current user not found'}), 404
+
+        # Initialize 'teamConnections' if not present
+        if 'teamConnections' not in currRefDict:
+            currRefDict['teamConnections'] = []
+
+        # Prepare team data with admin and people fields
+        team_data['admin'] = currUserID  # Set current user as admin
+        teamName = team_data['teamID']
+
+        # Initialize 'people' field as a map {userID: userName}
+        team_data['people'] = {currRefDict['name']: currUserID}
+
+        # Create or update team document
+        teamRef = db.collection('team')
+        singleTeamRef = teamRef.document(teamName)
+        singleTeamRef.set(team_data)
+
+        # Update current user's team connections
+        currRefDict['teamConnections'].append(teamName)
+        currRef.update(currRefDict)
+
+        return jsonify({'message': 'Team created successfully', 'teamID': teamName}), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Server error', 'details': str(e)}), 500
+
 
 
 @app.route('/findMember')

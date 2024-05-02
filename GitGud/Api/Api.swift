@@ -3,7 +3,7 @@
 //  GitGud
 //
 //  Created by Aariz Iqbal on 2/28/24.
-//
+// 
 
 import SwiftUI
 // global background style
@@ -47,7 +47,7 @@ import Firebase
 
 
 
-var url = "http://127.0.0.1:5000"
+var url = "http://127.0.0.1:5000/"
 // "https://gitgud-415705.uc.r.appspot.com/"
 //"https://backendgg-9e8e232e3312.herokuapp.com/"
 
@@ -324,6 +324,9 @@ func rejectTeam(currUser: String, teamID: String) async throws {
 }
 
 func removeTeamMember(currUser: String, teamID: String, userToRemove: String) async throws -> String {
+    print("Curr user id: ", currUser)
+    print("this is the team id: ", teamID)
+    print("id to remove: ", userToRemove)
     // Construct the URL with required query parameters
     guard let url = URL(string: "\(url)/removeTeamMember?currUser=\(currUser)&currTeam=\(teamID)&UserToRemove=\(userToRemove)") else {
         throw URLError(.badURL)
