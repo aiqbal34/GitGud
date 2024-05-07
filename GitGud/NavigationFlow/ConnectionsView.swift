@@ -70,7 +70,7 @@ struct ConnectionsView: View {
  */
 struct Connections: View {
     @State var moveToTeamDetailView = false
-    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [],
+    @State var selectedTeam: Team = Team(people: [:], teamID: "", emails: [],
                                          project: ProjectBuild(projectName: "",
                                                                description: "", teamSize: 0, projectType: ""))
     
@@ -109,6 +109,7 @@ struct Connections: View {
                 .listRowBackground(Color.white)
                 .navigationDestination(isPresented: $moveToTeamDetailView){
                     TeamDetailView(teamName: selectedTeam)
+                        .environmentObject(userModel)
                 }
             } else {
                 Text("No Team Connections")
@@ -116,51 +117,6 @@ struct Connections: View {
         }.bold()
     }
 }
-/*
- - Displays the teams details/information
- */
-//
-//struct TeamDetailView: View {
-//    var teamName: Team
-//    
-//    var body: some View {
-//        ZStack {
-//            GradientStyles.backgroundGradient.ignoresSafeArea()
-//            
-//            Spacer()
-//            VStack {
-//                List{
-//                    Section(header: Text("Emails:")){
-//                        ForEach(teamName.emails.indices, id: \.self) { index in
-//                            Text("\(teamName.emails[index])")
-//                                .foregroundColor(Color.text)
-//                                .font(.system(size: 14))
-//                                .lineSpacing(2)
-//                        }
-//                    }
-//                    Section(header: Text("People:")){
-//                        ForEach(teamName.people.indices, id: \.self) { index in
-//                            Text("\(teamName.people[index])")
-//                                .foregroundColor(Color.text)
-//                                .font(.system(size: 14))
-//                                .lineSpacing(2)
-//                        }
-//                    }
-//                    Section(header: Text("Project Description:")){
-//                        Text(teamName.project.description)
-//                            .foregroundColor(Color.text)
-//                            .font(.system(size: 16))
-//                            .lineSpacing(4)
-//                            .multilineTextAlignment(.leading)
-//                            .lineLimit(2)
-//                    }
-//                }
-//                .listRowBackground(Color.secondaryBackground)
-//                .foregroundColor(Color.text)
-//            }
-//        }
-//    }
-//}
 
 /*
  - Displays recieved invites
@@ -172,7 +128,7 @@ struct RequestsView: View {
     // @Objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
-    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], 
+    @State var selectedTeam: Team = Team(people: [:], teamID: "", emails: [],
                                          project: ProjectBuild(
                                             projectName: "", description: "",
                                             teamSize: 0, projectType: ""))
@@ -314,6 +270,7 @@ struct RequestsView: View {
                 .listRowBackground(Color.white)
                 .navigationDestination(isPresented: $moveToTeamDetailView){
                     TeamDetailView(teamName: selectedTeam)
+                        .environmentObject(userModel)
                 }.bold()
             } else {
                 Text("No Requests")

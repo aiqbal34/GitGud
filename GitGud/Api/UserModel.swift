@@ -72,7 +72,7 @@ class UserTeamData: Codable, Hashable, ObservableObject {
 
 //struct for the team
 struct Team: Codable, Hashable {
-    var people: [String]
+    var people: [String:String]
     var teamID: String
     var emails: [String]
     var project: ProjectBuild

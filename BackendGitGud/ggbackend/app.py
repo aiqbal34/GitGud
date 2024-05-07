@@ -9,6 +9,7 @@ import os
 from dotenv import load_dotenv
 import random
 from pydantic import BaseModel
+import openai
 
 
 SKILLS = [
@@ -77,6 +78,69 @@ def get_collection():
     # Return the list as a JSON response
     return jsonify(collection_data)
 
+@app.route('/removeTeamMember', methods=['GET'])
+def removeTeamMember():
+    try:
+        # Retrieve request parameters
+        currUserID = request.args.get('currUser')
+        currUserTeam = request.args.get('currTeam')
+        removeUserID = request.args.get('UserToRemove')
+        
+
+        # Debugging prints
+        print("This is the user to be removed:", removeUserID)
+        # Can't remove Self
+        if currUserID == removeUserID:
+            return jsonify({'error': 'Unauthorized'}), 403
+        
+        
+
+        # Fetch team document
+        doc_ref_team = db.collection('team').document(currUserTeam)
+        doc_team = doc_ref_team.get()
+        if not doc_team.exists:
+            return jsonify({'error': 'Team not found'}), 404
+        team_data = doc_team.to_dict()
+        print("team: ", team_data)
+
+        # Fetch current user document
+        doc_ref_currUser = db.collection('private').document(currUserID)
+        doc_currUser = doc_ref_currUser.get()
+        if not doc_currUser.exists:
+            return jsonify({'error': 'Current user not found'}), 404
+        curr_user_data = doc_currUser.to_dict()
+        print("admin: ", curr_user_data)
+
+        # Fetch removed user document
+        doc_ref_removeUser = db.collection('private').document(removeUserID)
+        doc_removeUser = doc_ref_removeUser.get()
+        if not doc_removeUser.exists:
+            return jsonify({'error': 'Current user not found'}), 404
+        remove_user_data = doc_removeUser.to_dict()
+        print("remove me: ", remove_user_data)
+
+        # Authorization check
+        if 'admin' not in team_data or team_data['admin'] != curr_user_data['userID']:
+            return jsonify({'error': 'Unauthorized'}), 403
+    
+        # Remove user from team dictionary
+        del team_data['people'][remove_user_data['name']]
+        print(team_data['people'])
+        doc_ref_team.update({'people': team_data['people']})
+
+        # Remove team from user's connections
+        if 'teamConnections' in remove_user_data and currUserTeam in remove_user_data['teamConnections']:
+            remove_user_data['teamConnections'].remove(currUserTeam)
+            doc_ref_removeUser.update({'teamConnections': remove_user_data['teamConnections']})
+            return jsonify({'message': 'User removed successfully'}), 200
+        else:
+            return jsonify({'error': 'User to remove not found in the team'}), 404
+
+    except Exception as e:
+        print(f"Error type: {type(e).__name__}, Error details: {str(e)}")
+        return jsonify({'error': 'Server Error', 'details': str(e)}), 500
+
+
 
 @app.route('/createBasicAccount', methods=['POST'])
 def createBasicAccountinDB():
@@ -130,10 +194,10 @@ def getCurrentUser():
 @app.route('/getCurrentUserTeams')
 def getTeams():
     currUserID = request.args.get('currUser')
-    # Assuming 'currUser' is a field in the 'private' document
     doc_ref = db.collection('private').document(currUserID)
     doc_snapshot = doc_ref.get()
     userData = doc_snapshot.to_dict()
+    
     userTeam = {'teamConnections' : [], 'teamRequests' : []}
     
     for teamRequest in userData['teamRequests']:
@@ -233,7 +297,7 @@ def acceptTeamRequest():
     #Append the current user to the people in the Team
     teamRef = db.collection('team').document(team_data)
     teamRefDict = teamRef.get().to_dict()
-    teamRefDict['people'].append(currRefDict['name'])
+    teamRefDict['people'][currRefDict['name']] = currRefDict['userID']
     teamRefDict['emails'].append(currRefDict['email'])
     teamRef.set(teamRefDict)
 
@@ -292,36 +356,49 @@ def sendTeamMatch():
 
     return jsonify({'message': 'Successful'}), 200
 
-
-    
-
 @app.route('/createTeam', methods=['POST'])
 def createTeam():
+    try:
+        # Get current user ID from query parameters
+        currUserID = request.args.get('currUser')
+        if not currUserID:
+            return jsonify({'error': 'Missing current user ID'}), 400
 
-    currUserID = request.args.get('currUser')
-    
-    body_data = request.data
-    team_data = json.loads(body_data.decode('utf-8'))
-    print(team_data)
-    
-    
-    currRef = db.collection('private').document(currUserID)
-    currRefDict = currRef.get().to_dict()
-    
-    
-    
-    currRef.set(currRefDict)
-    
-    teamRef = db.collection('team')
-    
-    teamName = team_data['teamID']
-    singleTeamRef = teamRef.document(teamName)
-    singleTeamRef.set(team_data)
-    currRefDict['teamConnections'].append(teamName)
-    currRef.set(currRefDict)
-    
-    return jsonify({'message': 'Successful', 'teamID': teamName}), 200
- 
+        # Parse the JSON body of the request
+        body_data = request.data
+        team_data = json.loads(body_data.decode('utf-8'))
+
+        # Retrieve current user's reference and data
+        currRef = db.collection('private').document(currUserID)
+        currRefDict = currRef.get().to_dict()
+        if not currRefDict:
+            return jsonify({'error': 'Current user not found'}), 404
+
+        # Initialize 'teamConnections' if not present
+        if 'teamConnections' not in currRefDict:
+            currRefDict['teamConnections'] = []
+
+        # Prepare team data with admin and people fields
+        team_data['admin'] = currUserID  # Set current user as admin
+        teamName = team_data['teamID']
+
+        # Initialize 'people' field as a map {userID: userName}
+        team_data['people'] = {currRefDict['name']: currUserID}
+
+        # Create or update team document
+        teamRef = db.collection('team')
+        singleTeamRef = teamRef.document(teamName)
+        singleTeamRef.set(team_data)
+
+        # Update current user's team connections
+        currRefDict['teamConnections'].append(teamName)
+        currRef.update(currRefDict)
+
+        return jsonify({'message': 'Team created successfully', 'teamID': teamName}), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Server error', 'details': str(e)}), 500
+
 
 
 @app.route('/findMember')
