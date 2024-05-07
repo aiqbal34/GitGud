@@ -78,16 +78,24 @@ def get_collection():
     # Return the list as a JSON response
     return jsonify(collection_data)
 
-
-
-@app.route('/removeTeamMember')
+@app.route('/removeTeamMember', methods=['GET'])
 def removeTeamMember():
     try:
+        # Retrieve request parameters
         currUserID = request.args.get('currUser')
         currUserTeam = request.args.get('currTeam')
-        removeUserName = request.args.get('UserToRemove')
+        removeUserID = request.args.get('UserToRemove')
+        
 
-        # Team
+        # Debugging prints
+        print("This is the user to be removed:", removeUserID)
+        # Can't remove Self
+        if currUserID == removeUserID:
+            return jsonify({'error': 'Unauthorized'}), 403
+        
+        
+
+        # Fetch team document
         doc_ref_team = db.collection('team').document(currUserTeam)
         doc_team = doc_ref_team.get()
         if not doc_team.exists:
@@ -95,7 +103,7 @@ def removeTeamMember():
         team_data = doc_team.to_dict()
         print("team: ", team_data)
 
-        # Admin
+        # Fetch current user document
         doc_ref_currUser = db.collection('private').document(currUserID)
         doc_currUser = doc_ref_currUser.get()
         if not doc_currUser.exists:
@@ -103,28 +111,34 @@ def removeTeamMember():
         curr_user_data = doc_currUser.to_dict()
         print("admin: ", curr_user_data)
 
-        if 'admin' not in team_data or team_data['admin'] != curr_user_data['userID']:
-            return jsonify({'error': 'Unauthorized'}), 403
-
-        # Update removed user's team connections
-        removeUserID = team_data['people'][removeUserName]
+        # Fetch removed user document
         doc_ref_removeUser = db.collection('private').document(removeUserID)
         doc_removeUser = doc_ref_removeUser.get()
+        if not doc_removeUser.exists:
+            return jsonify({'error': 'Current user not found'}), 404
         remove_user_data = doc_removeUser.to_dict()
-        print("remove me: ",remove_user_data)
-            # Remove user from team
-        if remove_user_data['name'] in team_data['people']:
-            team_data['people'].remove(remove_user_data['name'])
-            doc_ref_team.update({'people': team_data['people']})
+        print("remove me: ", remove_user_data)
 
+        # Authorization check
+        if 'admin' not in team_data or team_data['admin'] != curr_user_data['userID']:
+            return jsonify({'error': 'Unauthorized'}), 403
+    
+        # Remove user from team dictionary
+        del team_data['people'][remove_user_data['name']]
+        print(team_data['people'])
+        doc_ref_team.update({'people': team_data['people']})
+
+        # Remove team from user's connections
         if 'teamConnections' in remove_user_data and currUserTeam in remove_user_data['teamConnections']:
             remove_user_data['teamConnections'].remove(currUserTeam)
             doc_ref_removeUser.update({'teamConnections': remove_user_data['teamConnections']})
+            return jsonify({'message': 'User removed successfully'}), 200
+        else:
+            return jsonify({'error': 'User to remove not found in the team'}), 404
 
-        return jsonify({'message': 'User removed successfully'}), 200
     except Exception as e:
+        print(f"Error type: {type(e).__name__}, Error details: {str(e)}")
         return jsonify({'error': 'Server Error', 'details': str(e)}), 500
-
 
 
 
@@ -283,7 +297,7 @@ def acceptTeamRequest():
     #Append the current user to the people in the Team
     teamRef = db.collection('team').document(team_data)
     teamRefDict = teamRef.get().to_dict()
-    teamRefDict['people']['name'] = currRefDict['currUserID']
+    teamRefDict['people'][currRefDict['name']] = currRefDict['userID']
     teamRefDict['emails'].append(currRefDict['email'])
     teamRef.set(teamRefDict)
 

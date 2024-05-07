@@ -70,7 +70,7 @@ struct ConnectionsView: View {
  */
 struct Connections: View {
     @State var moveToTeamDetailView = false
-    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [],
+    @State var selectedTeam: Team = Team(people: [:], teamID: "", emails: [],
                                          project: ProjectBuild(projectName: "",
                                                                description: "", teamSize: 0, projectType: ""))
     
@@ -128,7 +128,7 @@ struct RequestsView: View {
     // @Objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
-    @State var selectedTeam: Team = Team(people: [], teamID: "", emails: [], 
+    @State var selectedTeam: Team = Team(people: [:], teamID: "", emails: [],
                                          project: ProjectBuild(
                                             projectName: "", description: "",
                                             teamSize: 0, projectType: ""))

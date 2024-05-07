@@ -15,21 +15,21 @@ struct TeamDetailView: View {
                 VStack {
                     List {
                         Section(header: Text("Team Members:")) {
-                            ForEach(teamName.people., id: \.self) { key in
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text(teamName.people[key] ?? "Unknown")
-                                            .foregroundColor(Color(hex: "#543C86"))
-                                            .font(.system(size: 14))
-                                            .lineSpacing(2)
+                            ForEach(Array(teamName.people.sorted(by: { $0.key < $1.key })), id: \.key) { name, id in
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(name)
+                                        .foregroundColor(Color(hex: "#543C86"))
+                                        .font(.system(size: 14))
+                                        .lineSpacing(2)
                                 }
                                 .swipeActions {
-                                        Button(role: .destructive) {
-                                            Task {
-                                                await removeMember(index: index)
-                                            }
-                                        } label: {
-                                            Label("Remove", systemImage: "minus.circle")
+                                    Button(role: .destructive) {
+                                        Task {
+                                            await removeMember(memberKey: id)  // Updated to use key
                                         }
+                                    } label: {
+                                        Label("Remove", systemImage: "minus.circle")
+                                    }
                                 }
                                 .padding(.vertical, 4)
                             }
@@ -54,11 +54,12 @@ struct TeamDetailView: View {
         }
     }
     
-    private func removeMember(index: Int) async {
+    private func removeMember(memberKey: String) async {
+        print("this is the member key: ", memberKey)
         do {
             let result = try await removeTeamMember(currUser: userModel.userID,
                                                     teamID: teamName.teamID,
-                                                    userToRemove: teamName.people[index])
+                                                    userToRemove: memberKey)
             DispatchQueue.main.async {
                 alertMessage = result
                 showAlert = true
@@ -70,4 +71,5 @@ struct TeamDetailView: View {
             }
         }
     }
+    
 }
