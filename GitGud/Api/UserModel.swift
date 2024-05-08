@@ -82,6 +82,17 @@ struct Team: Codable, Hashable {
     }
 }
 
+struct Hackathon: Identifiable {
+    var id = UUID()
+    var name: String
+    var organizer: String
+    var duration: String
+    var prize: String
+    var participants: Int
+    var tags: [String]
+    var isFeatured: Bool
+}
+
 
 //user class
 class UserModel: ObservableObject, Codable, Equatable, Hashable {
