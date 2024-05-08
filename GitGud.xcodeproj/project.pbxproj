@@ -12,6 +12,7 @@
 		4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */; };
 		AB5A951A2B8D20AF00689A11 /* FindMembersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A95192B8D20AF00689A11 /* FindMembersView.swift */; };
 		AB5A95202B8F0A8B00689A11 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A951F2B8F0A8B00689A11 /* SearchViewModel.swift */; };
+		AB665DA02BEAF7F0009EE6D4 /* HackthonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB665D9F2BEAF7F0009EE6D4 /* HackthonsView.swift */; };
 		AB74E6F02B9BE0520042420E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB74E6EF2B9BE0520042420E /* GoogleService-Info.plist */; };
 		ABA1BB302B8AB75000BF7BB9 /* MatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB2F2B8AB75000BF7BB9 /* MatchingView.swift */; };
 		ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */; };
@@ -68,6 +69,7 @@
 		4E8C4F052B8F182F0049F2B3 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
 		AB5A95192B8D20AF00689A11 /* FindMembersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMembersView.swift; sourceTree = "<group>"; };
 		AB5A951F2B8F0A8B00689A11 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		AB665D9F2BEAF7F0009EE6D4 /* HackthonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackthonsView.swift; sourceTree = "<group>"; };
 		AB74E6EF2B9BE0520042420E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ABA1BB2F2B8AB75000BF7BB9 /* MatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingView.swift; sourceTree = "<group>"; };
 		ABA1BB312B8AC3F400BF7BB9 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				ABA1BB2F2B8AB75000BF7BB9 /* MatchingView.swift */,
 				4E329E772B91BB760053A5AD /* ConnectionsView.swift */,
 				AC5E48E02BCCB6C400904686 /* TeamDetailView.swift */,
+				AB665D9F2BEAF7F0009EE6D4 /* HackthonsView.swift */,
 			);
 			path = NavigationFlow;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB5A95202B8F0A8B00689A11 /* SearchViewModel.swift in Sources */,
+				AB665DA02BEAF7F0009EE6D4 /* HackthonsView.swift in Sources */,
 				ACC1A3B52B9FD5AB000CF095 /* AllSkills.swift in Sources */,
 				4E329E782B91BB760053A5AD /* ConnectionsView.swift in Sources */,
 				ABA1BB322B8AC3F400BF7BB9 /* NavigationBar.swift in Sources */,
