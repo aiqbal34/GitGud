@@ -508,6 +508,35 @@ func sendReqToAiModel(description: ProjectBuild, urlString: String) async throws
     }
 }
 
+func fetchHackathons() async throws -> [Hackathon] {
+    guard let url = URL(string: (url) + "/fetch_hackathons") else {
+        throw URLError(.badURL)
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+    request.setValue("application/json", forHTTPHeaderField: "Accept")
+    
+    do {
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let decoder = JSONDecoder()
+        let hackathons = try decoder.decode([Hackathon].self, from: data)
+        print(hackathons)
+        return hackathons
+        
+    } catch {
+        // Log or handle the error in a meaningful way
+        print("Error: \(error)")
+        throw error
+    }
+}
+
+
 
 
 

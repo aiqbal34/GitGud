@@ -82,16 +82,18 @@ struct Team: Codable, Hashable {
     }
 }
 
-struct Hackathon: Identifiable {
-    var id = UUID()
-    var name: String
-    var organizer: String
-    var duration: String
-    var prize: String
-    var participants: Int
-    var tags: [String]
-    var isFeatured: Bool
+struct Hackathon: Identifiable, Codable {
+    let id = UUID()
+    let title: String?
+    let host: String?
+    let participants: String?
+    let submission_period: String?
+    let prize_amount: String?
+    let themes: [String]?
+    let image_url: String?
 }
+
+
 
 
 //user class
