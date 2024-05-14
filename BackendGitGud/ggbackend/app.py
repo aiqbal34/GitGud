@@ -10,6 +10,13 @@ from dotenv import load_dotenv
 import random
 from pydantic import BaseModel
 import openai
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import time
+from datetime import datetime, timedelta
+
 
 
 SKILLS = [
@@ -516,13 +523,92 @@ def generate_team():
     return jsonify(
         data
     )
+# Web Scraping SECTION *************************************************
 
 
-if __name__ == "__main__":
+@app.route('/fetch_hackathons')
+def fetch_hackathons():
+    # Perform web scraping and store data in Firestore
+    driver = setup_driver()
+    driver.get('https://devpost.com/hackathons')
+    hackathons = scroll_and_collect(driver)
+    hackathon_data = extract_details(hackathons)
+    driver.quit()
+    
+    # Store data in Firestore
+    store_in_firestore(hackathon_data)
+    hackathon_data = retrieve_from_firestore()
+
+    print(hackathon_data)
+    return jsonify(hackathon_data)
+
+def retrieve_from_firestore():
+    hackathon_data = []
+    docs = db.collection('hackathons').stream()
+    for doc in docs:
+        hackathon_data.append(doc.to_dict())
+    return hackathon_data
+
+def setup_driver():
+    chrome_options = Options()  
+    chrome_options.add_argument("--headless")  
+    chrome_options.add_argument('log-level=3')  
+    path_to_chromedriver = './chromedriver'
+    service = Service(executable_path=path_to_chromedriver)
+    return webdriver.Chrome(service=service, options=chrome_options)
+
+def scroll_and_collect(driver, target_count=20):
+    hackathons = []
+    last_length = 0
+    retries = 0
+    max_retries = 5  
+
+    while len(hackathons) < target_count and retries < max_retries:
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(2)
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'lxml')
+        hackathons = soup.find_all("div", class_="hackathon-tile")
+
+        if len(hackathons) > last_length:
+            last_length = len(hackathons)
+        else:
+            retries += 1  
+
+        if len(hackathons) >= target_count:
+            return hackathons[:target_count]
+
+    return hackathons
+
+def extract_details(hackathons):
+    hackathon_data = []
+    for hackathon in hackathons:
+        image_tag = hackathon.find("img", class_="hackathon-thumbnail")
+        image_url = "https:" + image_tag['src'] if image_tag and image_tag['src'].startswith("//") else image_tag['src'] if image_tag else "N/A"
+
+        details = {
+            "title": hackathon.find("h3", class_="mb-4").text.strip() if hackathon.find("h3", class_="mb-4") else "N/A",
+            "status": hackathon.find("div", class_="status-label").text.strip() if hackathon.find("div", class_="status-label") else "N/A",
+            "submission_period": hackathon.find("div", class_="submission-period").text.strip() if hackathon.find("div", class_="submission-period") else "N/A",
+            "prize_amount": hackathon.find("div", class_="prize").text.strip() if hackathon.find("div", class_="prize") else "N/A",
+            "participants": hackathon.find("div", class_="participants").text.strip() if hackathon.find("div", class_="participants") else "N/A",
+            "location": hackathon.find("div", class_="info-with-icon").text.strip() if hackathon.find("div", class_="info-with-icon") else "N/A",
+            "host": hackathon.find("span", class_="host-label").text.strip() if hackathon.find("span", class_="host-label") else "N/A",
+            "themes": [theme.text.strip() for theme in hackathon.find_all("span", class_="theme-label")] if hackathon.find_all("span", class_="theme-label") else ["N/A"],
+            "image_url": image_url
+        }
+        hackathon_data.append(details)
+    return hackathon_data
+
+
+def store_in_firestore(hackathon_data):
+    # Clear existing hackathon data to avoid duplicates
+    docs = db.collection('hackathons').stream()
+    for doc in docs:
+        doc.reference.delete()
+        
+    for hackathon in hackathon_data:
+        db.collection('hackathons').add(hackathon)
+
+if __name__ == '__main__':
     app.run(debug=True)
-
-
-# [{'number': '1', 'skills':
-# ['Experienced', 'Skills', 'JavaScript', 'React', 'Nodejs', 'APIs', 'Git\n\n'], 'experienceLevel': '1'},
-# {'number': '2', 'skills': ['Experienced', 'Skills', 'UIUX', 'Design', 'User', 'Research', 'Wireframing', 'Prototyping', 'User', 'Empathy\n\n'], 'experienceLevel': '2'},
-# {'number': '3', 'skills': ['Medium', 'Skills', 'Python', 'Django', 'SQL', 'Docker', 'Agile'], 'experienceLevel': '3'}]
