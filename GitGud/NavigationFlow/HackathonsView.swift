@@ -24,6 +24,8 @@ struct HackathonCardView: View {
                         .cornerRadius(12)
                 }
                 
+                Spacer()
+    
                 Text(hackathon.title ?? "N/A")
                     .font(.headline)
                     .multilineTextAlignment(.center)
