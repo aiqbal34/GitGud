@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
-
+import Foundation
+import FirebaseFirestore
+import FirebaseAuth
+import Firebase
 /*
  - Fetches users from data base to populate homeView
  - Creates account, if needed
@@ -36,7 +39,9 @@ struct LoadingView: View {
                     .foregroundColor(Color(hex: "#543C86"))
                     .monospaced()
             }.onAppear {
+
                 Task {
+
                     // Fetches users from database
                     if (getData) {
                         do {

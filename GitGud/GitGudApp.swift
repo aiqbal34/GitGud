@@ -22,14 +22,17 @@ struct GitGudApp: App {
    
     var body: some Scene {
         WindowGroup {
-            if let userId = UserDefaults.standard.string(forKey: "userID") {
-                LoadingView(currUserID: userId, getData: true)
-                    .environmentObject(userModel)
-            } else {
-                LoginView()
-                    .environmentObject(userModel)
-            }
-           
+            MessagingView()
         }
+//        WindowGroup{
+//            if let userId = UserDefaults.standard.string(forKey: "userID") {
+//                LoadingView(currUserID: userId, getData: true)
+//                    .environmentObject(userModel)
+//            } else {
+//                LoginView()
+//                    .environmentObject(userModel)
+//            }
+//           
+//        }
     }
 }

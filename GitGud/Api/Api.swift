@@ -542,9 +542,12 @@ func fetchHackathons() async throws -> [Hackathon] {
 
 //this function allows the user to signin
 func userSignIn(email: String, password: String) async throws -> String? {
+
     do {
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
         print(result.user.uid)
+        let db = Firestore.firestore()
+        print(db)
         return result.user.uid
     } catch {
         

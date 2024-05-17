@@ -20,6 +20,7 @@
 		AC0BDA972B907E9200109CC9 /* EnterOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */; };
 		AC0BDA992B907ED300109CC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0BDA982B907ED300109CC9 /* SettingsView.swift */; };
 		AC5E48E12BCCB6C400904686 /* TeamDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5E48E02BCCB6C400904686 /* TeamDetailView.swift */; };
+		ACB927512BF40DBA00D80FFD /* MessagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB927502BF40DBA00D80FFD /* MessagingView.swift */; };
 		ACB963BA2BABD33B009CAFAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
 		ACB963BB2BABD33B009CAFAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACECE5912B8734DF00CB40A7 /* Assets.xcassets */; };
 		ACC1A3A12B9D2958000CF095 /* AILoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */; };
@@ -77,6 +78,7 @@
 		AC0BDA962B907E9200109CC9 /* EnterOTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOTPView.swift; sourceTree = "<group>"; };
 		AC0BDA982B907ED300109CC9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		AC5E48E02BCCB6C400904686 /* TeamDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetailView.swift; sourceTree = "<group>"; };
+		ACB927502BF40DBA00D80FFD /* MessagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingView.swift; sourceTree = "<group>"; };
 		ACC1A3A02B9D2958000CF095 /* AILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AILoadingView.swift; sourceTree = "<group>"; };
 		ACC1A3B22B9FD57B000CF095 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		ACC1A3B42B9FD5AB000CF095 /* AllSkills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSkills.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				ABA1BB2F2B8AB75000BF7BB9 /* MatchingView.swift */,
 				4E329E772B91BB760053A5AD /* ConnectionsView.swift */,
 				AC5E48E02BCCB6C400904686 /* TeamDetailView.swift */,
+				ACB927502BF40DBA00D80FFD /* MessagingView.swift */,
 				AB665D9F2BEAF7F0009EE6D4 /* HackathonsView.swift */,
 			);
 			path = NavigationFlow;
@@ -414,6 +417,7 @@
 				ACECE5CE2B8FEC2200CB40A7 /* Api.swift in Sources */,
 				ACECE5CC2B8D8F6A00CB40A7 /* TechStackView.swift in Sources */,
 				AC0BDA972B907E9200109CC9 /* EnterOTPView.swift in Sources */,
+				ACB927512BF40DBA00D80FFD /* MessagingView.swift in Sources */,
 				ACECE5C82B8D3D5800CB40A7 /* PhoneInputView.swift in Sources */,
 				4E8C4F062B8F182F0049F2B3 /* EnterOTPView.swift in Sources */,
 				AC5E48E12BCCB6C400904686 /* TeamDetailView.swift in Sources */,
