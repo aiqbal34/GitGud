@@ -21,7 +21,7 @@ struct RegisterView: View {
     
     @FocusState var isKeyBoard: Bool
     @State var errorMessage = ""
-    @State var move_to_NameMajorView: Bool = false
+    @State var move_to_verification: Bool = false
     
     
     var body: some View {
@@ -30,7 +30,6 @@ struct RegisterView: View {
                 GradientStyles.backgroundGradient.ignoresSafeArea()
                 //The VStack which contains the Text and TextField prompting the User to enter their email and password
                 VStack {
-                    Spacer()
                     Text("Create Account")
                         .font(.system(size: 24))
                         .foregroundColor(Color(hex: "#543C86"))
@@ -75,60 +74,55 @@ struct RegisterView: View {
                     Text(errorMessage)
                         .fontDesign(.monospaced)
                         .foregroundColor(.red)
-                        
                     
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        //Moves onto NameMajorView for next step in Creating an Account
-                        Button("Next") {
-                            Task {
-                                //Check to see if the passwords and emailed entered are valid
-                                if password == reEnterPassword && email.count != 0 && password.count != 0 && email.contains("@"){
-                                    do {
-                                        //Does Api call to create an account
-                                        let result = try await create_Account(email: email, password: password)
-                                        print(result)
-                                        userModel.userID = result ?? ""
-                                        userModel.email = email
-                                        move_to_NameMajorView = true
-                                    }catch {
-                                        print("Error as \(error)")
-                                    }
-                                }else{
-                                    //Error Handling
-                                    if email.count == 0{
-                                        errorMessage = "Email is not entered"
-                                    }
-                                    else if email.contains("@") == false{
-                                        errorMessage = "Not valid email"
-                                    }
-                                    else if password.count == 0{
-                                        errorMessage = "Password is not entered"
-                                    }
-                                    else if password != reEnterPassword{
-                                        errorMessage = "Passwords Don't Match"
-                                    }
-                                    
+                    
+                    //Moves onto NameMajorView for next step in Creating an Account
+                    Button("Create Account") {
+                        Task {
+                            //Check to see if the passwords and emailed entered are valid
+                            if password == reEnterPassword && email.count != 0 && password.count != 0 && email.contains("@"){
+                                do {
+                                    // API call to create an account
+                                    let result = try await create_Account(email: email, password: password)
+                                    userModel.userID = result ?? ""
+                                    userModel.email = email
+                                    move_to_verification = true
+                                } catch {
+                                    print("Error: \(error)")
+                                    errorMessage = "Error creating user: \(error.localizedDescription)"
                                 }
                                 
-                                
+                            }
+                            else{
+                                //Error Handling
+                                if email.count == 0{
+                                    errorMessage = "Email is not entered"
+                                }
+                                else if email.contains("@") == false{
+                                    errorMessage = "Not valid email"
+                                }
+                                else if password.count == 0{
+                                    errorMessage = "Password is not entered"
+                                }
+                                else if password != reEnterPassword{
+                                    errorMessage = "Passwords Don't Match"
+                                }
                             }
                         }
-                        .padding(.trailing, 35)
-                        .foregroundColor(Color(hex: "#543C86"))
-                        .fontWeight(.bold)
-                        
-                        
                     }
-                    
+                    .frame(width: 200, height: 50)
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
                 }
                 
             }.onTapGesture {
                 isKeyBoard = false
             }
-            .navigationDestination(isPresented: $move_to_NameMajorView) {
-                NameMajorView()
+            .navigationDestination(isPresented: $move_to_verification) {
+                EmailVerificationView(email: email, password: password)
                     .environmentObject(userModel)
             }
         }

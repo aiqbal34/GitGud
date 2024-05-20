@@ -1,75 +1,96 @@
-//
-//  PhoneInputView.swift
-//  GitGud
-//
-//  Created by Aariz Iqbal on 2/26/24.
-//
-
 import SwiftUI
+import Firebase
 
-struct PhoneInputView: View {
+struct EmailVerificationView: View {
+    @State private var errorMessage = ""
+    @State private var successMessage = ""
+    @State private var move_to_loading_view = false
     
-    @State var phoneNumber = ""
-    @FocusState var isKeyBoard: Bool
+    @State var email: String
+    @State var password: String
     
     @EnvironmentObject var userModel: UserModel
     
-    @State var move_to_loading_view = false
     var body: some View {
         NavigationStack {
             ZStack {
-                GradientStyles.backgroundGradient
-                    .edgesIgnoringSafeArea(.all)
+                GradientStyles.backgroundGradient.ignoresSafeArea()
                 VStack {
-                    Spacer()
-                    Text("Enter Phone Number")
-                        .font(.system(size: 24))
-                        .foregroundColor(Color(hex: "#543C86"))
-                        .fontDesign(.monospaced)
-                        .padding(.bottom)
-                        .fontWeight(.bold)
+                    Text("A verification email has been sent to your email address. Please check your email to verify your account.")
+                        .padding()
                     
-                    HStack {
-                        Text("🇺🇸 +1")
-                        //.padding(.leading, 100)
-                        TextField("Enter Phone Number", text: $phoneNumber)
-                            .frame(width: 200)
-                            .foregroundColor(Color(hex: "#543C86"))
-                            .fontDesign(.monospaced)
-                            .focused($isKeyBoard)
-                            .keyboardType(.numberPad)
-                    }
-                    Rectangle()
-                        .frame(width: 250, height: 2)
-                        .foregroundColor(Color(hex: "#543C86"))
-                        .padding(.bottom)
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button("Next") {
-                            userModel.phone = phoneNumber
-                            move_to_loading_view = true
+                    Button("Resend Verification Email") {
+                        Task {
+                            await resendVerificationEmail()
                         }
-                        .padding(.trailing, 35)
-                        .padding(.top, 25)
-                        .foregroundColor(Color(hex: "#543C86"))
-                        .fontWeight(.bold)
-                        
                     }
+                    .frame(width: 200, height: 50)
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                    .padding()
                     
+                    Button("Confirm Account") {
+                        Task {
+                            try await checkEmailVerificationStatus()
+                        }
+                    }
+                    .frame(width: 200, height: 50)
+                    .background(Color.white)
+                    .foregroundColor(Color(hex: "#543C86"))
+                    .fontDesign(.monospaced)
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                    .padding()
+                    
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
+                    
+                    Text(successMessage)
+                        .foregroundColor(.green)
+                        .padding()
                 }
-                
-            }.onTapGesture {
-                isKeyBoard = false
+                .padding()
             }
-            .navigationDestination(isPresented: $move_to_loading_view) {
-                LoadingView(currUserID: userModel.userID, getData: false)
-                    .environmentObject(userModel)
+        }
+        .navigationDestination(isPresented: $move_to_loading_view) {
+            LoadingView(currUserID: userModel.userID, getData: false)
+                .environmentObject(userModel)
+        }
+    }
+    
+    func resendVerificationEmail() async {
+        do {
+            guard let user = Auth.auth().currentUser else {
+                throw NSError(domain: "User not found", code: 404, userInfo: nil)
             }
+            try await user.sendEmailVerification()
+            successMessage = "Verification email resent. Please check your email."
+        } catch {
+            errorMessage = "Error sending verification email: \(error.localizedDescription)"
+        }
+    }
+    
+    func checkEmailVerificationStatus() async throws{
+        if let currentUser = Auth.auth().currentUser {
+            do {
+                try await currentUser.reload()
+                if currentUser.isEmailVerified {
+                    // User is verified, proceed to create an account in your backend
+                    move_to_loading_view = true
+                } else {
+                    errorMessage = "Email not verified yet. Please check your email."
+                }
+            } catch {
+                errorMessage = "Error checking verification status: \(error.localizedDescription)"
+            }
+        } else {
+            errorMessage = "No current user found."
         }
     }
 }
 
-#Preview {
-    PhoneInputView()
-}
+

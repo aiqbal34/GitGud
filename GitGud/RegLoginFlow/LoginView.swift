@@ -107,7 +107,7 @@ struct LoginView: View {
                 }
                 
                 .navigationDestination(isPresented: $move_Register){
-                    RegisterView()
+                    NameMajorView()
                         .environmentObject(userModel)
                 }
                 .navigationDestination(isPresented: $move_Home) {

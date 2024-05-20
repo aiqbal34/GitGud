@@ -186,17 +186,19 @@ def updateUser():
 @app.route('/getCurrentUser')
 def getCurrentUser():
     currUserID = request.args.get('currUser')
-    # Assuming 'currUser' is a field in the 'private' document
+    
+    if not currUserID:
+        return jsonify({'error': 'currUser parameter is required'}), 400
+    
     doc_ref = db.collection('private').document(currUserID)
     doc_snapshot = doc_ref.get()
-    user_data = doc_snapshot.to_dict()
-    print(user_data)
-    # Check if the document exists
+    
     if doc_snapshot.exists:
         user_data = doc_snapshot.to_dict()
         return jsonify(user_data)
     else:
         return jsonify({'error': 'User not found'}), 404
+
     
 @app.route('/getCurrentUserTeams')
 def getTeams():
@@ -539,7 +541,6 @@ def fetch_hackathons():
     store_in_firestore(hackathon_data)
     hackathon_data = retrieve_from_firestore()
 
-    print(hackathon_data)
     return jsonify(hackathon_data)
 
 def retrieve_from_firestore():

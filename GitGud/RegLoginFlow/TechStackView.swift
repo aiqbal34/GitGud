@@ -113,7 +113,8 @@ struct TechStackView: View {
                 
             }
             .navigationDestination(isPresented: $move_to_PhoneInputView) {
-                PhoneInputView().environmentObject(userModel)
+                RegisterView()
+                    .environmentObject(userModel)
             }
         }
     }

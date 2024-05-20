@@ -526,7 +526,6 @@ func fetchHackathons() async throws -> [Hackathon] {
         
         let decoder = JSONDecoder()
         let hackathons = try decoder.decode([Hackathon].self, from: data)
-        print(hackathons)
         return hackathons
         
     } catch {
@@ -537,14 +536,10 @@ func fetchHackathons() async throws -> [Hackathon] {
 }
 
 
-
-
-
 //this function allows the user to signin
 func userSignIn(email: String, password: String) async throws -> String? {
     do {
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
-        print(result.user.uid)
         return result.user.uid
     } catch {
         
@@ -553,28 +548,35 @@ func userSignIn(email: String, password: String) async throws -> String? {
         
     }
 }
-//set this result for loadiing view
-//this function allows the user to create an account
+
+enum AuthError: Error {
+    case emailAlreadyInUse
+    case weakPassword
+    case unknownError(String)
+}
+// Function to create an account and send verification emai
 func create_Account(email: String, password: String) async throws -> String? {
     do {
         let result = try await Auth.auth().createUser(withEmail: email, password: password)
-        print(result.user.uid)
+        try await sendVerificationEmail()
         return result.user.uid
-    }catch {
-        print("Error creating Account: \(error)")
-        return nil
+    } catch let error as NSError {
+        switch error.code {
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            throw AuthError.emailAlreadyInUse
+        case AuthErrorCode.weakPassword.rawValue:
+            throw AuthError.weakPassword
+        default:
+            throw AuthError.unknownError(error.localizedDescription)
+        }
     }
 }
 
+// Function to send verification email
+func sendVerificationEmail() async throws {
+    guard let user = Auth.auth().currentUser else {
+        throw NSError(domain: "User not found", code: 404, userInfo: nil)
+    }
+    try await user.sendEmailVerification()
+}
 
-
-
-
-
-/*
- TextField("Username", text: $userName)
- TextField("Password", text: $password)
- TextField("Email", text: $email)
- TextField("University", text: $university)
- TextField("Major", text: $major)
- */
