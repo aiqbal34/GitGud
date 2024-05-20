@@ -3,28 +3,28 @@
 //  GitGud
 //
 //  Created by Aariz Iqbal on 2/28/24.
-// 
+//
 
 import SwiftUI
 // global background style
 extension Color {
-  init(hex: String) {
-    var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-    hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-    var rgb: UInt64 = 0
-    var r, g, b: CGFloat
-
-    Scanner(string: hexSanitized).scanHexInt64(&rgb)
-
-    let length = hexSanitized.count
-   
-      r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-      g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-      b = CGFloat(rgb & 0x0000FF) / 255.0
-    
-
-    self.init(red: r, green: g, blue: b)
-  }
+    init(hex: String) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        var rgb: UInt64 = 0
+        var r, g, b: CGFloat
+        
+        Scanner(string: hexSanitized).scanHexInt64(&rgb)
+        
+        let length = hexSanitized.count
+        
+        r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+        g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+        b = CGFloat(rgb & 0x0000FF) / 255.0
+        
+        
+        self.init(red: r, green: g, blue: b)
+    }
 }
 
 
@@ -335,15 +335,15 @@ func removeTeamMember(currUser: String, teamID: String, userToRemove: String) as
     // Set up the URLRequest
     var request = URLRequest(url: url)
     request.httpMethod = "GET"
-
+    
     // Perform the HTTP request
     let (data, response) = try await URLSession.shared.data(for: request)
-
+    
     // Check the response status code
     guard let httpResponse = response as? HTTPURLResponse else {
         throw URLError(.cannotParseResponse)
     }
-
+    
     // Check for HTTP error responses
     switch httpResponse.statusCode {
     case 200:
@@ -432,9 +432,9 @@ func accpetUser(currUser: String, acceptUser: String) async throws {
 
 
 
-    /*
-     This function saves a new account
-     */
+/*
+ This function saves a new account
+ */
 
 func saveNewAccount(userData: UserModel, urlString: String) async throws {
     guard let url = URL(string: "\(url)\(urlString)") else {
@@ -539,44 +539,60 @@ func fetchHackathons() async throws -> [Hackathon] {
 //this function allows the user to signin
 func userSignIn(email: String, password: String) async throws -> String? {
     do {
+        // Sign in the user with email and password
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
-        return result.user.uid
+        let currentUser = result.user
+        
+        // Reload the current user to get the latest status
+        try await currentUser.reload()
+        
+        // Check if the email is verified
+        if !currentUser.isEmailVerified {
+            print("Email not verified yet. Please check your email.")
+            // Send verification email
+            try await sendVerificationEmail()
+            // Sign out the user since their email is not verified
+            try Auth.auth().signOut()
+            return nil
+        }
+        
+        // Return the user ID if everything is successful
+        return currentUser.uid
     } catch {
-        
-        print("Error signing in: \(error)")
+        // Handle errors during sign in or reload
+        print("Error signing in: \(error.localizedDescription)")
         throw error
-        
     }
 }
-
-enum AuthError: Error {
-    case emailAlreadyInUse
-    case weakPassword
-    case unknownError(String)
-}
-// Function to create an account and send verification emai
-func create_Account(email: String, password: String) async throws -> String? {
-    do {
-        let result = try await Auth.auth().createUser(withEmail: email, password: password)
-        try await sendVerificationEmail()
-        return result.user.uid
-    } catch let error as NSError {
-        switch error.code {
-        case AuthErrorCode.emailAlreadyInUse.rawValue:
-            throw AuthError.emailAlreadyInUse
-        case AuthErrorCode.weakPassword.rawValue:
-            throw AuthError.weakPassword
-        default:
-            throw AuthError.unknownError(error.localizedDescription)
+    
+    enum AuthError: Error {
+        case emailAlreadyInUse
+        case weakPassword
+        case unknownError(String)
+    }
+    // Function to create an account and send verification emai
+    func create_Account(email: String, password: String) async throws -> String? {
+        do {
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            try await sendVerificationEmail()
+            return result.user.uid
+        } catch let error as NSError {
+            switch error.code {
+            case AuthErrorCode.emailAlreadyInUse.rawValue:
+                throw AuthError.emailAlreadyInUse
+            case AuthErrorCode.weakPassword.rawValue:
+                throw AuthError.weakPassword
+            default:
+                throw AuthError.unknownError(error.localizedDescription)
+            }
         }
     }
-}
-
-// Function to send verification email
-func sendVerificationEmail() async throws {
-    guard let user = Auth.auth().currentUser else {
-        throw NSError(domain: "User not found", code: 404, userInfo: nil)
+    
+    // Function to send verification email
+    func sendVerificationEmail() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw NSError(domain: "User not found", code: 404, userInfo: nil)
+        }
+        try await user.sendEmailVerification()
     }
-    try await user.sendEmailVerification()
-}
-
+    

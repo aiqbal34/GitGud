@@ -69,18 +69,25 @@ struct LoginView: View {
                         .padding(.bottom, 25)
                     
                     Button("Login") {
-                        // this function allows the user to login using the userSignIn fucntion the Api file
                         Task {
                             do {
-                                result = try await userSignIn(email: userName, password: password)
-                                move_Home = true
-                                UserDefaults.standard.set(result, forKey: "userID")
-                            } catch let error as Error {
+                                if let result = try await userSignIn(email: userName, password: password) {
+                                    // Set the user ID in UserDefaults
+                                    UserDefaults.standard.set(result, forKey: "userID")
+                                    // Navigate to Home
+                                    move_Home = true
+                                } else {
+                                    // Email not verified
+                                    errorMessage = "Verify email to sign-in"
+                                }
+                            } catch {
+                                // Handle errors
                                 print(error.localizedDescription)
                                 errorMessage = "Email/Password is Incorrect"
                             }
                         }
                     }
+
                     .frame(width: 200, height: 50)
                     .background(Color.white)
                     .foregroundColor(Color(hex: "#543C86"))
