@@ -110,7 +110,7 @@ struct FindMembersView: View {
     
         .navigationBarBackButtonHidden()
         .navigationDestination(isPresented: $moveToTeamBuilderView, destination: {
-            NavigationBar(userList: userList, selectedTab: "Team Builder")
+            NavigationBar(selectedTab: "Team Builder")
                 .environmentObject(userModel)
                 .environmentObject(UserTeams)
             

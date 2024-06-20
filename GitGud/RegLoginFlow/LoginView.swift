@@ -22,6 +22,7 @@ struct LoginView: View {
     @State var move_Home = false
     @State var result: String? = ""
     @State var errorMessage = ""
+    @State var getData = true
 
     
     
@@ -79,6 +80,7 @@ struct LoginView: View {
                                 } else {
                                     // Email not verified
                                     errorMessage = "Verify email to sign-in"
+                                    getData = false
                                 }
                             } catch {
                                 // Handle errors
@@ -118,7 +120,7 @@ struct LoginView: View {
                         .environmentObject(userModel)
                 }
                 .navigationDestination(isPresented: $move_Home) {
-                    LoadingView(currUserID: result ?? "", getData: true)
+                    LoadingView(currUserID: result ?? "", getData: getData)
                 }
                 .navigationBarBackButtonHidden()
             }.onTapGesture {
@@ -130,6 +132,6 @@ struct LoginView: View {
 }
 
 
-#Preview {
-    LoginView()
-}
+//#Preview {
+//    LoginView()
+//}

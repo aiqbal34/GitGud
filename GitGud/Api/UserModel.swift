@@ -91,6 +91,7 @@ struct Hackathon: Identifiable, Codable {
     let prize_amount: String?
     let themes: [String]?
     let image_url: String?
+    let web_link: String?
 }
 
 

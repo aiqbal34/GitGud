@@ -17,7 +17,6 @@ struct LoadingView: View {
     @EnvironmentObject var userModel: UserModel
     
     @State var move_to_Home = false
-    @State var userList: [UserModel] = []
     @State var currUserID: String
     @State var isError: Bool = false
     @StateObject var UserTeams = UserTeamData()
@@ -40,7 +39,6 @@ struct LoadingView: View {
                     // Fetches users from database
                     if (getData) {
                         do {
-                            userList = try await fetchUsersForHomePage(currUser: currUserID)
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser",currUser: currUserID))
                             try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         } catch {
@@ -52,7 +50,6 @@ struct LoadingView: View {
                         // Stores new account in data base and fetch new users
                         do {
                             try await saveNewAccount(userData: userModel, urlString: "createBasicAccount")
-                            userList = try await fetchUsersForHomePage(currUser: currUserID)
                             try await userModel.hardCopy(user: fetchCurrentUsersInformation(urlString: "getCurrentUser", currUser: currUserID))
                             try await UserTeams.hardCopy(userTeams: fetchCurrentUserTeam(currUser: currUserID))
                         }catch {
@@ -77,7 +74,7 @@ struct LoadingView: View {
             }
             .navigationDestination(isPresented: $move_to_Home) {
                 
-                NavigationBar(userList: userList, selectedTab: "Find Matches")
+                NavigationBar(selectedTab: "Find Hackathons")
                     .environmentObject(userModel)
                     .environmentObject(UserTeams)
                   

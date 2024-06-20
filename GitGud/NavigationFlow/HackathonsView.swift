@@ -1,73 +1,83 @@
 import SwiftUI
+import WebKit
 
 struct HackathonCardView: View {
     var hackathon: Hackathon
     
     var body: some View {
-        VStack {
-            HStack {
-                if let imageUrl = hackathon.image_url, let url = URL(string: imageUrl) {
-                    AsyncImage(url: url) { image in
-                        image.resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 120, height: 120)
-                            .clipped()
-                            .cornerRadius(12)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width: 120, height: 120)
-                    }
-                } else {
-                    Rectangle()
-                        .fill(Color.gray)
-                        .frame(width: 120, height: 120)
-                        .cornerRadius(12)
-                }
-                
-                Spacer()
-    
-                Text(hackathon.title ?? "N/A")
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .foregroundColor(.black)
-            }
             VStack {
                 HStack {
-                    Text(hackathon.host ?? "N/A")
-                        .font(.subheadline)
+                    if let imageUrl = hackathon.image_url, let url = URL(string: imageUrl) {
+                        AsyncImage(url: url) { image in
+                            image.resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 120, height: 120)
+                                .clipped()
+                                .cornerRadius(12)
+                        } placeholder: {
+                            ProgressView()
+                                .frame(width: 120, height: 120)
+                        }
+                    } else {
+                        Rectangle()
+                            .fill(Color.gray)
+                            .frame(width: 120, height: 120)
+                            .cornerRadius(12)
+                    }
+                    
                     Spacer()
-                    Text("\(hackathon.participants ?? "0") participants")
-                        .font(.subheadline)
+                    if let webLink = hackathon.web_link {
+                        Link(hackathon.title ?? "", destination: URL(string: webLink)!)
+                            .font(.headline)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(nil)
+                            .foregroundColor(.black)
+                    } else {
+                        Text(hackathon.title ?? "")
+                            .font(.headline)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(nil)
+                            .foregroundColor(.black)
+                    }
                 }
-                .foregroundColor(.secondary)
-                HStack {
-                    Text(hackathon.submission_period ?? "N/A")
-                        .font(.caption)
-                    Spacer()
-                    Text(hackathon.prize_amount ?? "N/A")
-                        .font(.caption)
-                }
-                HStack {
-                    if let themes = hackathon.themes {
-                        ForEach(themes, id: \.self) { theme in
-                            Text(theme)
-                                .font(.caption)
-                                .padding(5)
-                                .background(Color.blue)
-                                .cornerRadius(5)
-                                .foregroundColor(.white)
+                VStack {
+                    HStack {
+                        Text(hackathon.host ?? "N/A")
+                            .font(.subheadline)
+                        Spacer()
+                        Text("\(hackathon.participants ?? "0") participants")
+                            .font(.subheadline)
+                    }
+                    .foregroundColor(.secondary)
+                    HStack {
+                        Text(hackathon.submission_period ?? "N/A")
+                            .font(.caption)
+                        Spacer()
+                        Text(hackathon.prize_amount ?? "N/A")
+                            .font(.caption)
+                    }
+                    HStack {
+                        if let themes = hackathon.themes {
+                            ForEach(themes, id: \.self) { theme in
+                                Text(theme)
+                                    .font(.caption)
+                                    .padding(5)
+                                    .background(Color.blue)
+                                    .cornerRadius(5)
+                                    .foregroundColor(.white)
+                            }
                         }
                     }
                 }
             }
+            .padding()
+            .background(Color.white)
+            .cornerRadius(16)
+            .shadow(radius: 5)
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(radius: 5)
     }
-}
+
+
 
 struct HackathonsView: View {
     @State private var hackathons: [Hackathon] = []
@@ -114,6 +124,16 @@ struct HackathonsView: View {
     }
 }
 
-#Preview {
-    HackathonsView()
+
+struct WebView: UIViewRepresentable {
+    let url: URL
+    
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let request = URLRequest(url: url)
+        uiView.load(request)
+    }
 }

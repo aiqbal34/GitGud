@@ -45,7 +45,7 @@ struct AILoadingView: View {
                         aiResponse = try await sendReqToAiModel(description: projectBuild, urlString: "generateTeam")
                         for response in aiResponse {
                             // Fetches users and sorts them based on skills
-                            var filteredList = try await fetchFilteredList(skills: response.skills, experienceLevel: response.experienceLevel)
+                            let filteredList = try await fetchFilteredList(skills: response.skills, experienceLevel: response.experienceLevel)
                             // Assigns each members to the best fit
                             foundMembers.foundMembers.append(filteredList[0])
                         }

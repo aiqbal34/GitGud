@@ -586,6 +586,10 @@ def extract_details(hackathons):
     for hackathon in hackathons:
         image_tag = hackathon.find("img", class_="hackathon-thumbnail")
         image_url = "https:" + image_tag['src'] if image_tag and image_tag['src'].startswith("//") else image_tag['src'] if image_tag else "N/A"
+        web_url = hackathon.find("a", class_='flex-row tile-anchor')
+        web_link = "N/A"
+        if web_url:
+            web_link = web_url['href']
 
         details = {
             "title": hackathon.find("h3", class_="mb-4").text.strip() if hackathon.find("h3", class_="mb-4") else "N/A",
@@ -596,9 +600,11 @@ def extract_details(hackathons):
             "location": hackathon.find("div", class_="info-with-icon").text.strip() if hackathon.find("div", class_="info-with-icon") else "N/A",
             "host": hackathon.find("span", class_="host-label").text.strip() if hackathon.find("span", class_="host-label") else "N/A",
             "themes": [theme.text.strip() for theme in hackathon.find_all("span", class_="theme-label")] if hackathon.find_all("span", class_="theme-label") else ["N/A"],
-            "image_url": image_url
+            "image_url": image_url,
+            "web_url": web_link      
         }
         hackathon_data.append(details)
+        print(hackathon_data)
     return hackathon_data
 
 

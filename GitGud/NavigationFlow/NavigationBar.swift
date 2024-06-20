@@ -15,7 +15,6 @@ struct NavigationBar: View {
     // @objects
     @EnvironmentObject var userModel: UserModel
     @EnvironmentObject var UserTeams: UserTeamData
-    var userList: [UserModel]
  
     // Current selection
     @State var selectedTab: String
@@ -24,9 +23,9 @@ struct NavigationBar: View {
             TabView(selection: $selectedTab) {
                HackathonsView()
                     .tabItem {
-                        Label("Find Matches", systemImage: "magnifyingglass")
+                        Label("Hackathons", systemImage: "magnifyingglass")
                     }
-                    .tag("Find Matches")
+                    .tag("Find Hackathons")
 
                 TeamBuilderView()
                     .environmentObject(userModel)
