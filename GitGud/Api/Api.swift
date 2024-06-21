@@ -47,8 +47,8 @@ import Firebase
 
 
 
-var url = "http://127.0.0.1:5000/"
-// "https://gitgud-415705.uc.r.appspot.com/"
+var url = "https://gitgud-415705.uc.r.appspot.com/"
+// "http://127.0.0.1:5000/" 
 //"https://backendgg-9e8e232e3312.herokuapp.com/"
 
 
