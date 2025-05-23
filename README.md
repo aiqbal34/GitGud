@@ -1,5 +1,8 @@
 # Final Project Submission
 
+## Overveiw
+GitGud is an iOS app that allows users interested in collaborating on CS projects to create profiles, view others’ skills and experience, and connect based on project requirements. It also includes a feature to analyze project descriptions using AI and suggest a tailored team with the necessary skills needed to build the project.
+
 ## Code Layout
 The application begins with a login view if the user is not logged in. Alternatively, if the user doesn't have an account, they are directed to the registration process. This process is part of the RegLoginFlow.
 
@@ -12,19 +15,19 @@ Login Info: SarahMiller@gmail.com Password: 1234567
 Login Info: BryanLee@gmail.com Password: 1234567
 
 ## Testing and Building App
-To build our app just clone the repository and run the app run it on the simulator. We are hosting the backend on Heroku
+To build our app just clone the repository and run the app on the XCode simulator. We are hosting the backend on Heroku
 
 IF it seems like the backend is not working where no users are showing up you might need to run the backend on your own. 
-The in the backend file you have to install the reqiurements using the command pip install  -r requirements.txt
-you would need the API key , which is OPENAI_API_KEY=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 and put that in the .env file
-Also then do python app.py to run it. THIS IS ONLY IF THE BACKEND DOESN'T WORK INITIALLY
+In the backend file you have to install the reqiurements using the command pip install  -r requirements.txt
+you would need an API key to enter in the .env file
+Once everything is set up, enter python app.py in the terminal to run it. THIS IS ONLY IF THE BACKEND DOESN'T WORK INITIALLY
 
 
 # MileStone 2 Notes
 
 
 ## Third party libraries
-We plan to use Apple CloudKit to stay native since it is pretty much integrated with Swiftui and takes a burden away from authentication.
+We plan to use Apple CloudKit to stay native since it is pretty much integrated with SwiftUI and takes a burden away from authentication.
 We also plan to use a styling library if need be since styling/ animations are something that takes a lot of time, and it would be easy to outsource it.
 We are going to use PhoneNumberKit too since we have an OTP
 
@@ -86,7 +89,7 @@ Done:
 - Helped implement and create the connectinsview
   
 To Do:
-- polishh the ui and fix bugs
+- polish the ui and fix bugs
 - implement connectionView Functionality
 
 Blocks:
